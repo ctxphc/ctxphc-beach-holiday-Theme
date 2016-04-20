@@ -3,8 +3,8 @@ Contributors: netweblogic, mikelynn
 Tags: calendar, calendars, jQuery calendar, ajax calendar, event calendars, events calendar
 Text Domain: wp-fullcalendar
 Requires at least: 3.6
-Tested up to: 4.4
-Stable tag: 1.1
+Tested up to: 4.5
+Stable tag: 1.2
 
 Uses the jQuery FullCalendar plugin to create a stunning calendar view of events, posts and other custom post types
 
@@ -48,6 +48,15 @@ Here's a rough roadmap of where we're heading, and will be ammended as time perm
 Install this plugin like a normal WordPress plugin. Once activated, you'll see a new panel in the Settings section for editing the options for calendar display.
 
 == Changelog ==
+= 1.2 =
+* updated to FullCalendar 2.6.1 library
+* added wpfc_calendar_displayed action when a calendar has been displayed
+* added wpfc_calendar_header_vars filter which enables overriding FC properties via PHP only
+* fixed double loading of calendars (FC library doesn't support it anyway atm),
+* fixed loading of multiple calendar html showing multiple search filters in one calendar,
+* fixed redundant JS to show the loading spinner
+* updated link to time formatting options which correspond to FC 2.x
+
 = 1.1 =
 * fixed EM 5.6.2 conflict,
 * fixed "undefined 'type'" PHP warning

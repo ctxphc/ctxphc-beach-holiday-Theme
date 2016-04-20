@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: WP FullCalendar
-Version: 1.1
+Version: 1.2
 Plugin URI: http://wordpress.org/extend/plugins/wp-fullcalendar/
 Description: Uses the jQuery FullCalendar plugin to create a stunning calendar view of events, posts and eventually other CPTs. Integrates well with Events Manager
 Author: Marcus Sykes
@@ -9,7 +9,7 @@ Author URI: http://msyk.es
 */
 
 /*
-Copyright (c) 2015, Marcus Sykes
+Copyright (c) 2016, Marcus Sykes
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -123,7 +123,10 @@ class WP_FullCalendar{
 		$js_vars['defaultView'] = get_option('wpfc_defaultView', 'month');
 		$js_vars['weekends'] = get_option('wpfc_weekends',true) ? 'true':'false';
 		$js_vars['header'] = new stdClass();
+		$js_vars['header']->left = 'prev,next today';
+		$js_vars['header']->center = 'title';
 		$js_vars['header']->right = implode(',', get_option('wpfc_available_views', array('month','basicWeek','basicDay')));
+		$js_vars['header'] = apply_filters('wpfc_calendar_header_vars', $js_vars['header']); 
 		//qtip options
     	$js_vars['wpfc_qtips'] = get_option('wpfc_qtips',true) == true;
 		if( $js_vars['wpfc_qtips'] ){
@@ -252,8 +255,8 @@ class WP_FullCalendar{
 		add_action('wp_footer', array('WP_FullCalendar','footer_js'));
 		ob_start();
 		?>
-		<div class="wpfc-calendar-wrapper" id="wpfc-calendar-wrapper"><form class="wpfc-calendar" id="wpfc-calendar"></form><div class="wpfc-loading"></div></div>
-		<div class="wpfc-calendar-search" id="wpfc-calendar-search" style="display:none;">
+		<div class="wpfc-calendar-wrapper"><form class="wpfc-calendar"></form><div class="wpfc-loading"></div></div>
+		<div class="wpfc-calendar-search" style="display:none;">
 			<?php
 				$post_type = !empty(self::$args['type']) ? self::$args['type']:'post';
 				//figure out what taxonomies to show
@@ -292,6 +295,7 @@ class WP_FullCalendar{
     		WPFC.year = <?php echo self::$args['year']; ?>;
 		</script>
 		<?php
+		do_action('wpfc_calendar_displayed', $args);
 		return ob_get_clean();
 	}
 

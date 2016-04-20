@@ -2,8 +2,8 @@
 Contributors: dnesscarkey
 Tags: use any font, any font, embed any font, font embed, font uploader, css3 font embed, @font-face embed, font conversion, webfont, ttf, opentype, custom fonts
 Requires at least: 3.0
-Tested up to: 4.4.1
-Stable tag: 4.4.1
+Tested up to: 4.5
+Stable tag: 4.4.4
 
 Embed any font in your website
 
@@ -108,6 +108,15 @@ You can check our <a href="http://dineshkarki.com.np/forums/forum/use-any-fonts"
 1. Screenshot #5. Disable font list in editor.
 
 == Changelog ==
+
+= 4.4.4 =
+* Font upload issue fixed.
+
+= 4.4.3 =
+* Fixed couldn't receive font file issue.
+
+= 4.4.2 =
+* Fixed API verification issue
 
 = 4.4.1 =
 * Fixed SSL API key issue

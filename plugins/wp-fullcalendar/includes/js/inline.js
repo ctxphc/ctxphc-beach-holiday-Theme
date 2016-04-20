@@ -6,8 +6,8 @@ jQuery(document).ready( function($){
 		defaultView: WPFC.defaultView,
 		weekends: WPFC.weekends,
 		header: {
-			left: 'prev,next today',
-			center: 'title',
+			left: WPFC.header.left,
+			center: WPFC.header.center,
 			right: WPFC.header.right
 		},
 		month: WPFC.month,
@@ -43,16 +43,15 @@ jQuery(document).ready( function($){
 	    },
 		loading: function(bool) {
 			if (bool) {
-				var position = $('.wpfc-calendar').position();
-				$('.wpfc-loading').css('left',position.left).css('top',position.top).css('width',$('#calendar').width()).css('height',$('#calendar').height()).show();
+				$(this).parent().find('.wpfc-loading').show();
 			}else {
-				wpfc_counts = {};
-				$('.wpfc-loading').hide();
+				$(this).parent().find('.wpfc-loading').hide();
 			}
 		},
-		viewRender: function(view) {
+		viewRender: function(view, element) {
 			if( !wpfc_loaded ){
-				$('.fc-toolbar').after($('.wpfc-calendar-search').show());
+				var container = $(element).parents('.wpfc-calendar-wrapper');
+				container.find('.fc-toolbar').after(container.next('.wpfc-calendar-search').show());
 				//catchall selectmenu handle
 			    $.widget( "custom.wpfc_selectmenu", $.ui.selectmenu, {
 			        _renderItem: function( ul, item ) {
@@ -85,5 +84,5 @@ jQuery(document).ready( function($){
 		$.extend(fullcalendar_args, WPFC.wpfc_locale);
 	}
 	$(document).trigger('wpfc_fullcalendar_args', [fullcalendar_args]);
-	$('.wpfc-calendar').fullCalendar(fullcalendar_args);
+	$('.wpfc-calendar').first().fullCalendar(fullcalendar_args);
 });

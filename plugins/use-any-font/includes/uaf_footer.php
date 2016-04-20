@@ -5,7 +5,7 @@ if (isset($_POST['test_server']) || empty($server_status)){
 			$test_code	= date('ymdhis');
 			$ch_test 	= curl_init();
 			curl_setopt($ch_test, CURLOPT_RETURNTRANSFER, true);
-			curl_setopt($ch_test, CURLOPT_URL, 'http://dnesscarkey.com/font-convertor/server/check.php');
+			curl_setopt($ch_test, CURLOPT_URL, 'http://dnesscarkey.xyz/font-convertor/server/check.php');
 			curl_setopt($ch_test, CURLOPT_POST, true);
 			$post = array(
 				'test_code' => $test_code

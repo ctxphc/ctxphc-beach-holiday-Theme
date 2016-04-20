@@ -128,7 +128,7 @@ class WPFC_Admin {
 								</tr>
 								<?php
 								wpfc_options_select( __('Default View','wp-fullcalendar'), 'wpfc_defaultView', $available_views, __('Choose the default view to be displayed when the calendar is first shown.','wp-fullcalendar') );
-								wpfc_options_input_text ( __( 'Time Format', 'wp-fullcalendar'), 'wpfc_timeFormat', sprintf(__('Set the format used for showing the times on the calendar, <a href="%s">see possible combinations</a>. Leave blank for no time display.','wp-fullcalendar'),'http://arshaw.com/fullcalendar/docs/utilities/formatDate/'), 'h(:mm)t' );
+								wpfc_options_input_text ( __( 'Time Format', 'wp-fullcalendar'), 'wpfc_timeFormat', sprintf(__('Set the format used for showing the times on the calendar, <a href="%s">see possible combinations</a>. Leave blank for no time display.','wp-fullcalendar'),'http://momentjs.com/docs/#/displaying/format/'), 'h(:mm)a' );
 								wpfc_options_input_text ( __( 'Events limit', 'wp-fullcalendar'), 'wpfc_limit', __('Enter the maximum number of events to show per day, which will then be preceded by a link to the calendar day page.','wp-fullcalendar') );
 								wpfc_options_input_text ( __( 'View events link', 'wp-fullcalendar'), 'wpfc_limit_txt', __('When the limit of events is shown for one day, this text will be used for the link to the calendar day page.','wp-fullcalendar') );
 								?>
