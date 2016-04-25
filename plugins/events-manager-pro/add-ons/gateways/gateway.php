@@ -36,6 +36,12 @@ class EM_Gateway {
 	 */
 	var $button_enabled = false;
 	/**
+	 * If your gateway is compatible with our Multiple Bookings Mode, then you can set this to true, otherwise your gateway won't be available for booking in this mode.
+	 *  
+	 * @var boolean
+	 */
+	var $supports_multiple_bookings = false;	
+	/**
 	 * Some external gateways (e.g. PayPal IPNs) return information back to your site about payments, which allow you to automatically track refunds made outside Events Manager.
 	 * If you enable this to true, be sure to add an overriding handle_payment_return function to deal with the information sent by your gateway.
 	 * @var unknown_type
@@ -64,9 +70,11 @@ class EM_Gateway {
 			}
 		}
 		if( $this->count_pending_spaces ){
-			//Modify spaces calculations, required even if active, due to previously made bookings whilst this may have been active
+			//Modify spaces calculations, required even if inactive, due to previously made bookings whilst this may have been active
 			add_filter('em_bookings_get_pending_spaces', array(&$this, 'em_bookings_get_pending_spaces'),1,2);
 			add_filter('em_ticket_get_pending_spaces', array(&$this, 'em_ticket_get_pending_spaces'),1,2);
+			add_filter('em_booking_is_reserved', array(&$this, 'em_booking_is_reserved'),1,2);
+			add_filter('em_booking_is_pending', array(&$this, 'em_booking_is_pending'),1,2);
 		}
 	}
 
@@ -85,6 +93,7 @@ class EM_Gateway {
 	function booking_add($EM_Event,$EM_Booking, $post_validation = false){
 		global $wpdb, $wp_rewrite, $EM_Notices;
 		add_filter('em_action_booking_add',array(&$this, 'booking_form_feedback'),1,2);//modify the payment return
+		add_filter('em_action_emp_checkout',array(&$this, 'booking_form_feedback'),1,2);//modify the payment return
 		if( $EM_Booking->get_price() > 0 ){
 			$EM_Booking->booking_status = $this->status; //status 4 = awaiting online payment
 		}
@@ -111,17 +120,32 @@ class EM_Gateway {
 	function mysettings(){}
 	
 	/**
-	 * Run by EM_Gateways::handle_gateways_panel_updates() if this gateway has been updated. You should capture the values of your new fields above and save them as options here.
+	 * Run by EM_Gateways_Admin::handle_gateways_panel_updates() if this gateway has been updated. You should capture the values of your new fields above and save them as options here.
 	 * return boolean 
+	 * @todo add $options as a parameter to method, and update all extending classes to prevent strict errors
 	 */
 	function update() {
-		// default action is to return true
+		//custom options as well as ML options
+		$options = is_array(func_get_arg(0)) ? func_get_arg(0):array();
+		//default action is to return true
 		if($this->button_enabled){ 
-			//either use parent::update() or just save this along with your other options in your function 
-			update_option('em_'.$this->gateway . "_button", $_REQUEST[ $this->gateway.'_button' ]);
+			$options_wpkses[] = 'em_'.$this->gateway . '_button';
+			add_filter('update_em_'.$this->gateway . '_button','wp_kses_post');
 		}
-		update_option('em_'.$this->gateway . "_option_name", $_REQUEST[ $this->gateway.'_option_name' ]);
-		update_option('em_'.$this->gateway . "_form", $_REQUEST[ $this->gateway.'_form' ]);	
+		$options_wpkses[] = 'em_'.$this->gateway . '_option_name';		
+		$options_wpkses[] = 'em_'.$this->gateway . '_form';
+		//add filters for all $option_wpkses values so they go through wp_kses_post
+		foreach( $options_wpkses as $option_wpkses ) add_filter('gateway_update_'.$option_wpkses,'wp_kses_post');
+		$options = array_merge($options, $options_wpkses);	
+		
+		//go through the options, grab them from $_REQUEST, run them through a filter for sanitization and save 
+		foreach( $options as $option_name ){
+		    $option_value_raw = !empty($_REQUEST[$option_name]) ? stripslashes($_REQUEST[$option_name]) : '';
+		    $option_value = apply_filters('gateway_update_'.$option_name, $option_value_raw);
+		    update_option($option_name, $option_value);
+		}
+		do_action('em_updated_gateway_options', $options, $this);
+		do_action('em_gateway_update', $this);
 		return true;
 	}
 
@@ -178,9 +202,12 @@ class EM_Gateway {
 		return $message;
 	}
 	
-	//Space Counting
-
-
+	/*
+	 * --------------------------------------------------
+	 * PENDING SPACE COUNTING - if $this->count_pending_spaces is true, depending on the gateway, bookings with this gateway status are considered pending and reserved
+	 * --------------------------------------------------
+	 */
+	
 	/**
 	 * Modifies pending spaces calculations to include paypal bookings, but only if PayPal bookings are set to time-out (i.e. they'll get deleted after x minutes), therefore can be considered as 'pending' and can be reserved temporarily.
 	 * @param integer $count
@@ -194,6 +221,26 @@ class EM_Gateway {
 			}
 		}
 		return $count;
+	}
+	
+	/**
+	 * Changes EM_Booking::is_reserved() return value to true. Only called if $this->count_pending_spaces is set to true.
+	 * @param boolean $result
+	 * @param EM_Booking $EM_Booking
+	 * @return boolean
+	 */
+	function em_booking_is_reserved( $result, $EM_Booking ){
+		if($EM_Booking->booking_status == $this->status && $this->uses_gateway($EM_Booking) && get_option('dbem_bookings_approval_reserved')){
+			return true;
+		}
+		return $result;
+	}
+	
+	function em_booking_is_pending( $result, $EM_Booking ){
+		if( $EM_Booking->booking_status == $this->status  && $this->uses_gateway($EM_Booking) && $this->count_pending_spaces ){
+			return true;
+		}
+		return $result;
 	}
 	
 	/**
@@ -242,6 +289,28 @@ class EM_Gateway {
 	 * PARENT FUNCTIONS - overriding not required, but could be done
 	 * --------------------------------------------------
 	 */
+	
+	/**
+	 * Gets the gateway option from the correct place. Does not require prefixing of em_gatewayname_
+	 * Will be particularly useful when restricting possible gateway settings in MultiSite mode and sharing accross networks, use this and you're future-proof.
+	 * @param string $name
+	 * @param mixed $value
+	 * @return mixed
+	 */
+	function get_option( $name ){
+		return get_option('em_'.$this->gateway.'_'.$name);
+	}
+	
+	/**
+	 * Updates the gateway option to the correct place. Does not require prefixing of em_gatewayname_
+	 * Will be particularly useful when restricting possible gateway settings in MultiSite mode and sharing accross networks, use this and you're future-proof.
+	 * @param string $name
+	 * @param mixed $value
+	 * @return boolean
+	 */
+	function update_option( $name, $value ){
+		return update_option('em_'.$this->gateway.'_'.$name, $value);
+	}
 	
 	/**
 	 * Checks an EM_Booking object and returns whether or not this gateway is/was used in the booking.
@@ -303,7 +372,6 @@ class EM_Gateway {
 	}
 
 	function toggleactivation() {
-		global $EM_Pro;
 		$active = get_option('em_payment_gateways');
 
 		if(array_key_exists($this->gateway, $active)) {
@@ -318,7 +386,6 @@ class EM_Gateway {
 	}
 
 	function activate() {
-		global $EM_Pro;
 		$active = get_option('em_payment_gateways', array());
 		if(array_key_exists($this->gateway, $active)) {
 			return true;
@@ -330,7 +397,6 @@ class EM_Gateway {
 	}
 
 	function deactivate() {
-		global $EM_Pro;
 		$active = get_option('em_payment_gateways');
 		if(array_key_exists($this->gateway, $active)) {
 			unset($active[$this->gateway]);
@@ -342,9 +408,13 @@ class EM_Gateway {
 	}
 
 	function is_active() {
-		global $EM_Pro;
 		$active = get_option('em_payment_gateways', array());
-		return array_key_exists($this->gateway, $active);
+		$is_active = array_key_exists($this->gateway, $active);
+		if( get_option('dbem_multiple_bookings') ){
+			return $is_active && $this->supports_multiple_bookings;
+		}else{
+			return $is_active;			
+		}
 	}
 
 	/**
@@ -352,39 +422,39 @@ class EM_Gateway {
 	 * @uses EM_Gateway::mysettings()
 	 */
 	function settings() {
-		global $page, $action;
+		global $page, $action, $EM_Notices;
 		$gateway_link = admin_url('edit.php?post_type='.EM_POST_TYPE_EVENT.'&page=events-manager-options#bookings');
+		$messages['updated'] = esc_html__('Gateway updated.', 'em-pro');
+		$messages['error'] = esc_html__('Gateway not updated.', 'em-pro');
 		?>
+	    <script type="text/javascript" charset="utf-8"><?php include(EM_DIR.'/includes/js/admin-settings.js'); ?></script>
 		<div class='wrap nosubsub'>
-			<div class="icon32" id="icon-plugins"><br></div>
-			<h2><?php echo sprintf(__('Edit &quot;%s&quot; settings','em-pro'), esc_html($this->title) ); ?></h2>
+			<h1><?php echo sprintf(__('Edit &quot;%s&quot; settings','em-pro'), esc_html($this->title) ); ?></h1>
+			<?php
+			if ( isset($_GET['msg']) && !empty($messages[$_GET['msg']]) ){ 
+				echo '<div id="message" class="'.$_GET['msg'].' fade"><p>' . $messages[$_GET['msg']] . 
+				' <a href="'.em_add_get_params($_SERVER['REQUEST_URI'], array('action'=>null,'gateway'=>null, 'msg' => null)).'">'.esc_html__('Back to gateways','em-pro').'</a>'.
+				'</p></div>';
+			}
+			?>
 			<form action='' method='post' name='gatewaysettingsform'>
 				<input type='hidden' name='action' id='action' value='updated' />
 				<input type='hidden' name='gateway' id='gateway' value='<?php echo $this->gateway; ?>' />
 				<?php wp_nonce_field('updated-' . $this->gateway); ?>
-				<h3><?php echo sprintf(__( '%s Options', 'dbem' ),__('Booking Form','dbem')); ?></h3>
+				<h3><?php echo sprintf(esc_html__emp( '%s Options', 'events-manager'),esc_html__emp('Booking Form','events-manager')); ?></h3>
 				<table class="form-table">
 				<tbody>
-				  <tr valign="top">
-					  <th scope="row"><?php _e('Gateway Title', 'em-pro') ?></th>
-					  <td>
-					  	<input type="text" name="<?php echo $this->gateway; ?>_option_name" value="<?php esc_html_e(get_option('em_'. $this->gateway . "_option_name" )); ?>"/><br />
-					  	<em><?php 
-					  		echo sprintf(_('Only if you have not enabled quick pay buttons in your <a href="%s">gateway settings</a>.'),$gateway_link).' '.
-					  		__('The user will see this as the text option when choosing a payment method.','em-pro'); 
-					  	?></em>
-					  </td>
-				  </tr>
-				  <tr valign="top">
-					  <th scope="row"><?php _e('Booking Form Information', 'em-pro') ?></th>
-					  <td>
-					  	<textarea name="<?php echo $this->gateway; ?>_form"><?php esc_html_e(get_option('em_'. $this->gateway . "_form" )); ?></textarea><br />
-					  	<em><?php 
-					  		echo sprintf(_('Only if you have not enabled quick pay buttons in your <a href="%s">gateway settings</a>.'),$gateway_link).
-							' '.__('If a user chooses to pay with this gateway, or it is selected by default, this message will be shown just below the selection.', 'em-pro'); 
-					  	?></em>
-					  </td>
-				  </tr>
+                    <?php
+                        //Gateway Title
+                        $desc = sprintf(__('Only if you have not enabled quick pay buttons in your <a href="%s">gateway settings</a>.', 'em-pro'),$gateway_link).' '.
+				  		__('The user will see this as the text option when choosing a payment method.','em-pro'); 
+                        em_options_input_text(__('Gateway Title', 'em-pro'), 'em_'.$this->gateway.'_option_name', $desc);
+
+                        //Gateway booking form info
+                        $desc = sprintf(__('Only if you have not enabled quick pay buttons in your <a href="%s">gateway settings</a>.','em-pro'),$gateway_link).
+                    	' '.__('If a user chooses to pay with this gateway, or it is selected by default, this message will be shown just below the selection.', 'em-pro'); 
+                        em_options_textarea(__('Booking Form Information', 'em-pro'), 'em_'.$this->gateway.'_form', $desc); 
+                    ?>
 				</tbody>
 				</table>
 				<?php $this->mysettings(); ?>
@@ -393,16 +463,14 @@ class EM_Gateway {
 				<p><?php echo sprintf(__('If you have chosen to only use quick pay buttons in your <a href="%s">gateway settings</a>, these settings below will be used.','em-pro'), $gateway_link); ?></p>
 				<table class="form-table">
 				<tbody>
-				  <tr valign="top">
-					  <th scope="row"><?php _e('Payment Button', 'em-pro') ?></th>
-					  <td>
-					  	<input type="text" name="<?php echo $this->gateway ?>_button" value="<?php esc_attr_e(get_option('em_'. $this->gateway . "_button", 'http://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif' )); ?>" style='width: 40em;' /><br />
-					  	<em><?php echo sprintf(__('Choose the button text. To use an image instead, enter the full url starting with %s or %s.', 'dbem' ), '<code>http://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif</code>','<code>https://...</code>'); ?></em>
-					  </td>
-				  </tr>
+				  <?php
+				      $desc = sprintf(__('Choose the button text. To use an image instead, enter the full url starting with %s or %s.', 'em-pro' ), '<code>http://...</code>','<code>https://...</code>');
+                      em_options_input_text(__('Payment Button', 'em-pro'), 'em_'.$this->gateway.'_button', $desc); 
+				  ?>
 				</tbody>
 				</table>
 				<?php endif; ?>
+				<?php do_action('em_gateway_settings_footer', $this); ?>
 				<p class="submit">
 				<input type="submit" name="Submit" class="button-primary" value="<?php esc_attr_e('Save Changes') ?>" />
 				</p>
@@ -412,4 +480,6 @@ class EM_Gateway {
 	}
 }
 
+function emp_gateway_ml_init(){ include('gateway-ml.php'); }
+add_action('em_ml_init', 'emp_gateway_ml_init');
 ?>

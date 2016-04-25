@@ -33,7 +33,7 @@ if(!class_exists("c_ws_plugin__s2member_translations"))
 		 * @package s2Member\Translations
 		 * @since 110815
 		 *
-		 * @attaches-to ``add_action("init");``
+		 * @attaches-to ``add_action("plugins_loaded");``
 		 *
 		 * @return null
 		 */
@@ -73,6 +73,8 @@ if(!class_exists("c_ws_plugin__s2member_translations"))
 			global $current_site, $current_blog; // In support of Multisite Networking.
 			static $s = array(); // This static array optimizes all of these routines.
 
+			if(!did_action("init")) return $translated; // Do nothing until `init` has been fired by WP core.
+
 			if((isset ($s["is_wp_login"]) && $s["is_wp_login"]) || (!isset ($s["is_wp_login"]) && ($s["is_wp_login"] = (strpos($_SERVER["REQUEST_URI"], "/wp-login.php") !== FALSE && empty($_REQUEST["action"]) && empty($_REQUEST["checkemail"])) ? TRUE : FALSE)))
 			{
 				if($original === "Username") // Give Filters a chance here.
@@ -94,7 +96,7 @@ if(!class_exists("c_ws_plugin__s2member_translations"))
 				{
 					$translated = apply_filters("ws_plugin__s2member_translation_mangler", _x("Password *", "s2member-front", "s2member"), get_defined_vars());
 				}
-				else if($original === "E-mail") // Give Filters a chance here.
+				else if($original === "Email") // Give Filters a chance here.
 				{
 					$translated = apply_filters("ws_plugin__s2member_translation_mangler", _x("Email Address *", "s2member-front", "s2member"), get_defined_vars());
 				}

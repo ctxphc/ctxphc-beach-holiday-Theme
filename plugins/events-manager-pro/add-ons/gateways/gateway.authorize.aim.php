@@ -7,6 +7,7 @@ class EM_Gateway_Authorize_AIM extends EM_Gateway {
 	var $status = 4;
 	var $status_txt = 'Processing (Authorize.net AIM)';
 	var $button_enabled = false; //we can's use a button here
+	var $supports_multiple_bookings = true;
 
 	var $registered_timer = 0;
 	/**
@@ -60,7 +61,11 @@ class EM_Gateway_Authorize_AIM extends EM_Gateway {
 		$this->registered_timer = current_time('timestamp', 1);
 		parent::booking_add($EM_Event, $EM_Booking, $post_validation);
 		if( $post_validation && empty($EM_Booking->booking_id) ){
-			add_filter('em_booking_save', array(&$this, 'em_booking_save'),2,2);
+			if( get_option('dbem_multiple_bookings') && get_class($EM_Booking) == 'EM_Multiple_Booking' ){
+		    	add_filter('em_multiple_booking_save', array(&$this, 'em_booking_save'),2,2);			    
+			}else{
+		    	add_filter('em_booking_save', array(&$this, 'em_booking_save'),2,2);
+			}		    	
 		}
 	}
 	
@@ -89,14 +94,21 @@ class EM_Gateway_Authorize_AIM extends EM_Gateway {
 						//delete the user we just created, only if created after em_booking_add filter is called (which is when a new user for this booking would be created)
 						$EM_Person = $EM_Booking->get_person();
 						if( strtotime($EM_Person->data->user_registered) >= $this->registered_timer ){
-							include_once(ABSPATH.'/wp-admin/includes/user.php');
-							wp_delete_user($EM_Person->ID);
+							if( is_multisite() ){
+								include_once(ABSPATH.'/wp-admin/includes/ms.php');
+								wpmu_delete_user($EM_Person->ID);
+							}else{
+								include_once(ABSPATH.'/wp-admin/includes/user.php');
+								wp_delete_user($EM_Person->ID);
+							}
 							//remove email confirmation
 							global $EM_Notices;
 							$EM_Notices->notices['confirms'] = array();
 						}
 					}
+					$EM_Booking->manage_override = true;
 					$EM_Booking->delete();
+					$EM_Booking->manage_override = false;
 					return false;
 				}
 			}
@@ -148,7 +160,7 @@ class EM_Gateway_Authorize_AIM extends EM_Gateway {
         if( !empty($_POST['x_response_code']) && $_POST['x_response_code'] == 1  && $is_authorizenet ){
         	if( $_POST['x_type'] == 'credit' ){
         		//Since credit has another txn id we can find a booking by invoice number / booking id and cancel the booking, record new txn.
-        		$EM_Booking = new EM_Booking($_POST['x_invoice_num']);
+        		$EM_Booking = em_get_booking($_POST['x_invoice_num']);
 	        	if( !empty($EM_Booking->booking_id) ){
 	        		$EM_Booking->cancel();
 	        		$amount = $amount * -1;
@@ -161,7 +173,7 @@ class EM_Gateway_Authorize_AIM extends EM_Gateway {
 	        	//Find the transaction and booking, void the transaction, cancel the booking.
 	        	$txn = $wpdb->get_row( $wpdb->prepare( "SELECT transaction_id, transaction_gateway_id, transaction_total_amount, booking_id FROM ".EM_TRANSACTIONS_TABLE." WHERE transaction_gateway_id = %s AND transaction_gateway = %s ORDER BY transaction_total_amount DESC LIMIT 1", $_POST['x_trans_id'], $this->gateway ), ARRAY_A );
 	        	if( is_array($txn) && $txn['transaction_gateway_id'] == $_POST['x_trans_id'] && !empty($txn['booking_id']) ){
-	        		$EM_Booking = new EM_Booking($txn['booking_id']);
+	        		$EM_Booking = em_get_booking($txn['booking_id']);
 	        		$EM_Booking->cancel();
 	        		$wpdb->update(EM_TRANSACTIONS_TABLE, array('transaction_status'=>__('Voided','em-pro'),'transaction_timestamp'=>current_time('mysql')), array('transaction_id'=>$txn['transaction_id']));
 	        		echo "Transaction Processed";
@@ -260,13 +272,13 @@ class EM_Gateway_Authorize_AIM extends EM_Gateway {
         $sale->card_code = $_REQUEST['x_card_code'];
 
         //Email Info
-        $sale->email_customer = get_option('em_'.$this->gateway.'_header_email_customer',0) ? '1':'0'; //for later
+        $sale->email_customer = get_option('em_'.$this->gateway.'_email_customer',0) ? '1':'0'; //for later
         $sale->header_email_receipt = get_option('em_'.$this->gateway.'_header_email_receipt');
         $sale->footer_email_receipt = get_option('em_'.$this->gateway.'_footer_email_receipt');
 
         //Order Info
 		$sale->invoice_num = $EM_Booking->booking_id;
-        $sale->description = preg_replace('/[^a-zA-Z0-9\s]/', "", $EM_Booking->get_event()->event_name); //clean event name
+        $sale->description = preg_replace('/[^a-zA-Z0-9\s]/i', "", $EM_Booking->get_event()->event_name); //clean event name
         
         //Customer Info
         $sale->email = $EM_Booking->get_person()->user_email;
@@ -295,14 +307,23 @@ class EM_Gateway_Authorize_AIM extends EM_Gateway {
         //Itemized Billing
         $tax_enabled = (get_option('dbem_bookings_tax') > 0) ? 'Y':'N';
 		foreach( $EM_Booking->get_tickets_bookings()->tickets_bookings as $EM_Ticket_Booking ){
-			$price = $EM_Ticket_Booking->get_ticket()->get_price();
+			$price = round($EM_Ticket_Booking->get_price() / $EM_Ticket_Booking->get_spaces(), 2);
 			if( $price > 0 ){
 				$ticket_name = substr($EM_Ticket_Booking->get_ticket()->ticket_name, 0, 31);
         		$sale->addLineItem($EM_Ticket_Booking->get_ticket()->ticket_id, $ticket_name, $EM_Ticket_Booking->get_ticket()->ticket_description, $EM_Ticket_Booking->get_spaces(), $price, $tax_enabled);
 			}
 		}
+		if( $tax_enabled == 'Y' ){
+			$sale->tax = number_format($EM_Booking->get_price_taxes(), 2);
+		}
+		//Add discounts to itemized billing
+		$discount = $EM_Booking->get_price_discounts_amount('pre') + $EM_Booking->get_price_discounts_amount('post');
+		if( $discount > 0 ){
+			$sale->addLineItem(0, __('Discount','em-pro'), '', 1, $discount, 'N');
+		}
 		
         //Get Payment
+        $sale = apply_filters('em_gateawy_authorize_aim_sale_var', $sale, $EM_Booking, $this);
         $response = $sale->authorizeAndCapture();
         
         //Handle result
@@ -339,45 +360,60 @@ class EM_Gateway_Authorize_AIM extends EM_Gateway {
 		?>
 		<table class="form-table">
 		<tbody>
-		  <tr valign="top">
-			  <th scope="row"><?php _e('Success Message', 'em-pro') ?></th>
-			  <td>
-			  	<input type="text" name="booking_feedback" value="<?php esc_attr_e(get_option('em_'. $this->gateway . "_booking_feedback" )); ?>" style='width: 40em;' /><br />
-			  	<em><?php _e('The message that is shown to a user when a booking is successful and payment has been taken.','em-pro'); ?></em>
-			  </td>
-		  </tr>
-		  <tr valign="top">
-			  <th scope="row"><?php _e('Success Free Message', 'em-pro') ?></th>
-			  <td>
-			  	<input type="text" name="booking_feedback_free" value="<?php esc_attr_e(get_option('em_'. $this->gateway . "_booking_feedback_free" )); ?>" style='width: 40em;' /><br />
-			  	<em><?php _e('If some cases if you allow a free ticket (e.g. pay at gate) as well as paid tickets, this message will be shown and the user will not be charged.','em-pro'); ?></em>
-			  </td>
-		  </tr>
+		  <?php em_options_input_text( esc_html__('Success Message', 'em-pro'), 'em_'. $this->gateway . '_booking_feedback', esc_html__('The message that is shown to a user when a booking is successful and payment has been taken.','em-pro') ); ?>
+		  <?php em_options_input_text( esc_html__('Success Free Message', 'em-pro'), 'em_'. $this->gateway . '_booking_feedback_free', esc_html__('If some cases if you allow a free ticket (e.g. pay at gate) as well as paid tickets, this message will be shown and the user will not be charged.','em-pro') ); ?>
 		</tbody>
 		</table>
-		<h3><?php echo sprintf(__('%s Options','dbem'),'Authorize.net')?></h3>
-		<p style="font-style:italic;"><?php echo sprintf(__('Please visit the <a href="%s">documentation</a> for further instructions on setting up Authorize.net with Events Manager.','em-pro'), 'http://wp-events-plugin.com/documentation/events-with-authorize-net'); ?></p>
+		<h3><?php echo sprintf(esc_html__emp('%s Options','events-manager'),'Authorize.net')?></h3>
+		<p style="font-style:italic;"><?php echo sprintf(__('Please visit the <a href="%s">documentation</a> for further instructions on setting up Authorize.net with Events Manager.','em-pro'), 'http://wp-events-plugin.com/documentation/event-bookings-with-authorize-net-aim/'); ?></p>
 		<table class="form-table">
 		<tbody>
 			 <tr valign="top">
 				  <th scope="row"><?php _e('Mode', 'em-pro'); ?></th>
 				  <td>
-					  <select name="mode">
+					  <select name="em_<?php echo $this->gateway ?>_mode" id="em_<?php echo $this->gateway ?>_mode">
 					  	<?php $selected = get_option('em_'.$this->gateway.'_mode'); ?>
-						<option value="sandbox" <?php echo ($selected == 'sandbox') ? 'selected="selected"':''; ?>><?php _e('Sandbox','emp-pro'); ?></option>
-						<option value="live" <?php echo ($selected == 'live') ? 'selected="selected"':''; ?>><?php _e('Live','emp-pro'); ?></option>
+						<option value="sandbox" <?php echo ($selected == 'sandbox') ? 'selected="selected"':''; ?>><?php _e('Sandbox','em-pro'); ?></option>
+						<option value="live" <?php echo ($selected == 'live') ? 'selected="selected"':''; ?>><?php _e('Live','em-pro'); ?></option>
 					  </select>
 					  <br />
 					  <em><?php echo sprintf(__('Please visit <a href="%s">Authorize.net</a> to set up a sandbox account if you would like to test this gateway out. Alternatively, you can use your real account in test mode, which you can set on your Authorize.net control panel.','em-pro'),'https://developer.authorize.net/integration/fifteenminutes/');?></em>
+					  <?php 
+					  /* @todo move SSL check outside of A.net and make it a generic gatweay-wide check. */
+					  global $wp_scripts;
+					  $ajax_url = str_replace('http://','https://', admin_url('admin-ajax.php'));
+					  $verify = @wp_remote_get($ajax_url);
+					  if( is_wp_error($verify) ){ /* @var $verify WP_Error */
+					  	foreach( $verify->get_error_messages() as $error ){
+					  		if( preg_match('/SSL/', $error) ){
+					  			echo '<div class="em-gateway-ssl-warning" style="color:red">';
+								echo sprintf(esc_html__('A valid SSL certificate is required for live payments using this gateway. We are not able to connect to this URL: %s.','em-pro'), '<a href="'.$ajax_url.'"><code>'.$ajax_url.'</code></a>');
+								echo '</div>';
+					  		}
+					  	}
+					  }
+					  ?>
+					  <script type="text/javascript">
+						jQuery(document).ready( function($){
+							$(document).on('change','#em_<?php echo $this->gateway ?>_mode', function(){
+								if( $(this).find('option:selected').val() == 'live' ){
+									$('.em-gateway-ssl-warning').show();
+								}else{
+									$('.em-gateway-ssl-warning').hide();
+								}
+							});
+							$('#em_<?php echo $this->gateway ?>_mode').trigger('change');
+						});
+					  </script>
 				  </td>
 			</tr>
 			<tr valign="top">
-				  <th scope="row"><?php _e('API Login ID', 'emp-pro') ?></th>
-				  <td><input type="text" name="api_user" value="<?php esc_attr_e(get_option( 'em_'. $this->gateway . "_api_user", "" )); ?>" /></td>
+				  <th scope="row"><?php _e('API Login ID', 'em-pro') ?></th>
+				  <td><input type="text" name="em_<?php echo $this->gateway ?>_api_user" value="<?php esc_attr_e(get_option( 'em_'. $this->gateway . "_api_user", "" )); ?>" /></td>
 			</tr>
 			<tr valign="top">
-			 	<th scope="row"><?php _e('Transaction key', 'emp-pro') ?></th>
-			    <td><input type="text" name="api_key" value="<?php esc_attr_e(get_option( 'em_'. $this->gateway . "_api_key", "" )); ?>" /></td>
+			 	<th scope="row"><?php _e('Transaction key', 'em-pro') ?></th>
+			    <td><input type="text" name="em_<?php echo $this->gateway ?>_api_key" value="<?php esc_attr_e(get_option( 'em_'. $this->gateway . "_api_key", "" )); ?>" /></td>
 			</tr>
 			<tr><td colspan="2">
 				<p><strong><?php echo __( 'Payment Notifications','em-pro'); ?></strong></p>
@@ -385,42 +421,42 @@ class EM_Gateway_Authorize_AIM extends EM_Gateway {
 				<p><?php echo sprintf(__('Your return url is %s.','em-pro'),'<code>'.$this->get_payment_return_url().'</code>'); ?> <?php _e('You can use this as your Silent Post URL.', 'em-pro'); ?></p>
 			</td></tr>
 			<tr>
-				<th scope="row"><?php _e('Security: MD5 Hash', 'emp-pro') ?></th>
+				<th scope="row"><?php _e('Security: MD5 Hash', 'em-pro') ?></th>
 				<td>
-					<input type="text" name="md5_hash" value="<?php esc_attr_e(get_option( 'em_'. $this->gateway . "_md5_hash" )); ?>" /><br />
+					<input type="text" name="em_<?php echo $this->gateway ?>_md5_hash" value="<?php esc_attr_e(get_option( 'em_'. $this->gateway . "_md5_hash" )); ?>" /><br />
 					<em><?php _e('This string of text needs to match that in your merchant interface settings.','em-pro')?></em>
 				</td>
 			</tr>
 			<tr valign="top">
-				  <th scope="row"><?php _e('User Login ID', 'emp-pro') ?></th>
+				  <th scope="row"><?php _e('User Login ID', 'em-pro') ?></th>
 				  <td>
-				  	<input type="text" name="user_login" value="<?php esc_attr_e(get_option( 'em_'. $this->gateway . "_user_login", "" )); ?>" /><br />
+				  	<input type="text" name="em_<?php echo $this->gateway ?>_user_login" value="<?php esc_attr_e(get_option( 'em_'. $this->gateway . "_user_login", "" )); ?>" /><br />
 					<em><?php _e('This is the username you use to log into your merchant interface.','em-pro')?></em>
 				  </td>
 			</tr>
-			<tr><td colspan="2"><strong><?php echo sprintf(__( '%s Options', 'dbem' ),__('Advanced','em-pro')); ?></strong></td></tr>
+			<tr><td colspan="2"><strong><?php echo sprintf(esc_html__emp( '%s Options', 'events-manager'),esc_html__emp('Advanced','events-manager')); ?></strong></td></tr>
 			<tr>
-				<th scope="row"><?php _e('Email Customer (on success)', 'emp-pro') ?></th>
+				<th scope="row"><?php _e('Email Customer (on success)', 'em-pro') ?></th>
 				<td>
-					<select name="email_customer">
+					<select name="em_<?php echo $this->gateway ?>_email_customer">
 					  	<?php $selected = get_option('em_'.$this->gateway.'_email_customer'); ?>
-						<option value="1" <?php echo ($selected) ? 'selected="selected"':''; ?>><?php _e('Yes','emp-pro'); ?></option>
-						<option value="0" <?php echo (!$selected) ? 'selected="selected"':''; ?>><?php _e('No','emp-pro'); ?></option>
+						<option value="1" <?php echo ($selected) ? 'selected="selected"':''; ?>><?php esc_html_e_emp('Yes','events-manager'); ?></option>
+						<option value="0" <?php echo (!$selected) ? 'selected="selected"':''; ?>><?php esc_html_e_emp('No','events-manager'); ?></option>
 					</select>
 				</td>
 			</tr>
 			<tr>
-				<th scope="row"><?php _e('Customer Receipt Email Header', 'emp-pro') ?></th>
-				<td><input type="text" name="header_email_receipt" value="<?php esc_attr_e(get_option( 'em_'. $this->gateway . "_header_email_receipt", __("Thanks for your payment!", "emp-pro"))); ?>" /></td>
+				<th scope="row"><?php _e('Customer Receipt Email Header', 'em-pro') ?></th>
+				<td><input type="text" name="em_<?php echo $this->gateway ?>_header_email_receipt" value="<?php esc_attr_e(get_option( 'em_'. $this->gateway . "_header_email_receipt", __("Thanks for your payment!", "em-pro"))); ?>" /></td>
 			</tr>
 			<tr>
-				<th scope="row"><?php _e('Customer Receipt Email Footer', 'emp-pro') ?></th>
-				<td><input type="text" name="footer_email_receipt" value="<?php esc_attr_e(get_option( 'em_'. $this->gateway . "_footer_email_receipt", "" )); ?>" /></td>
+				<th scope="row"><?php _e('Customer Receipt Email Footer', 'em-pro') ?></th>
+				<td><input type="text" name="em_<?php echo $this->gateway ?>_footer_email_receipt" value="<?php esc_attr_e(get_option( 'em_'. $this->gateway . "_footer_email_receipt", "" )); ?>" /></td>
 			</tr>
 		  <tr valign="top">
 			  <th scope="row"><?php _e('Manually approve completed transactions?', 'em-pro') ?></th>
 			  <td>
-			  	<input type="checkbox" name="manual_approval" value="1" <?php echo (get_option('em_'. $this->gateway . "_manual_approval" )) ? 'checked="checked"':''; ?> /><br />
+			  	<input type="checkbox" name="em_<?php echo $this->gateway ?>_manual_approval" value="1" <?php echo (get_option('em_'. $this->gateway . "_manual_approval" )) ? 'checked="checked"':''; ?> /><br />
 			  	<em><?php _e('By default, when someone pays for a booking, it gets automatically approved once the payment is confirmed. If you would like to manually verify and approve bookings, tick this box.','em-pro'); ?></em><br />
 			  	<em><?php echo sprintf(__('Approvals must also be required for all bookings in your <a href="%s">settings</a> for this to work properly.','em-pro'),EM_ADMIN_URL.'&amp;page=events-manager-options'); ?></em>
 			  </td>
@@ -434,26 +470,23 @@ class EM_Gateway_Authorize_AIM extends EM_Gateway {
 	 * Run when saving settings, saves the settings available in EM_Gateway_Authorize_AIM::mysettings()
 	 */
 	function update() {
-		parent::update();
-		$gateway_options = array(
-			$this->gateway . "_mode" => $_REQUEST[ 'mode' ],
-			$this->gateway . "_api_user" => $_REQUEST[ 'api_user' ],
-			$this->gateway . "_api_key" => $_REQUEST[ 'api_key' ],
-			$this->gateway . "_user_login" => $_REQUEST[ 'user_login' ],
-			$this->gateway . "_email_customer" => ($_REQUEST[ 'email_customer' ]),
-			$this->gateway . "_header_email_receipt" => $_REQUEST[ 'header_email_receipt' ],
-			$this->gateway . "_footer_email_receipt" => $_REQUEST[ 'footer_email_receipt' ],
-			$this->gateway . "_md5_hash" => $_REQUEST[ 'md5_hash' ],
-			$this->gateway . "_manual_approval" => $_REQUEST[ 'manual_approval' ],
-			$this->gateway . "_booking_feedback" => wp_kses_data($_REQUEST[ 'booking_feedback' ]),
-			$this->gateway . "_booking_feedback_free" => wp_kses_data($_REQUEST[ 'booking_feedback_free' ])
-		);
-		foreach($gateway_options as $key=>$option){
-			update_option('em_'.$key, stripslashes($option));
-		}
-		//default action is to return true
-		return true;
-
+	    $gateway_options = $options_wpkses = array();
+		$gateway_options[] = 'em_'.$this->gateway . "_mode";
+		$gateway_options[] = 'em_'.$this->gateway . "_api_user";
+		$gateway_options[] = 'em_'.$this->gateway . "_api_key";
+		$gateway_options[] = 'em_'.$this->gateway . "_user_login";
+		$gateway_options[] = 'em_'.$this->gateway . "_email_customer";
+		$gateway_options[] = 'em_'.$this->gateway . "_md5_hash";
+		$gateway_options[] = 'em_'.$this->gateway . "_manual_approval";
+		//add wp_kses filters for relevant options and merge in
+		$options_wpkses[] = 'em_'. $this->gateway . '_booking_feedback';
+		$options_wpkses[] = 'em_'. $this->gateway . '_booking_feedback_free';
+		$options_wpkses[] = 'em_'. $this->gateway . "_header_email_receipt";
+		$options_wpkses[] = 'em_'. $this->gateway . "_footer_email_receipt";
+		foreach( $options_wpkses as $option_wpkses ) add_filter('gateway_update_'.$option_wpkses,'wp_kses_post');
+		$gateway_options = array_merge($gateway_options, $options_wpkses);
+		//pass options to parent which handles saving
+		return parent::update($gateway_options);
 	}
 }
 EM_Gateways::register_gateway('authorize_aim', 'EM_Gateway_Authorize_AIM');
