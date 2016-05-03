@@ -1,7 +1,7 @@
 //add paypal redirection
 $(document).bind('em_booking_gateway_add_paypal', function(event, response){ 
 	// called by EM if return JSON contains gateway key, notifications messages are shown by now.
-	if(response.result){
+	if(response.result && typeof response.paypal_url != 'undefined' ){
 		var ppForm = $('<form action="'+response.paypal_url+'" method="post" id="em-paypal-redirect-form"></form>');
 		$.each( response.paypal_vars, function(index,value){
 			ppForm.append('<input type="hidden" name="'+index+'" value="'+value+'" />');

@@ -173,6 +173,7 @@ class EM_Gateway_Paypal extends EM_Gateway {
 			'currency_code' => get_option('dbem_bookings_currency', 'USD'),
 			'notify_url' =>$notify_url,
 			'custom' => $EM_Booking->booking_id.':'.$EM_Booking->event_id,
+			'invoice' => 'EM-BOOKING#'. $EM_Booking->booking_id, //added to enable searching in event of failed IPNs
 			'charset' => 'UTF-8',
 		    'bn'=>'NetWebLogic_SP'
 		);
@@ -287,8 +288,6 @@ class EM_Gateway_Paypal extends EM_Gateway {
 			// handle cases that the system must ignore
 			$new_status = false;
 			//Common variables
-			$amount = $_POST['mc_gross'];
-			$currency = $_POST['mc_currency'];
 			$timestamp = date('Y-m-d H:i:s', strtotime($_POST['payment_date']));
 			$custom_values = explode(':',$_POST['custom']);
 			$booking_id = $custom_values[0];
@@ -300,82 +299,7 @@ class EM_Gateway_Paypal extends EM_Gateway {
 				$user_id = $EM_Booking->person_id;
 				
 				// process PayPal response
-				switch ($_POST['payment_status']) {
-					case 'Partially-Refunded':
-						break;	
-	
-					case 'Completed':
-					case 'Processed':
-						// case: successful payment
-						$this->record_transaction($EM_Booking, $amount, $currency, $timestamp, $_POST['txn_id'], $_POST['payment_status'], '');
-
-						if( $_POST['mc_gross'] >= $EM_Booking->get_price() && (!get_option('em_'.$this->gateway.'_manual_approval', false) || !get_option('dbem_bookings_approval')) ){
-							$EM_Booking->approve(true, true); //approve and ignore spaces
-						}else{
-							//TODO do something if pp payment not enough
-							$EM_Booking->set_status(0); //Set back to normal "pending"
-						}
-						do_action('em_payment_processed', $EM_Booking, $this);
-						break;
-	
-					case 'Reversed':
-						// case: charge back
-						$note = 'Last transaction has been reversed. Reason: Payment has been reversed (charge back)';
-						$this->record_transaction($EM_Booking, $amount, $currency, $timestamp, $_POST['txn_id'], $_POST['payment_status'], $note);
-	
-						//We need to cancel their booking.
-						$EM_Booking->cancel();
-						do_action('em_payment_reversed', $EM_Booking, $this);
-						
-						break;
-	
-					case 'Refunded':
-						// case: refund
-						$note = 'Last transaction has been reversed. Reason: Payment has been refunded';
-						$this->record_transaction($EM_Booking, $amount, $currency, $timestamp, $_POST['txn_id'], $_POST['payment_status'], $note);
-						if( $amount >= $EM_Booking->get_price() ){
-							$EM_Booking->cancel();
-						}else{
-							$EM_Booking->set_status(0); //Set back to normal "pending"
-						}
-						do_action('em_payment_refunded', $EM_Booking, $this);
-						break;
-	
-					case 'Denied':
-						// case: denied
-						$note = 'Last transaction has been reversed. Reason: Payment Denied';
-						$this->record_transaction($EM_Booking, $amount, $currency, $timestamp, $_POST['txn_id'], $_POST['payment_status'], $note);
-	
-						$EM_Booking->cancel();
-						do_action('em_payment_denied', $EM_Booking, $this);
-						break;
-
-					case 'In-Progress':
-					case 'Pending':
-						// case: payment is pending
-						$pending_str = array(
-							'address' => 'Customer did not include a confirmed shipping address',
-							'authorization' => 'Funds not captured yet',
-							'echeck' => 'eCheck that has not cleared yet',
-							'intl' => 'Payment waiting for aproval by service provider',
-							'multi-currency' => 'Payment waiting for service provider to handle multi-currency process',
-							'unilateral' => 'Customer did not register or confirm his/her email yet',
-							'upgrade' => 'Waiting for service provider to upgrade the PayPal account',
-							'verify' => 'Waiting for service provider to verify his/her PayPal account',
-							'paymentreview' => 'Paypal is currently reviewing the payment and will approve or reject within 24 hours',
-							'*' => ''
-							);
-						$reason = @$_POST['pending_reason'];
-						$note = 'Last transaction is pending. Reason: ' . (isset($pending_str[$reason]) ? $pending_str[$reason] : $pending_str['*']);
-	
-						$this->record_transaction($EM_Booking, $amount, $currency, $timestamp, $_POST['txn_id'], $_POST['payment_status'], $note);
-	
-						do_action('em_payment_pending', $EM_Booking, $this);
-						break;
-	
-					default:
-						// case: various error cases		
-				}
+				$this->handle_payment_status($EM_Booking, $_POST['mc_gross'], $_POST['payment_status'], $_POST['mc_currency'], $_POST['txn_id'], $timestamp, $_POST);
 			}else{
 				if( is_numeric($event_id) && is_numeric($booking_id) && ($_POST['payment_status'] == 'Completed' || $_POST['payment_status'] == 'Processed') ){
 					$message = apply_filters('em_gateway_paypal_bad_booking_email',"
@@ -418,6 +342,95 @@ Events Manager
 			//header('Status: 404 Not Found');
 			echo 'Error: Missing POST variables. Identification is not possible. If you are not PayPal and are visiting this page directly in your browser, this error does not indicate a problem, but simply means EM is correctly set up and ready to receive IPNs from PayPal only.';
 			exit;
+		}
+	}
+	
+	/**
+	 * Handles a payment status change in PayPal, as in a IPN notification, PDT callback or other lookup.
+	 * @param EM_Booking $EM_Booking
+	 * @param float $amount
+	 * @param string $payment_status
+	 * @param string $currency
+	 * @param string $txn_id
+	 * @param string $timestamp Expects a format of 'Y-m-d H:i:s' for DB storage
+	 * @param array $args Associative array of values matching those expected from an IPN notification, in order to have these processed by this function convert accordingly. The current keys referenced are 'ReasonCode' and 'pending_reason' for pending or reversed payments.
+	 */
+	public function handle_payment_status($EM_Booking, $amount, $payment_status, $currency, $txn_id, $timestamp, $args){
+		$filter_args = array( 'amount' => $amount, 'payment_status' => $payment_status, 'payment_currency' => $currency, 'transaction_id' => $txn_id, 'timestamp' => $timestamp, 'args' => $args );
+		switch ($payment_status) {
+			case 'Completed':
+			case 'Processed': // case: successful payment
+				$this->record_transaction($EM_Booking, $amount, $currency, $timestamp, $txn_id, $payment_status, '');
+		
+				if( $amount >= $EM_Booking->get_price() && (!get_option('em_'.$this->gateway.'_manual_approval', false) || !get_option('dbem_bookings_approval')) ){
+					$EM_Booking->approve(true, true); //approve and ignore spaces
+				}else{
+					//TODO do something if pp payment not enough
+					$EM_Booking->set_status(0); //Set back to normal "pending"
+				}
+				do_action('em_payment_processed', $EM_Booking, $this, $filter_args);
+				break;
+		
+			case 'Reversed':
+			case 'Voided' :
+				// case: charge back
+				$note = 'Last transaction has been reversed. Reason: Payment has been reversed (charge back)';
+				$this->record_transaction($EM_Booking, $amount, $currency, $timestamp, $txn_id, $payment_status, $note);
+		
+				//We need to cancel their booking.
+				$EM_Booking->cancel();
+				do_action('em_payment_reversed', $EM_Booking, $this, $filter_args);
+		
+				break;
+		
+			case 'Refunded':
+				// case: refund
+				$note = 'Last transaction has been reversed. Reason: Payment has been refunded';
+				$this->record_transaction($EM_Booking, $amount, $currency, $timestamp, $txn_id, $payment_status, $note);
+				if( $amount >= $EM_Booking->get_price() ){
+					$EM_Booking->cancel();
+				}else{
+					$EM_Booking->set_status(0); //Set back to normal "pending"
+				}
+				do_action('em_payment_refunded', $EM_Booking, $this, $filter_args);
+				break;
+		
+			case 'Denied':
+				// case: denied
+				$note = 'Last transaction has been reversed. Reason: Payment Denied';
+				$this->record_transaction($EM_Booking, $amount, $currency, $timestamp, $txn_id, $payment_status, $note);
+		
+				$EM_Booking->cancel();
+				do_action('em_payment_denied', $EM_Booking, $this, $filter_args);
+				break;
+		
+			case 'In-Progress':
+			case 'Pending':
+				// case: payment is pending
+				$pending_str = array(
+					'address' => 'Customer did not include a confirmed shipping address',
+					'authorization' => 'Funds not captured yet',
+					'echeck' => 'eCheck that has not cleared yet',
+					'intl' => 'Payment waiting for aproval by service provider',
+					'multi-currency' => 'Payment waiting for service provider to handle multi-currency process',
+					'unilateral' => 'Customer did not register or confirm his/her email yet',
+					'upgrade' => 'Waiting for service provider to upgrade the PayPal account',
+					'verify' => 'Waiting for service provider to verify his/her PayPal account',
+					'paymentreview' => 'Paypal is currently reviewing the payment and will approve or reject within 24 hours',
+					'*' => ''
+				);
+				$reason = @$args['pending_reason'];
+				$note = 'Last transaction is pending. Reason: ' . (isset($pending_str[$reason]) ? $pending_str[$reason] : $pending_str['*']);
+
+				$this->record_transaction($EM_Booking, $amount, $currency, $timestamp, $txn_id, $payment_status, $note);
+
+				do_action('em_payment_pending', $EM_Booking, $this, $filter_args);
+				break;
+			case 'Canceled_Reversal':
+				//do nothing, just update the transaction
+				break;
+			default:
+				// case: various error cases
 		}
 	}
 	
@@ -583,16 +596,82 @@ function em_gateway_paypal_booking_timeout(){
 	global $wpdb;
 	//Get a time from when to delete
 	$minutes_to_subtract = absint(get_option('em_paypal_booking_timeout'));
+	$EM_Gateway_Paypal = EM_Gateways::get_gateway('paypal'); /* @var $EM_Gateway_Paypal EM_Gateway_Paypal */
 	if( $minutes_to_subtract > 0 ){
 		//get booking IDs without pending transactions
 		$cut_off_time = date('Y-m-d H:i:s', current_time('timestamp') - ($minutes_to_subtract * 60));
-		$booking_ids = $wpdb->get_col('SELECT b.booking_id FROM '.EM_BOOKINGS_TABLE.' b LEFT JOIN '.EM_TRANSACTIONS_TABLE." t ON t.booking_id=b.booking_id  WHERE booking_date < '{$cut_off_time}' AND booking_status=4 AND transaction_id IS NULL AND booking_meta LIKE '%s:7:\"gateway\";s:6:\"paypal\";%'" );
+		$sql = 'SELECT b.booking_id FROM '.EM_BOOKINGS_TABLE.' b LEFT JOIN '.EM_TRANSACTIONS_TABLE." t ON t.booking_id=b.booking_id  WHERE booking_date < '{$cut_off_time}' AND booking_status=4 AND transaction_id IS NULL AND booking_meta LIKE '%s:7:\"gateway\";s:6:\"paypal\";%'";
+		if( get_option('dbem_multiple_bookings') ){ //multiple bookings mode
+			//If we're in MB mode, check that this isn't the main booking, if it isn't then skip it.
+			$sql .= ' AND b.booking_id NOT IN (SELECT booking_id FROM '. EM_BOOKINGS_RELATIONSHIPS_TABLE.')';
+		}
+		$booking_ids = $wpdb->get_col( $sql );
 		if( count($booking_ids) > 0 ){
-			//first delete ticket_bookings with expired bookings
-			foreach( $booking_ids as $booking_id ){
+			//go through each booking and check if there's a matching payment on paypal already, in case there's problems with IPN callbacks
+			foreach( $booking_ids as $booking_id ){				
 			    $EM_Booking = em_get_booking($booking_id);
-			    $EM_Booking->manage_override = true;
-			    $EM_Booking->delete();
+			    //Verify if Payment has been made by searching for the Invoice ID, which would be EM-BOOKING#x were x is the booking id
+			    $domain = get_option( "em_paypal_status" ) == 'live' ? 'https://api-3t.paypal.com/nvp' : $domain = 'https://api-3t.sandbox.paypal.com/nvp';
+			    $post_vars = array(
+			    	'USER' => 'seller_1302006351_biz_api1.netweblogic.com', //CHANGE
+			    	'PWD' => '1302006358', //CHANGE
+			    	'SIGNATURE' => 'AjFyf2.DZBth00rcpGsAlu.Y4RAeAwU7NN3xdABaB9YQKhEny82xjpEq', //CHANGE
+			    	'METHOD' => 'TransactionSearch',
+			    	'VERSION' => '124',
+			    	'STARTDATE' => date('Y-m-d', strtotime('-1 Month')).'T00:00:00Z', //1 month back just to be sure
+			    	'INVNUM' => 'EM-BOOKING#'.$EM_Booking->booking_id
+			    );
+			    $nvp_vars = "";
+		    	foreach($post_vars as $k => $v ){
+		    		$nvp_vars .= ($nvp_vars ? "&" : "").$k.'='.urlencode($v);
+		    	} unset($k, $v);
+			    @set_time_limit(60);
+			    //set request values
+			    $args = apply_filters('em_paypal_txn_search_remote_args', array(
+			    	'httpversion'=>'1.1',
+			    	'user-agent'=>'EventsManagerPro/'.EMP_VERSION, 
+			    	'method'=>'POST', 
+			    	'body'=>$nvp_vars
+			    ));
+			    //add a CA certificate so that SSL requests always go through
+			    add_action('http_api_curl','EM_Gateway_Paypal::payment_return_local_ca_curl',10,1);
+			    //using WP's HTTP class
+			    $nvp_response = wp_remote_request($domain, $args);
+			    remove_action('http_api_curl','EM_Gateway_Paypal::payment_return_local_ca_curl',10,1);
+			    
+			    if ( !is_wp_error($nvp_response) ) {
+			    	//we expect a single result from this search, since searching for a invoice ID should be unique
+			    	$nvp_result_raw = explode('&', $nvp_response['body']);
+			    	$nvp_results = array();
+			    	foreach($nvp_result_raw as $v ){
+			    		$nvp_result_raw = explode('=', $v);
+			    		$nvp_results[$nvp_result_raw[0]] = urldecode($nvp_result_raw[1]);
+			    	}
+			    	if( !empty($nvp_results['ACK']) && $nvp_results['ACK'] == 'Success' ){
+			    		//check response and see whether we have an actual pending booking
+			    		$delete_booking = false; //conservatively decide not to delete a booking by default
+			    		if( !empty($nvp_results['L_STATUS0']) ){
+			    			//we received a result, so we shouldn't delete this payment and act as if we received an IPN
+			    			$args = array('pending_reason' => $nvp_results['L_STATUS0']);
+			    			$timestamp = strtotime('Y-m-d H:i:s', strtotime($nvp_results['L_TIMESTAMP0']));
+			    			$EM_Gateway_Paypal->handle_payment_status($EM_Booking, $nvp_results['L_AMT0'], $nvp_results['L_STATUS0'], $nvp_results['L_CURRENCYCODE0'], $nvp_results['L_TRANSACTIONID0'], $timestamp, $args);
+			    		}else{
+			    			//search produced no results, so we assume there's no payment made and just delete the booking
+			    			$delete_booking = true;
+			    		}
+			    		//only if a payment hasn't been made do we delete the booking
+			    		if( $delete_booking ){
+			    			$EM_Booking->manage_override = true;
+			    			$EM_Booking->delete();
+			    		}
+			    	}else{
+			    		//some sort of error, log if needed but we won't delete anything
+			    		EM_Pro::log( array('TransactionSearchError', 'WP_Error'=> $nvp_response, '$_POST'=> $_POST, '$url'=>$domain, 'Booking ID'=> $EM_Booking->booking_id), 'paypal-timeout-delete' );
+			    	}
+			    }else{
+			    	//log error if needed, send error header and exit
+			    	EM_Pro::log( array('TransactionSearchError', 'WP_Error'=> $nvp_response, '$_POST'=> $_POST, '$url'=>$domain, 'Booking ID'=> $EM_Booking->booking_id), 'paypal-timeout-delete' );
+			    }
 			}
 		}
 	}

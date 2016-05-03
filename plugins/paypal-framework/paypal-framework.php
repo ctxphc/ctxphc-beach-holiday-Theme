@@ -3,7 +3,7 @@
  * Plugin Name: PayPal Framework
  * Plugin URI: http://bluedogwebservices.com/wordpress-plugin/paypal-framework/
  * Description: PayPal integration framework and admin interface as well as IPN listener.  Requires PHP5.
- * Version: 1.0.11
+ * Version: 1.0.12
  * Author: Aaron D. Campbell
  * Author URI: http://bluedogwebservices.com/
  * License: GPL
@@ -480,6 +480,7 @@ class wpPayPalFramework
 	 */
 	public function hashCall( $args ) {
 		$params = array(
+			'httpversion' => '1.1',
 			'body'		=> $this->_prepRequest($args),
 			'sslverify' => apply_filters( 'paypal_framework_sslverify', false ),
 			'timeout' 	=> 30,
@@ -588,6 +589,7 @@ class wpPayPalFramework
 
 		// We need to send the message back to PayPal just as we received it
 		$params = array(
+			'httpversion' => '1.1',
 			'body' => $_POST,
 			'sslverify' => apply_filters( 'paypal_framework_sslverify', false ),
 			'timeout' 	=> 30,

@@ -215,6 +215,7 @@ class EM_Coupons extends EM_Object {
 				$response['message'] = __('Coupon Invalid','em-pro');
 			}
 		}
+        header('Content-Type: text/javascript; charset=utf-8'); //to prevent MIME type errors in MultiSite environments
 		echo EM_Object::json_encode($response);
 		exit();
 	}
@@ -419,6 +420,7 @@ class EM_Coupons extends EM_Object {
 			unset($EM_Booking->booking_meta['coupon']);
 			$EM_Booking->save();
 		}
+		return $result;
 	}
 	
 	/**

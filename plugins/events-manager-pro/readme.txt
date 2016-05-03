@@ -2,8 +2,8 @@
 Contributors: netweblogic
 Tags: events, event, event registration, event calendar, events calendar, event management, paypal, registration, ticket, tickets, ticketing, tickets, theme, widget, locations, maps, booking, attendance, attendee, buddypress, calendar, gigs, payment, payments, sports,
 Requires at least: 3.5
-Tested up to: 4.5
-Stable tag: 2.4.4
+Tested up to: 4.5.1
+Stable tag: 2.4.4.2
 
 == Description ==
 
@@ -22,6 +22,11 @@ http://wp-events-plugin.com/support/
 Please visit http://wp-events-plugin.com/documentation/installation/
 
 == Changelog ==
+= 2.4.4.2 =
+* fixed 'undefined' redirect when booking a free ticket via PayPal when there are paid alternatives or a coupon is used
+* fixed issue with Multiple Bookings and Coupons not approving sub-events
+* fixed MIME header issues in MultiSite environments when checking coupon validity on booking form
+
 = 2.4.4 =
 * fixed CSV custom delimiter issues for attendees which were also fixed in EM 5.6.2
 * changed use of some translated text using textdomain dbem to events-manager for update EM 5.6.2
