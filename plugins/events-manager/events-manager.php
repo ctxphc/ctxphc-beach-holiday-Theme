@@ -650,7 +650,7 @@ if( is_multisite() ){
  * @return string
  */
 function em_locate_template( $template_name, $load=false, $the_args = array() ) {
-	//First we check if there are overriding tempates in the child or parent theme
+	//First we check if there are overriding templates in the child or parent theme
 	$located = locate_template(array('plugins/events-manager/'.$template_name));
 	if( !$located ){
 		if ( file_exists(EM_DIR.'/templates/'.$template_name) ) {

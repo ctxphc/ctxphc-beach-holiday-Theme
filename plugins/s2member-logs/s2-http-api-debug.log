@@ -1,0 +1,332 @@
+LOG ENTRY: Sat May 7th, 2016 @ precisely 11:04 pm UTC
+PHP v5.5.9-1ubuntu4.16 :: WordPress v4.5.2 :: s2Member v160503 :: s2Member Pro v160503
+Memory 10.85 MB :: Real Memory 11.75 MB :: Peak Memory 11.74 MB :: Real Peak Memory 12.00 MB
+www.ctxphc.com/membership-options/
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.94 Safari/537.36
+Array
+(
+    [state] => response
+    [transport_class] => WP_Http_Curl
+    [args] => Array
+        (
+            [method] => POST
+            [timeout] => 20
+            [redirection] => 5
+            [httpversion] => 1.1
+            [user-agent] => s2Member v160503; http://www.ctxphc.com
+            [reject_unsafe_urls] => 
+            [blocking] => 1
+            [headers] => Array
+                (
+                    [connection] => close
+                    [Accept-Encoding] => deflate;q=1.0, compress;q=0.5, gzip;q=0.5
+                    [Content-Type] => application/x-www-form-urlencoded; charset=UTF-8
+                    [Content-Length] => 1623
+                )
+
+            [cookies] => Array
+                (
+                )
+
+            [body] => METHOD=BMCreateButton&BUTTONCODE=ENCRYPTED&BUTTONTYPE=SUBSCRIBE&L_BUTTONVAR0=business%3Dpaypal%40ctxphc.com&L_BUTTONVAR1=notify_url%3Dhttp%3A%2F%2Fwww.ctxphc.com%2F%3Fs2member_paypal_notify%3D1&L_BUTTONVAR2=cancel_return%3Dhttp%3A%2F%2Fwww.ctxphc.com%2F&L_BUTTONVAR3=return%3Dhttp%3A%2F%2Fwww.ctxphc.com%2F%3Fs2member_paypal_return%3D1%26s2member_paypal_return_tra%3DfnIyOktDdXA5Q1JpZ3pZQTBHUEdZVXRTNXlVejlWMlAzNzMxOmQwOWJlOWE0Y2IzOWY0Y2Q5OTE3MjYzYmIyYzI4MDAyfEATFU5t--NxSzSr6fTdWtZqbgVxgI3vseNu1mit2jg4YCAMayh7AIzM7jrIFy3NM8_CSHceuyyNey12ZVZvb2vx2CTHkl4CX91-X6ZPbmIhl0nkUlpvfNrAyI0g5RpUux-w7WfZtnBou-zEROpstzl7rHJd13l3dcF8ET8gQfqPHaQiXoL2hk90udJf1vabQv4jVzDEYuxFJY94iJN4r4oVOCfw-89Cnmb4ReOlSyEATdUthBj7JSOa-36HeOgsnmm4mFOTYEWPPLuKstUa1e9RgQuYKxpa9UlCyP96H_SAHC1gkUX2-HPC8zI3xf8_Gje0szGe02VDvrk59t3p2Fht6CH_jjgXyRiVh7ZJjYOiR-_7YaKkG3Ycq_iADKbtnw&L_BUTTONVAR4=rm%3D2&L_BUTTONVAR5=no_shipping%3D1&L_BUTTONVAR6=no_note%3D1&L_BUTTONVAR7=custom%3Dwww.ctxphc.com&L_BUTTONVAR8=currency_code%3DUSD&L_BUTTONVAR9=page_style%3Dpaypal&L_BUTTONVAR10=charset%3Dutf-8&L_BUTTONVAR11=item_name%3DSilver+Member+%2F+Description+and+pricing+details+here.&L_BUTTONVAR12=item_number%3D2&L_BUTTONVAR13=invoice%3D572e7480e93b3%7E192.168.1.20&L_BUTTONVAR14=on0%3DReferencing+Customer+ID&L_BUTTONVAR15=os0%3D1709&L_BUTTONVAR16=on1%3DCustomer+IP+Address&L_BUTTONVAR17=os1%3D192.168.1.20&L_BUTTONVAR18=modify%3D0&L_BUTTONVAR19=src%3D1&L_BUTTONVAR20=sra%3D1&L_BUTTONVAR21=a3%3D0.01&L_BUTTONVAR22=p3%3D1&L_BUTTONVAR23=t3%3DM&VERSION=71.0&USER=paypal_api1.ctxphc.com&PWD=LGNEESAM63Z8U566&SIGNATURE=Ana-ahF19FfMfYH4AlQPssnEY0.QACOrem3wN6M.wwsj630J3jEIJMdq
+            [compress] => 
+            [decompress] => 1
+            [sslverify] => 1
+            [sslcertificates] => /var/www/ctxphc.com/public_html/wp-includes/certificates/ca-bundle.crt
+            [stream] => 
+            [filename] => 
+            [limit_response_size] => 
+            [s2member] => 160503
+            [_redirection] => 5
+            [ssl] => 1
+            [local] => 
+        )
+
+    [url] => https://api-3t.paypal.com/nvp
+    [response] => Array
+        (
+            [headers] => Array
+                (
+                    [date] => Sat, 07 May 2016 23:04:27 GMT
+                    [server] => Apache
+                    [x-paypal-operation-name] => BMCreateButton
+                    [x-paypal-api-rc] => 
+                    [connection] => close
+                    [cache-control] => Array
+                        (
+                            [0] => max-age=0, no-cache, no-store, must-revalidate
+                            [1] => max-age=0, no-cache, no-store, must-revalidate
+                        )
+
+                    [pragma] => Array
+                        (
+                            [0] => no-cache
+                            [1] => no-cache
+                        )
+
+                    [http_x_pp_az_locator] => dcg11.slc
+                    [paypal-debug-id] => 660acb873c07
+                    [set-cookie] => Array
+                        (
+                            [0] => X-PP-SILOVER=name%3DLIVE6.APIT.1%26silo_version%3D880%26app%3Dappdispatcher_apit%26TIME%3D2071211607%26HTTP_X_PP_AZ_LOCATOR%3Ddcg11.slc; Expires=Sat, 07 May 2016 23:34:27 GMT; domain=.paypal.com; path=/; Secure; HttpOnly
+                            [1] => X-PP-SILOVER=; Expires=Thu, 01 Jan 1970 00:00:01 GMT
+                        )
+
+                    [content-length] => 6264
+                    [content-type] => text/plain; charset=utf-8
+                )
+
+            [body] => WEBSITECODE=%3cform%20action%3d%22https%3a%2f%2fwww%2epaypal%2ecom%2fcgi%2dbin%2fwebscr%22%20method%3d%22post%22%3e%0a%3cinput%20type%3d%22hidden%22%20name%3d%22cmd%22%20value%3d%22_s%2dxclick%22%3e%0a%3cinput%20type%3d%22hidden%22%20name%3d%22encrypted%22%20value%3d%22%2d%2d%2d%2d%2dBEGIN%20PKCS7%2d%2d%2d%2d%2dMIIK4QYJKoZIhvcNAQcEoIIK0jCCCs4CAQExggEwMIIBLAIBADCBlDCBjjELMAkGA1UEBhMCVVMxCzAJBgNVBAgTAkNBMRYwFAYDVQQHEw1Nb3VudGFpbiBWaWV3MRQwEgYDVQQKEwtQYXlQYWwgSW5jLjETMBEGA1UECxQKbGl2ZV9jZXJ0czERMA8GA1UEAxQIbGl2ZV9hcGkxHDAaBgkqhkiG9w0BCQEWDXJlQHBheXBhbC5jb20CAQAwDQYJKoZIhvcNAQEBBQAEgYBSvi7zJY3uFmFf30pXSbtMmNV%2feomBVPbndmNxIG67eUE2mq44Snpu0efQTiCeDq6AFFjnEHDjSlmBapDn1DGlgkX95N5cwRVA02TALsUEoL%2fmmyPuvIecsGW2YZJdsFH1AFjRkuYK1eLGdkZ6LpcEOWeU3FVC7oCRoN3G1niW5DELMAkGBSsOAwIaBQAwggRdBgkqhkiG9w0BBwEwFAYIKoZIhvcNAwcECPVMe5qW6TYngIIEOB6fGUBXCHZE3ZvqkBCVSfvcmac8WhRzwHfMm%2blR8mCuy%2fWJlrSPs1iCP4xxzftHLZcMbYHlzHOL6WhVhpe4PS%2bFnzItrgCxkJcBlqv0b7MuKQ34KeslaXdPhgEz1QwwgD6abKLpbH4vRRscjyv%2b3xs7ul0CEoVWRfxNycQERU95Nnp%2btsTu4c3n6TGvXTvHnBp02ZavoGzuvag%2bMFvZ1BNi8ROs92lF5L7oUsA%2b%2fDoktzBqpiODqCRCQgjmIJdHBxaJH6EOrJOjCodHT38OILg5C0pslyzLzEF%2bF0qRdW3U7EmqvYqop2iRktWtXNdG8n0tE1G9%2fOaEh0%2f8LcQg0zWN7ZfDOQVKL3HRXTPHjAVQ%2blVAnn56dAQCP%2b%2bKTLNus%2b0gpd4LG7p5BWxMgxc3xz4d27zulu4HVKJM2gnIsrMptpUufd7o3dl0P1RHf%2biShuouUcwPUmuHf62WIL325MORvsWRyaHwCjDHIXQuPUqQVrKH7%2fxDeheuDjzoZ8unOe8XUtPiRyf1Uk7aUSJSWZgVlrpZwZvz3F4KbvmpfxClnmDM5dZJbM0Wo%2bVaixFAnQM6PIv8MrHhoBil0CMwUgP3YNrwMR3Ddng6HATJKH4twT6p92b4%2fgx4%2ftQ7hh8EAoUWDbjEY85lQs1jtPTko9VVhzhfnEfP4oF8tVuLBwi%2fGY4EINYJTz%2bZi9yEpIw1RwHsfTTXqdaRhs%2bf3oFOaG8Fk9Mp0bNkOzsa7M8i4%2bxW78QTFoUpKb18an04JXC%2bMSxh3nETJY6I6jK8%2fG9vndPA0DDsADjz3Gan%2foAcTnnJHLLumJHUY3e0DNTiIH8zgw5iPrkFirgZsBFfF4VqCoarZJiHBxXsO24zUqcNcOAuVB%2fx483gFJiKUHHSpB%2bCwxPsyzr8Q7sflzVKwSN5c2zm2tQ%2fVPIe%2fukYkqysxt4bcywJVw5xtOt15aFwFcCUKPOsS3PaOFnjgwp1arqgBtia0qpE7gmGdB817dxTySUAopNm0iZ4JtqwovYZQnwJEhfFdcuJE0bv24%2bev46nJYPPIjOugeHCbacXJWmVjXx%2f38HXUbslcIFORp2lEegm3arO0eEmu4TUZe7swd1Lo2%2fJKZ6SfKD2UNnW27MsbyT47UkNMqx%2bSGs3zERFgrBW5GlhynkbAZi44ytfb8dnmao7o0uGn07u6LJ%2b87bBYp0CqkgCSS%2fKnV4%2fcJ6iRRVh4F2n6lAWQWkaqaz63078lbyWdoWPYpGu8C9BCz3H5FoYyldfjlg4oDRkXJ9XO5M8tMpVkgLfEIBkm2XtWP7OsMo1AFTe6J6YrhsJS7L7NNQ4Ln52Ael9CzDVOCkWamZLz9SYVYcQRA0Dv0ksbBUJyeL4wV%2fzyr841m1XT%2f8geCeR6neiCZQ3QIKqfzF592PQWGUhjdcO4hnTtD1Gg7NMZ0JUIL%2bxKdPqbKCCA4cwggODMIIC7KADAgECAgEAMA0GCSqGSIb3DQEBBQUAMIGOMQswCQYDVQQGEwJVUzELMAkGA1UECBMCQ0ExFjAUBgNVBAcTDU1vdW50YWluIFZpZXcxFDASBgNVBAoTC1BheVBhbCBJbmMuMRMwEQYDVQQLFApsaXZlX2NlcnRzMREwDwYDVQQDFAhsaXZlX2FwaTEcMBoGCSqGSIb3DQEJARYNcmVAcGF5cGFsLmNvbTAeFw0wNDAyMTMxMDEzMTVaFw0zNTAyMTMxMDEzMTVaMIGOMQswCQYDVQQGEwJVUzELMAkGA1UECBMCQ0ExFjAUBgNVBAcTDU1vdW50YWluIFZpZXcxFDASBgNVBAoTC1BheVBhbCBJbmMuMRMwEQYDVQQLFApsaXZlX2NlcnRzMREwDwYDVQQDFAhsaXZlX2FwaTEcMBoGCSqGSIb3DQEJARYNcmVAcGF5cGFsLmNvbTCBnzANBgkqhkiG9w0BAQEFAAOBjQAwgYkCgYEAwUdO3fxEzEtcnI7ZKZL412XvZPugoni7i7D7prCe0AtaHTc97CYgm7NsAtJyxNLixmhLV8pyIEaiHXWAh8fPKW%2bR017%2bEmXrr9EaquPmsVvTywAAE1PMNOKqo2kl4Gxiz9zZqIajOm1fZGWcGS0f5JQ2kBqNbvbg2%2fZa%2bGJ%2fqwUCAwEAAaOB7jCB6zAdBgNVHQ4EFgQUlp98u8ZvF71ZP1LXChvsENZklGswgbsGA1UdIwSBszCBsIAUlp98u8ZvF71ZP1LXChvsENZklGuhgZSkgZEwgY4xCzAJBgNVBAYTAlVTMQswCQYDVQQIEwJDQTEWMBQGA1UEBxMNTW91bnRhaW4gVmlldzEUMBIGA1UEChMLUGF5UGFsIEluYy4xEzARBgNVBAsUCmxpdmVfY2VydHMxETAPBgNVBAMUCGxpdmVfYXBpMRwwGgYJKoZIhvcNAQkBFg1yZUBwYXlwYWwuY29tggEAMAwGA1UdEwQFMAMBAf8wDQYJKoZIhvcNAQEFBQADgYEAgV86VpqAWuXvX6Oro4qJ1tYVIT5DgWpE692Ag422H7yRIr%2f9j%2fiKG4Thia%2fOflx4TdL%2bIFJBAyPK9v6zZNZtBgPBynXb048hsP16l2vi0k5Q2JKiPDsEfBhGI%2bHnxLXEaUWAcVfCsQFvd2A1sxRr67ip5y2wwBelUecP3AjJ%2bYcxggGaMIIBlgIBATCBlDCBjjELMAkGA1UEBhMCVVMxCzAJBgNVBAgTAkNBMRYwFAYDVQQHEw1Nb3VudGFpbiBWaWV3MRQwEgYDVQQKEwtQYXlQYWwgSW5jLjETMBEGA1UECxQKbGl2ZV9jZXJ0czERMA8GA1UEAxQIbGl2ZV9hcGkxHDAaBgkqhkiG9w0BCQEWDXJlQHBheXBhbC5jb20CAQAwCQYFKw4DAhoFAKBdMBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcNAQkFMQ8XDTE2MDUwNzIzMDQyN1owIwYJKoZIhvcNAQkEMRYEFGe1ZsjrJOZ0Dg780as8o9lGk8F%2fMA0GCSqGSIb3DQEBAQUABIGAZEj%2ftfQeVoV5cLyO47rRWdlGcg2v%2fROnMtwtHkHwvgO3ka8sFp4sKgaJCYQbu%2fTXmgfgstO%2bTjx9kT%2fKCiV1eIauvgOoZ0XGts54d2Uo2I4ddftH59av2XWe%2f4awtLqFpYaCkStPeI%2fqIbBYt1ZT9huvXBRlYZpVDVnBH9yatqE%3d%2d%2d%2d%2d%2dEND%20PKCS7%2d%2d%2d%2d%2d%0a%22%3e%0a%3cinput%20type%3d%22image%22%20src%3d%22https%3a%2f%2fwww%2epaypalobjects%2ecom%2fen_US%2fi%2fbtn%2fbtn_subscribe_LG%2egif%22%20border%3d%220%22%20name%3d%22submit%22%20alt%3d%22PayPal%20%2d%20The%20safer%2c%20easier%20way%20to%20pay%20online%21%22%3e%0a%3cimg%20alt%3d%22%22%20border%3d%220%22%20src%3d%22https%3a%2f%2fwww%2epaypalobjects%2ecom%2fen_US%2fi%2fscr%2fpixel%2egif%22%20width%3d%221%22%20height%3d%221%22%3e%0a%3c%2fform%3e%0a&EMAILLINK=https%3a%2f%2fwww%2epaypal%2ecom%2fcgi%2dbin%2fwebscr%3fcmd%3d_xclick%2dsubscriptions%26business%3dpaypal%2540ctxphc%252ecom%26item_name%3dSilver%2520Member%2520%252f%2520Description%2520and%2520pricing%2520details%2520here%252e%26item_number%3d2%26currency_code%3dUSD%26notify_url%3dhttp%253a%252f%252fwww%252ectxphc%252ecom%252f%253fs2member_paypal_notify%253d1%26cancel_return%3dhttp%253a%252f%252fwww%252ectxphc%252ecom%252f%26return%3dhttp%253a%252f%252fwww%252ectxphc%252ecom%252f%253fs2member_paypal_return%253d1%2526amp%253bs2member_paypal_return_tra%253dfnIyOktDdXA5Q1JpZ3pZQTBHUEdZVXRTNXlVejlWMlAzNzMxOmQwOWJlOWE0Y2IzOWY0Y2Q5OTE3MjYzYmIyYzI4MDAyfEATFU5t%252d%252dNxSzSr6fTdWtZqbgVxgI3vseNu1mit2jg4YCAMayh7AIzM7jrIFy3NM8_CSHceuyyNey12ZVZvb2vx2CTHkl4CX91%252dX6ZPbmIhl0nkUlpvfNrAyI0g5RpUux%252dw7WfZtnBou%252dzEROpstzl7rHJd13l3dcF8ET8gQfqPHaQiXoL2hk90udJf1vabQv4jVzDEYuxFJY94iJN4r4oVOCfw%252d89Cnmb4ReOlSyEATdUthBj7JSOa%252d36HeOgsnmm4mFOTYEWPPLuKstUa1e9RgQuYKxpa9UlCyP96H_SAHC1gkUX2%252dHPC8zI3xf8_Gje0szGe02VDvrk59t3p2Fht6CH_jjgXyRiVh7ZJjYOiR%252d_7YaKkG3Ycq_iADKbtnw%26rm%3d2%26no_shipping%3d1%26no_note%3d1%26custom%3dwww%252ectxphc%252ecom%26invoice%3d572e7480e93b3%257e192%252e168%252e1%252e20%26src%3d1%26sra%3d1%26a3%3d0%252e01%26p3%3d1%26t3%3dM%26bn%3d%253dHUUTQCFKQ47CL%253aPP%252dSubscriptionsBF%26page_style%3dpaypal%26charset%3dutf%252d8%26on0%3dReferencing%2520Customer%2520ID%26os0%3d1709%26on1%3dCustomer%2520IP%2520Address%26os1%3d192%252e168%252e1%252e20%26modify%3d0&TIMESTAMP=2016%2d05%2d07T23%3a04%3a27Z&CORRELATIONID=660acb873c07&ACK=Success&VERSION=71%2e0&BUILD=21765890
+            [response] => Array
+                (
+                    [code] => 200
+                    [message] => OK
+                )
+
+            [cookies] => Array
+                (
+                    [0] => WP_Http_Cookie Object
+                        (
+                            [name] => X-PP-SILOVER
+                            [value] => name=LIVE6.APIT.1&silo_version=880&app=appdispatcher_apit&TIME=2071211607&HTTP_X_PP_AZ_LOCATOR=dcg11.slc
+                            [expires] => 1462664067
+                            [path] => /
+                            [domain] => .paypal.com
+                            [secure] => 
+                            [httponly] => 
+                        )
+
+                    [1] => WP_Http_Cookie Object
+                        (
+                            [name] => X-PP-SILOVER
+                            [value] => 
+                            [expires] => 1
+                            [path] => //
+                            [domain] => api-3t.paypal.com
+                        )
+
+                )
+
+            [filename] => 
+        )
+
+)
+
+LOG ENTRY: Sat May 7th, 2016 @ precisely 11:04 pm UTC
+PHP v5.5.9-1ubuntu4.16 :: WordPress v4.5.2 :: s2Member v160503 :: s2Member Pro v160503
+Memory 10.85 MB :: Real Memory 11.75 MB :: Peak Memory 11.74 MB :: Real Peak Memory 12.00 MB
+www.ctxphc.com/membership-options/
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.94 Safari/537.36
+Array
+(
+    [state] => response
+    [transport_class] => WP_Http_Curl
+    [args] => Array
+        (
+            [method] => POST
+            [timeout] => 20
+            [redirection] => 5
+            [httpversion] => 1.1
+            [user-agent] => s2Member v160503; http://www.ctxphc.com
+            [reject_unsafe_urls] => 
+            [blocking] => 1
+            [headers] => Array
+                (
+                    [connection] => close
+                    [Accept-Encoding] => deflate;q=1.0, compress;q=0.5, gzip;q=0.5
+                    [Content-Type] => application/x-www-form-urlencoded; charset=UTF-8
+                    [Content-Length] => 1550
+                )
+
+            [cookies] => Array
+                (
+                )
+
+            [body] => METHOD=BMCreateButton&BUTTONCODE=ENCRYPTED&BUTTONTYPE=BUYNOW&L_BUTTONVAR0=business%3Dpaypal%40ctxphc.com&L_BUTTONVAR1=notify_url%3Dhttp%3A%2F%2Fwww.ctxphc.com%2F%3Fs2member_paypal_notify%3D1&L_BUTTONVAR2=cancel_return%3Dhttp%3A%2F%2Fwww.ctxphc.com%2F&L_BUTTONVAR3=return%3Dhttp%3A%2F%2Fwww.ctxphc.com%2F%3Fs2member_paypal_return%3D1%26s2member_paypal_return_tra%3DfnIyOm5uZm1ndFhleERDczE1dDVTOURwZVdmWlVhdDVmT3pKOjdlMGJlMGE4Y2QxOGYwMjI2ODk1ZDRjNzIwODg0NmU3fLttSlVl94xf6yul6uQNCCxauweFVWmGF-Vd_bkMCXsJcH-6qCc00QO8hEV8PYGCWTCRcPobBMMGUv9qToOHTEMS8kU0xBdZ0hPVV4j_Y2lxxbefK8SoVkgQU6SedgrDyUjwQOqTiv-BV_HnWy6odG3yLGzAkZ7UhbQhO0XwR7IlOD0QcaSE1gxsJQZWjE_XZcmnNiTeovBQ2x6h8ClQJKlKcJAJEgfbYk_ZaAYmkNoTtoHUhzLik2aIpAeZH7_JqtuYm_YWkm8wz4o5HyMkkydDhJS_eK1q8XqydMOVNxq3pw0AQEtVlpZOa2Vmv-n3yPLLwuGnP_i58cLz1lVqK-fiUiVIYOeoM5GE5LJG8ufDRQA71_Pb3vfh0F6ZT0TxFQ&L_BUTTONVAR4=rm%3D2&L_BUTTONVAR5=no_shipping%3D1&L_BUTTONVAR6=no_note%3D1&L_BUTTONVAR7=custom%3Dwww.ctxphc.com&L_BUTTONVAR8=currency_code%3DUSD&L_BUTTONVAR9=page_style%3Dpaypal&L_BUTTONVAR10=charset%3Dutf-8&L_BUTTONVAR11=item_name%3DCTXPHC+Couple+Membership+%2F+1+Year+Couple%27s+Membership&L_BUTTONVAR12=item_number%3D3%3A%3A1+Y&L_BUTTONVAR13=invoice%3D572e7481c80ec%7E192.168.1.20&L_BUTTONVAR14=on0%3DReferencing+Customer+ID&L_BUTTONVAR15=os0%3D1709&L_BUTTONVAR16=on1%3DCustomer+IP+Address&L_BUTTONVAR17=os1%3D192.168.1.20&L_BUTTONVAR18=modify%3D0&L_BUTTONVAR19=amount%3D40.00&VERSION=71.0&USER=paypal_api1.ctxphc.com&PWD=LGNEESAM63Z8U566&SIGNATURE=Ana-ahF19FfMfYH4AlQPssnEY0.QACOrem3wN6M.wwsj630J3jEIJMdq
+            [compress] => 
+            [decompress] => 1
+            [sslverify] => 1
+            [sslcertificates] => /var/www/ctxphc.com/public_html/wp-includes/certificates/ca-bundle.crt
+            [stream] => 
+            [filename] => 
+            [limit_response_size] => 
+            [s2member] => 160503
+            [_redirection] => 5
+            [ssl] => 1
+            [local] => 
+        )
+
+    [url] => https://api-3t.paypal.com/nvp
+    [response] => Array
+        (
+            [headers] => Array
+                (
+                    [date] => Sat, 07 May 2016 23:04:28 GMT
+                    [server] => Apache
+                    [x-paypal-operation-name] => BMCreateButton
+                    [x-paypal-api-rc] => 
+                    [connection] => close
+                    [http_x_pp_az_locator] => dcg12.slc
+                    [paypal-debug-id] => 63b131ee51164
+                    [set-cookie] => Array
+                        (
+                            [0] => X-PP-SILOVER=name%3DLIVE6.APIT.1%26silo_version%3D880%26app%3Dappdispatcher_apit%26TIME%3D2087988823%26HTTP_X_PP_AZ_LOCATOR%3Ddcg12.slc; Expires=Sat, 07 May 2016 23:34:28 GMT; domain=.paypal.com; path=/; Secure; HttpOnly
+                            [1] => X-PP-SILOVER=; Expires=Thu, 01 Jan 1970 00:00:01 GMT
+                        )
+
+                    [content-length] => 6218
+                    [cache-control] => max-age=0, no-cache, no-store, must-revalidate
+                    [pragma] => no-cache
+                    [content-type] => text/plain; charset=utf-8
+                )
+
+            [body] => WEBSITECODE=%3cform%20action%3d%22https%3a%2f%2fwww%2epaypal%2ecom%2fcgi%2dbin%2fwebscr%22%20method%3d%22post%22%3e%0a%3cinput%20type%3d%22hidden%22%20name%3d%22cmd%22%20value%3d%22_s%2dxclick%22%3e%0a%3cinput%20type%3d%22hidden%22%20name%3d%22encrypted%22%20value%3d%22%2d%2d%2d%2d%2dBEGIN%20PKCS7%2d%2d%2d%2d%2dMIIK2QYJKoZIhvcNAQcEoIIKyjCCCsYCAQExggEwMIIBLAIBADCBlDCBjjELMAkGA1UEBhMCVVMxCzAJBgNVBAgTAkNBMRYwFAYDVQQHEw1Nb3VudGFpbiBWaWV3MRQwEgYDVQQKEwtQYXlQYWwgSW5jLjETMBEGA1UECxQKbGl2ZV9jZXJ0czERMA8GA1UEAxQIbGl2ZV9hcGkxHDAaBgkqhkiG9w0BCQEWDXJlQHBheXBhbC5jb20CAQAwDQYJKoZIhvcNAQEBBQAEgYBZJy2zL%2bJFUAbBQRtZgc8XSYCUHsmXpx0QGaOmOsSXY5lJHGfKkYAtEwW7%2f40qLZFrB2DNtfZeLA%2bKVoie%2flvh2vSeskD0Rtr%2fj1hmp83ej5dEaPIMV6SBlKO3%2bVk%2f%2fcWJST2ogtZzbPyi1gu1X4HhCLBNGmEothYF8sXAVDNerDELMAkGBSsOAwIaBQAwggRVBgkqhkiG9w0BBwEwFAYIKoZIhvcNAwcECK5KCTpSEZuJgIIEMIPt7vDTJZWBu4GWLth5qOmdQaAVYI1Ob2LDFzll2NmVBYMRH9Nr8G5VHQ4qPROq7KISn4H%2bNoyAgr1R2eR%2bcOhG8LxC1ySrSiK01%2fUvkmK3M5IEJkARgiBFqDwl2Z4GTZsxrVnezccVtvz3g%2b3GMdXF8YK5Ru4mFV5cbASS4d0D7did1ARGuVJ0T88u%2fGZCZJK2Y7EPz02aU9cc88rmvA64aoZQ1eIxlLDUP59OKYs5s4HdFSAaLF8pSyqgLSjpuqfKI%2bPQpIj0CDhU8N3U03QYfXk4u0KNrPWjmWZj6Oxscfmb1K17xA5b1%2bFlk%2fgqIFwreNfa6FgUiR6Gfv4ABYK8fAIirGlttt8a0qB7mhiBnaRWBFvKg7AR3daxaEEOm4Z%2fD43PNXoF8A1awb083YNpercjqp2w12R91oMQL6upz1pSmQ%2fU3l1Q8BD5H5gqYetW6rFWuJoEOpcmfirRvwzwGi12%2b2dk02%2fSi93GjD2EioH0QDKWlnUHeNUqLhYzwh2ATekHbv6adO8ea2EgKmUIouQ9oY67X3HYDhwuxg%2fx97Asq99N0n1WWE8N4Kp5IfyRH6jSziijrkrvH8a1ML96zJHE64X6aRI2fNuFOZVvWC2ho%2fux7%2bmzTmf51D7q%2fsf1L6HG8b2Ot9ivdpR3Z2AUKx8pDfJ0erktnvcTWVO5vzC%2bMA5hW8TTFxSt5EuzQUsQGSFrHGpgwae24Wo19J6Ptg2uo9ehH3Nwmy5sizQT65dQddDuWHbqpmX7LIgf9jig5dJflI6hxrhFx7yKCDhYHihV%2fuhq1M8zaIWlKohiCELGBtWIszQKIBjTv7ZuXzWGsnZ7y0JQE6oPr90mlNHJkFKnKE7A%2fu96%2bkSdNoNzCn2lasWr9D37miL%2bPWvpSoPM99Rj0d81sIJisfMR3nDbZ8mKwoySb0LJ75pW0KekjLoKHfjBmkVjBQTG4yQrNXrpSJaKWEK9XzqVSm%2f1gJck4b4hfhnCPWQb%2f5LpdtkZhMHYOD8JX%2fbobbw8ORgv4UCaikoyeVbQ4c%2bkFDHJ2%2b0EX0XBewb3B6Z0iB37Mm4yCacrdNaOzL%2bqgSWYkBjPmy9J91ZAbTZ%2flBw43T6PYlBlMbXau5LA2%2f8qQEB4OQSgP%2f8AABUMym2IOsPWs2rjnDGjon8KLDQbWqHXB4kFUiAVzGETpT9HUhce4UWJs0sEkwTzxVDHTHDoAXMnXLxfIFbG54ByD0UoK5vZtWlQn3RIfMlw3n71niepxCR2vnh7oFgjAHhdvYTPveVkXupW8H3QH0bcgMKVKMXgP5mgdp%2f0a3j7jVSlLcaXNDBMInH%2b6UDWl66ZVlEo87DmTtv0G%2bkyjmqeiqCxg%2fZp2%2fm3E4bDw8AzJIzaNy8lyN9XiyYhynHIasg6NuDV7n0c1Ktgp9b1XZXSmBqkFiGbFqTjvhGgggOHMIIDgzCCAuygAwIBAgIBADANBgkqhkiG9w0BAQUFADCBjjELMAkGA1UEBhMCVVMxCzAJBgNVBAgTAkNBMRYwFAYDVQQHEw1Nb3VudGFpbiBWaWV3MRQwEgYDVQQKEwtQYXlQYWwgSW5jLjETMBEGA1UECxQKbGl2ZV9jZXJ0czERMA8GA1UEAxQIbGl2ZV9hcGkxHDAaBgkqhkiG9w0BCQEWDXJlQHBheXBhbC5jb20wHhcNMDQwMjEzMTAxMzE1WhcNMzUwMjEzMTAxMzE1WjCBjjELMAkGA1UEBhMCVVMxCzAJBgNVBAgTAkNBMRYwFAYDVQQHEw1Nb3VudGFpbiBWaWV3MRQwEgYDVQQKEwtQYXlQYWwgSW5jLjETMBEGA1UECxQKbGl2ZV9jZXJ0czERMA8GA1UEAxQIbGl2ZV9hcGkxHDAaBgkqhkiG9w0BCQEWDXJlQHBheXBhbC5jb20wgZ8wDQYJKoZIhvcNAQEBBQADgY0AMIGJAoGBAMFHTt38RMxLXJyO2SmS%2bNdl72T7oKJ4u4uw%2b6awntALWh03PewmIJuzbALScsTS4sZoS1fKciBGoh11gIfHzylvkdNe%2fhJl66%2fRGqrj5rFb08sAABNTzDTiqqNpJeBsYs%2fc2aiGozptX2RlnBktH%2bSUNpAajW724Nv2Wvhif6sFAgMBAAGjge4wgeswHQYDVR0OBBYEFJaffLvGbxe9WT9S1wob7BDWZJRrMIG7BgNVHSMEgbMwgbCAFJaffLvGbxe9WT9S1wob7BDWZJRroYGUpIGRMIGOMQswCQYDVQQGEwJVUzELMAkGA1UECBMCQ0ExFjAUBgNVBAcTDU1vdW50YWluIFZpZXcxFDASBgNVBAoTC1BheVBhbCBJbmMuMRMwEQYDVQQLFApsaXZlX2NlcnRzMREwDwYDVQQDFAhsaXZlX2FwaTEcMBoGCSqGSIb3DQEJARYNcmVAcGF5cGFsLmNvbYIBADAMBgNVHRMEBTADAQH%2fMA0GCSqGSIb3DQEBBQUAA4GBAIFfOlaagFrl71%2bjq6OKidbWFSE%2bQ4FqROvdgIONth%2b8kSK%2f%2fY%2f4ihuE4Ymvzn5ceE3S%2fiBSQQMjyvb%2bs2TWbQYDwcp129OPIbD9epdr4tJOUNiSojw7BHwYRiPh58S1xGlFgHFXwrEBb3dgNbMUa%2bu4qectsMAXpVHnD9wIyfmHMYIBmjCCAZYCAQEwgZQwgY4xCzAJBgNVBAYTAlVTMQswCQYDVQQIEwJDQTEWMBQGA1UEBxMNTW91bnRhaW4gVmlldzEUMBIGA1UEChMLUGF5UGFsIEluYy4xEzARBgNVBAsUCmxpdmVfY2VydHMxETAPBgNVBAMUCGxpdmVfYXBpMRwwGgYJKoZIhvcNAQkBFg1yZUBwYXlwYWwuY29tAgEAMAkGBSsOAwIaBQCgXTAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcBMBwGCSqGSIb3DQEJBTEPFw0xNjA1MDcyMzA0MjhaMCMGCSqGSIb3DQEJBDEWBBR1WqSIdpXtw25kZrAxWJkFVrF6szANBgkqhkiG9w0BAQEFAASBgEllLjFXxUpshp88x9vF%2f%2bRnkyPbF5mHytsXTLxo5j3q17CvkPw34OvPX6vfz1D3k1TRorIMdEpbvNUDs8Hha71ZCmaogL0VcOHvzGRsCY4sJNPM%2fEX17ISICPQKkVV62Dc8yEq5zBAaiA0EwBLLJMuPW2x4mT3XjqlFC7i7rTkK%2d%2d%2d%2d%2dEND%20PKCS7%2d%2d%2d%2d%2d%0a%22%3e%0a%3cinput%20type%3d%22image%22%20src%3d%22https%3a%2f%2fwww%2epaypalobjects%2ecom%2fen_US%2fi%2fbtn%2fbtn_buynow_LG%2egif%22%20border%3d%220%22%20name%3d%22submit%22%20alt%3d%22PayPal%20%2d%20The%20safer%2c%20easier%20way%20to%20pay%20online%21%22%3e%0a%3cimg%20alt%3d%22%22%20border%3d%220%22%20src%3d%22https%3a%2f%2fwww%2epaypalobjects%2ecom%2fen_US%2fi%2fscr%2fpixel%2egif%22%20width%3d%221%22%20height%3d%221%22%3e%0a%3c%2fform%3e%0a&EMAILLINK=https%3a%2f%2fwww%2epaypal%2ecom%2fcgi%2dbin%2fwebscr%3fcmd%3d_xclick%26business%3dpaypal%2540ctxphc%252ecom%26item_name%3dCTXPHC%2520Couple%2520Membership%2520%252f%25201%2520Year%2520Couple%2527s%2520Membership%26item_number%3d3%253a%253a1%2520Y%26amount%3d40%252e00%26currency_code%3dUSD%26notify_url%3dhttp%253a%252f%252fwww%252ectxphc%252ecom%252f%253fs2member_paypal_notify%253d1%26cancel_return%3dhttp%253a%252f%252fwww%252ectxphc%252ecom%252f%26return%3dhttp%253a%252f%252fwww%252ectxphc%252ecom%252f%253fs2member_paypal_return%253d1%2526amp%253bs2member_paypal_return_tra%253dfnIyOm5uZm1ndFhleERDczE1dDVTOURwZVdmWlVhdDVmT3pKOjdlMGJlMGE4Y2QxOGYwMjI2ODk1ZDRjNzIwODg0NmU3fLttSlVl94xf6yul6uQNCCxauweFVWmGF%252dVd_bkMCXsJcH%252d6qCc00QO8hEV8PYGCWTCRcPobBMMGUv9qToOHTEMS8kU0xBdZ0hPVV4j_Y2lxxbefK8SoVkgQU6SedgrDyUjwQOqTiv%252dBV_HnWy6odG3yLGzAkZ7UhbQhO0XwR7IlOD0QcaSE1gxsJQZWjE_XZcmnNiTeovBQ2x6h8ClQJKlKcJAJEgfbYk_ZaAYmkNoTtoHUhzLik2aIpAeZH7_JqtuYm_YWkm8wz4o5HyMkkydDhJS_eK1q8XqydMOVNxq3pw0AQEtVlpZOa2Vmv%252dn3yPLLwuGnP_i58cLz1lVqK%252dfiUiVIYOeoM5GE5LJG8ufDRQA71_Pb3vfh0F6ZT0TxFQ%26rm%3d2%26no_shipping%3d1%26no_note%3d1%26custom%3dwww%252ectxphc%252ecom%26invoice%3d572e7481c80ec%257e192%252e168%252e1%252e20%26button_subtype%3dproducts%26bn%3dHUUTQCFKQ47CL%253aPP%252dBuyNowBF_P%26page_style%3dpaypal%26charset%3dutf%252d8%26on0%3dReferencing%2520Customer%2520ID%26os0%3d1709%26on1%3dCustomer%2520IP%2520Address%26os1%3d192%252e168%252e1%252e20%26modify%3d0&TIMESTAMP=2016%2d05%2d07T23%3a04%3a28Z&CORRELATIONID=63b131ee51164&ACK=Success&VERSION=71%2e0&BUILD=21765890
+            [response] => Array
+                (
+                    [code] => 200
+                    [message] => OK
+                )
+
+            [cookies] => Array
+                (
+                    [0] => WP_Http_Cookie Object
+                        (
+                            [name] => X-PP-SILOVER
+                            [value] => name=LIVE6.APIT.1&silo_version=880&app=appdispatcher_apit&TIME=2087988823&HTTP_X_PP_AZ_LOCATOR=dcg12.slc
+                            [expires] => 1462664068
+                            [path] => /
+                            [domain] => .paypal.com
+                            [secure] => 
+                            [httponly] => 
+                        )
+
+                    [1] => WP_Http_Cookie Object
+                        (
+                            [name] => X-PP-SILOVER
+                            [value] => 
+                            [expires] => 1
+                            [path] => //
+                            [domain] => api-3t.paypal.com
+                        )
+
+                )
+
+            [filename] => 
+        )
+
+)
+
+LOG ENTRY: Sat May 7th, 2016 @ precisely 11:04 pm UTC
+PHP v5.5.9-1ubuntu4.16 :: WordPress v4.5.2 :: s2Member v160503 :: s2Member Pro v160503
+Memory 10.88 MB :: Real Memory 11.75 MB :: Peak Memory 11.74 MB :: Real Peak Memory 12.00 MB
+www.ctxphc.com/membership-options/
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.94 Safari/537.36
+Array
+(
+    [state] => response
+    [transport_class] => WP_Http_Curl
+    [args] => Array
+        (
+            [method] => POST
+            [timeout] => 20
+            [redirection] => 5
+            [httpversion] => 1.1
+            [user-agent] => s2Member v160503; http://www.ctxphc.com
+            [reject_unsafe_urls] => 
+            [blocking] => 1
+            [headers] => Array
+                (
+                    [connection] => close
+                    [Accept-Encoding] => deflate;q=1.0, compress;q=0.5, gzip;q=0.5
+                    [Content-Type] => application/x-www-form-urlencoded; charset=UTF-8
+                    [Content-Length] => 1552
+                )
+
+            [cookies] => Array
+                (
+                )
+
+            [body] => METHOD=BMCreateButton&BUTTONCODE=ENCRYPTED&BUTTONTYPE=BUYNOW&L_BUTTONVAR0=business%3Dpaypal%40ctxphc.com&L_BUTTONVAR1=notify_url%3Dhttp%3A%2F%2Fwww.ctxphc.com%2F%3Fs2member_paypal_notify%3D1&L_BUTTONVAR2=cancel_return%3Dhttp%3A%2F%2Fwww.ctxphc.com%2F&L_BUTTONVAR3=return%3Dhttp%3A%2F%2Fwww.ctxphc.com%2F%3Fs2member_paypal_return%3D1%26s2member_paypal_return_tra%3DfnIyOjUyU0V0VG9OM2ZyblE1d2haVjRzSGVHS1NoR3QwbWtwOjZlM2YyNmVjMDBmZDk0MTJlMWRjYTg1MmU4MDJiNDAwfIw7jVSE6dUaurDKXirPag6QSpkgFZytIGrXbupAehErzCzk_nf59phFmr3IWP7F-pGmE3GTvhJpKUWW7aMo5fCKnj69QbSe7TTagG03YDLQQ3tYfTIJ18Q0sDkRaoeMw4jirMWAA4uyzsjA0rIp6EmDySrKPDWfQlNoMJxIssJEyxd0qKGo-bRETKbCJaKBIFjoFxgVTP1JIQl2OXhJtPMnGgEwoify7bzfpEwhN8zVSb0fnf87_nOOWMgvhiGXttxvV7ehh1kA5vjq7TmP0vL85d_7NRVFdnRT7N491iO-EefJTYmKfz9hA3bagfQ_8g0EadG6UFZUjcci8-AtxtWl_Aym68upTtQagLs_-DEMYcSridpW2GgT-3HUHU658w&L_BUTTONVAR4=rm%3D2&L_BUTTONVAR5=no_shipping%3D1&L_BUTTONVAR6=no_note%3D1&L_BUTTONVAR7=custom%3Dwww.ctxphc.com&L_BUTTONVAR8=currency_code%3DUSD&L_BUTTONVAR9=page_style%3Dpaypal&L_BUTTONVAR10=charset%3Dutf-8&L_BUTTONVAR11=item_name%3DCTXPHC+Household+Membership+%2F+1+Year+Household+Membership&L_BUTTONVAR12=item_number%3D4%3A%3A1+Y&L_BUTTONVAR13=invoice%3D572e7482a38be%7E192.168.1.20&L_BUTTONVAR14=on0%3DReferencing+Customer+ID&L_BUTTONVAR15=os0%3D1709&L_BUTTONVAR16=on1%3DCustomer+IP+Address&L_BUTTONVAR17=os1%3D192.168.1.20&L_BUTTONVAR18=modify%3D0&L_BUTTONVAR19=amount%3D45.00&VERSION=71.0&USER=paypal_api1.ctxphc.com&PWD=LGNEESAM63Z8U566&SIGNATURE=Ana-ahF19FfMfYH4AlQPssnEY0.QACOrem3wN6M.wwsj630J3jEIJMdq
+            [compress] => 
+            [decompress] => 1
+            [sslverify] => 1
+            [sslcertificates] => /var/www/ctxphc.com/public_html/wp-includes/certificates/ca-bundle.crt
+            [stream] => 
+            [filename] => 
+            [limit_response_size] => 
+            [s2member] => 160503
+            [_redirection] => 5
+            [ssl] => 1
+            [local] => 
+        )
+
+    [url] => https://api-3t.paypal.com/nvp
+    [response] => Array
+        (
+            [headers] => Array
+                (
+                    [date] => Sat, 07 May 2016 23:04:28 GMT
+                    [server] => Apache
+                    [x-paypal-operation-name] => BMCreateButton
+                    [x-paypal-api-rc] => 
+                    [connection] => close
+                    [cache-control] => Array
+                        (
+                            [0] => max-age=0, no-cache, no-store, must-revalidate
+                            [1] => max-age=0, no-cache, no-store, must-revalidate
+                        )
+
+                    [pragma] => Array
+                        (
+                            [0] => no-cache
+                            [1] => no-cache
+                        )
+
+                    [http_x_pp_az_locator] => dcg11.slc
+                    [paypal-debug-id] => d501f3882a86d
+                    [set-cookie] => Array
+                        (
+                            [0] => X-PP-SILOVER=name%3DLIVE6.APIT.1%26silo_version%3D880%26app%3Dappdispatcher_apit%26TIME%3D2104766039%26HTTP_X_PP_AZ_LOCATOR%3Ddcg11.slc; Expires=Sat, 07 May 2016 23:34:29 GMT; domain=.paypal.com; path=/; Secure; HttpOnly
+                            [1] => X-PP-SILOVER=; Expires=Thu, 01 Jan 1970 00:00:01 GMT
+                        )
+
+                    [content-length] => 6238
+                    [content-type] => text/plain; charset=utf-8
+                )
+
+            [body] => WEBSITECODE=%3cform%20action%3d%22https%3a%2f%2fwww%2epaypal%2ecom%2fcgi%2dbin%2fwebscr%22%20method%3d%22post%22%3e%0a%3cinput%20type%3d%22hidden%22%20name%3d%22cmd%22%20value%3d%22_s%2dxclick%22%3e%0a%3cinput%20type%3d%22hidden%22%20name%3d%22encrypted%22%20value%3d%22%2d%2d%2d%2d%2dBEGIN%20PKCS7%2d%2d%2d%2d%2dMIIK4QYJKoZIhvcNAQcEoIIK0jCCCs4CAQExggEwMIIBLAIBADCBlDCBjjELMAkGA1UEBhMCVVMxCzAJBgNVBAgTAkNBMRYwFAYDVQQHEw1Nb3VudGFpbiBWaWV3MRQwEgYDVQQKEwtQYXlQYWwgSW5jLjETMBEGA1UECxQKbGl2ZV9jZXJ0czERMA8GA1UEAxQIbGl2ZV9hcGkxHDAaBgkqhkiG9w0BCQEWDXJlQHBheXBhbC5jb20CAQAwDQYJKoZIhvcNAQEBBQAEgYAKzWU6bKVib20vPl7%2fC4lBs5XVRF0%2frOKpJ8RtLfbaMRFnefMn4McuaMyDl7lHfAR8DtmybH2mMU7SvrW4LWto2x%2bKUhkFYFTVwS2W8lY6UPkiF5ClO7JBME0JOeEznzrVS4I66WMoYU78UIL1JOCJX5NzXQVNmtRR4BikOdOBLTELMAkGBSsOAwIaBQAwggRdBgkqhkiG9w0BBwEwFAYIKoZIhvcNAwcECAo9wd4ilxmfgIIEOEoABgTzoqGwp3OagnfAu2FtcxN2WUvGD6w%2fJU7%2fuy%2bRl62zjjK61lfVhgTbfKBT8W2BKvbfe67FPmexLx8LCUDdbZpWDf%2bzuwghbhEvi129sL6tNV3h1g3NuNvpyVv7h2%2bY8gOW9zfpRnUtk0PE%2f9ihZV7Eoln0qtNdqfMbENeP%2bk9pV6lhsEV78mBjXmQ7ZGngAr5Y%2bvMPTCTCxyJA%2bEBo0Qc1cKD4Ig8UJqmo5ydMJDX2fmk4L16v9ZtMhg%2bz4YBxg7WRTfyGJSizWxPUlY6Kz9GWlNuuTDgasFvE7BSilb0g5bhfhGsnHxlak9roZn6sREejfcbglHzR3iMyZIqYZKkhApQM750D0%2fVO2HiFBSYCTRBq0KwkYV76KuF8%2bebDghfQ4PDLug75Xr4MlyUeo%2fdSci%2bKUZcvx15Z8E3mlBrqfNrCOXuWbin31PS3KgkUAWfRH3W2lpcKDjoEfqkTiOzY8ER55XiJLWOrzYLi%2f%2fsNjQbAN0yDfk5xH3hMrS9ZPySJfdySxk%2f38qKY3iEoFy1mm77SYqonX3n4OS0u12MWotF4RTR9jxBL1BwarE7sX%2fqOgdzwhfeLsn1oPD1GF%2fD12GZY51fOTVsJ%2bWhvaIbgM%2bKeGTPzujG6rrrzt7USHOYpiHeuYGEjseVuETOnrtp3eT032AcUG0uFyPPu8rh76wrYD5qJES8%2fI5ye2wkYDhYvN2koVQB8kxuKb0SKncy5cw%2b1slYTLgQWl55DjLSll7s8YX2IALmYdeSunswoRskzm%2bOyn%2bbLVxWC9TeprS8U0Ol0%2fGKRAibS1I2MXzfHvyzghVRpr90KbEErsJcIW1%2fMLRZ1fRNAqDpCW89el0ud7xo8hg200naaltMfTtBpeUY93B%2bnTcbbI9wqToQgvJQH6LR5g0F49i0XAQYIbhOmdCRqkX3aAUua3dJeO%2bOHo6eS4iUt5bcBM7ZnbCuJ8fyPeZ1fwmqZzYMuXQBGcTTaTLENfBj4tNWykJu%2fq5S3CB%2bG4epHOGt%2fjQpnyPCg9QowhQdlBbhqzaGeseCkF6QE7AJVqf2iGQXJZm0hvhSUGXB%2b30c236KnErQlrQ32fX7fDISl3X3kgs3ta0DwC%2fJn4Sqtuw9OFfl%2bLQO7bD7YBMkduJL6u9AJjydlSgbLwYlE10C0SmEEeoTLsKm%2b2vjZOFemXfZujtyqO2wguURByQEpvzJaqkec46rgXH21ZGOaYalk7xsaSgRhlvecEWmJgUuoAjM723LjSnR45SdsbCb8erH1RCjsUtjBBeJIcD%2brbDbEfE8coM%2bbEe%2fd%2fQyWXWZq%2fVdoqWh6qNTQPA8KwjO8IIE7xQig3k3BJp37TiyaQQ%2bh9UrOa04x%2fcVVMDYSmY2BZdv630geO9VDNIzMMnkWP5hC9g2ez5OT4JqnyMXzo0yY3bWg3Yh3ZpXm1UnCZDQyW6CCA4cwggODMIIC7KADAgECAgEAMA0GCSqGSIb3DQEBBQUAMIGOMQswCQYDVQQGEwJVUzELMAkGA1UECBMCQ0ExFjAUBgNVBAcTDU1vdW50YWluIFZpZXcxFDASBgNVBAoTC1BheVBhbCBJbmMuMRMwEQYDVQQLFApsaXZlX2NlcnRzMREwDwYDVQQDFAhsaXZlX2FwaTEcMBoGCSqGSIb3DQEJARYNcmVAcGF5cGFsLmNvbTAeFw0wNDAyMTMxMDEzMTVaFw0zNTAyMTMxMDEzMTVaMIGOMQswCQYDVQQGEwJVUzELMAkGA1UECBMCQ0ExFjAUBgNVBAcTDU1vdW50YWluIFZpZXcxFDASBgNVBAoTC1BheVBhbCBJbmMuMRMwEQYDVQQLFApsaXZlX2NlcnRzMREwDwYDVQQDFAhsaXZlX2FwaTEcMBoGCSqGSIb3DQEJARYNcmVAcGF5cGFsLmNvbTCBnzANBgkqhkiG9w0BAQEFAAOBjQAwgYkCgYEAwUdO3fxEzEtcnI7ZKZL412XvZPugoni7i7D7prCe0AtaHTc97CYgm7NsAtJyxNLixmhLV8pyIEaiHXWAh8fPKW%2bR017%2bEmXrr9EaquPmsVvTywAAE1PMNOKqo2kl4Gxiz9zZqIajOm1fZGWcGS0f5JQ2kBqNbvbg2%2fZa%2bGJ%2fqwUCAwEAAaOB7jCB6zAdBgNVHQ4EFgQUlp98u8ZvF71ZP1LXChvsENZklGswgbsGA1UdIwSBszCBsIAUlp98u8ZvF71ZP1LXChvsENZklGuhgZSkgZEwgY4xCzAJBgNVBAYTAlVTMQswCQYDVQQIEwJDQTEWMBQGA1UEBxMNTW91bnRhaW4gVmlldzEUMBIGA1UEChMLUGF5UGFsIEluYy4xEzARBgNVBAsUCmxpdmVfY2VydHMxETAPBgNVBAMUCGxpdmVfYXBpMRwwGgYJKoZIhvcNAQkBFg1yZUBwYXlwYWwuY29tggEAMAwGA1UdEwQFMAMBAf8wDQYJKoZIhvcNAQEFBQADgYEAgV86VpqAWuXvX6Oro4qJ1tYVIT5DgWpE692Ag422H7yRIr%2f9j%2fiKG4Thia%2fOflx4TdL%2bIFJBAyPK9v6zZNZtBgPBynXb048hsP16l2vi0k5Q2JKiPDsEfBhGI%2bHnxLXEaUWAcVfCsQFvd2A1sxRr67ip5y2wwBelUecP3AjJ%2bYcxggGaMIIBlgIBATCBlDCBjjELMAkGA1UEBhMCVVMxCzAJBgNVBAgTAkNBMRYwFAYDVQQHEw1Nb3VudGFpbiBWaWV3MRQwEgYDVQQKEwtQYXlQYWwgSW5jLjETMBEGA1UECxQKbGl2ZV9jZXJ0czERMA8GA1UEAxQIbGl2ZV9hcGkxHDAaBgkqhkiG9w0BCQEWDXJlQHBheXBhbC5jb20CAQAwCQYFKw4DAhoFAKBdMBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcNAQkFMQ8XDTE2MDUwNzIzMDQyOVowIwYJKoZIhvcNAQkEMRYEFLdjTpFRZ9CfiO2PAHmA9klChY5xMA0GCSqGSIb3DQEBAQUABIGAUFAIMq7r83RGDjLdGCoJIsGz%2b58c7eOMEC%2bNgsXnB4KrvSYlOAgXDMBnXznFad%2blc8Jl49l1IDI7AbRjyOrxJRhMVVTl%2bm32HzDSosHcq1kwNrOU5yRwHCG2i%2f8cmIt7vRJEeiLkmJeMh%2bUVnEzkof6Jibk8TQIz71a9cwRlqXM%3d%2d%2d%2d%2d%2dEND%20PKCS7%2d%2d%2d%2d%2d%0a%22%3e%0a%3cinput%20type%3d%22image%22%20src%3d%22https%3a%2f%2fwww%2epaypalobjects%2ecom%2fen_US%2fi%2fbtn%2fbtn_buynow_LG%2egif%22%20border%3d%220%22%20name%3d%22submit%22%20alt%3d%22PayPal%20%2d%20The%20safer%2c%20easier%20way%20to%20pay%20online%21%22%3e%0a%3cimg%20alt%3d%22%22%20border%3d%220%22%20src%3d%22https%3a%2f%2fwww%2epaypalobjects%2ecom%2fen_US%2fi%2fscr%2fpixel%2egif%22%20width%3d%221%22%20height%3d%221%22%3e%0a%3c%2fform%3e%0a&EMAILLINK=https%3a%2f%2fwww%2epaypal%2ecom%2fcgi%2dbin%2fwebscr%3fcmd%3d_xclick%26business%3dpaypal%2540ctxphc%252ecom%26item_name%3dCTXPHC%2520Household%2520Membership%2520%252f%25201%2520Year%2520Household%2520Membership%26item_number%3d4%253a%253a1%2520Y%26amount%3d45%252e00%26currency_code%3dUSD%26notify_url%3dhttp%253a%252f%252fwww%252ectxphc%252ecom%252f%253fs2member_paypal_notify%253d1%26cancel_return%3dhttp%253a%252f%252fwww%252ectxphc%252ecom%252f%26return%3dhttp%253a%252f%252fwww%252ectxphc%252ecom%252f%253fs2member_paypal_return%253d1%2526amp%253bs2member_paypal_return_tra%253dfnIyOjUyU0V0VG9OM2ZyblE1d2haVjRzSGVHS1NoR3QwbWtwOjZlM2YyNmVjMDBmZDk0MTJlMWRjYTg1MmU4MDJiNDAwfIw7jVSE6dUaurDKXirPag6QSpkgFZytIGrXbupAehErzCzk_nf59phFmr3IWP7F%252dpGmE3GTvhJpKUWW7aMo5fCKnj69QbSe7TTagG03YDLQQ3tYfTIJ18Q0sDkRaoeMw4jirMWAA4uyzsjA0rIp6EmDySrKPDWfQlNoMJxIssJEyxd0qKGo%252dbRETKbCJaKBIFjoFxgVTP1JIQl2OXhJtPMnGgEwoify7bzfpEwhN8zVSb0fnf87_nOOWMgvhiGXttxvV7ehh1kA5vjq7TmP0vL85d_7NRVFdnRT7N491iO%252dEefJTYmKfz9hA3bagfQ_8g0EadG6UFZUjcci8%252dAtxtWl_Aym68upTtQagLs_%252dDEMYcSridpW2GgT%252d3HUHU658w%26rm%3d2%26no_shipping%3d1%26no_note%3d1%26custom%3dwww%252ectxphc%252ecom%26invoice%3d572e7482a38be%257e192%252e168%252e1%252e20%26button_subtype%3dproducts%26bn%3dHUUTQCFKQ47CL%253aPP%252dBuyNowBF_P%26page_style%3dpaypal%26charset%3dutf%252d8%26on0%3dReferencing%2520Customer%2520ID%26os0%3d1709%26on1%3dCustomer%2520IP%2520Address%26os1%3d192%252e168%252e1%252e20%26modify%3d0&TIMESTAMP=2016%2d05%2d07T23%3a04%3a29Z&CORRELATIONID=d501f3882a86d&ACK=Success&VERSION=71%2e0&BUILD=21765890
+            [response] => Array
+                (
+                    [code] => 200
+                    [message] => OK
+                )
+
+            [cookies] => Array
+                (
+                    [0] => WP_Http_Cookie Object
+                        (
+                            [name] => X-PP-SILOVER
+                            [value] => name=LIVE6.APIT.1&silo_version=880&app=appdispatcher_apit&TIME=2104766039&HTTP_X_PP_AZ_LOCATOR=dcg11.slc
+                            [expires] => 1462664069
+                            [path] => /
+                            [domain] => .paypal.com
+                            [secure] => 
+                            [httponly] => 
+                        )
+
+                    [1] => WP_Http_Cookie Object
+                        (
+                            [name] => X-PP-SILOVER
+                            [value] => 
+                            [expires] => 1
+                            [path] => //
+                            [domain] => api-3t.paypal.com
+                        )
+
+                )
+
+            [filename] => 
+        )
+
+)
+
