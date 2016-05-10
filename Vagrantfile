@@ -10,6 +10,4 @@ Vagrant.configure(2) do |config|
   config.vm.synced_folder "wp-latest", "/var/www/ctxphc.com/public_html/"
   config.vm.synced_folder "themes", "/var/www/ctxphc.com/public_html/wp-content/themes/"
   config.vm.synced_folder "plugins", "/var/www/ctxphc.com/public_html/wp-content/plugins/"
-
-  # config.vm.provision "shell", path: "script.sh"
 end
