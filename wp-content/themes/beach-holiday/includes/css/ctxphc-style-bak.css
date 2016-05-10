@@ -1,0 +1,900 @@
+form, fieldset, legend {
+    margin:0;
+    padding:0;
+    border:none;
+    line-height:normal;
+}    
+
+/* General style formates */
+
+p.clear {
+    clear: both;
+}
+.cont_wrap {
+	width: 610px;
+}
+
+
+.cont_lf_col {
+	width: 300px;
+	float: left;
+	/* border: 1px solid gray; */
+}
+
+.cont_rt_col {
+	width: 300px;
+	float: right;
+	/* border: 1px solid red; */
+}
+
+ul.cont_ul li{
+    display: inline;
+    list-style-type: none;
+    line-height: 20em;
+    padding-right: 20px;
+    float: left;
+}
+
+.spacer {
+	clear:both;
+	height:1.25em;
+}
+
+table.ctxphc {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+td.ctxphc {
+	vertical-align:top;
+}
+
+tr.odd {
+    background-color: #b4caf7;
+}
+
+tr.even {
+    background-color: #FFF
+}
+
+div.ctxphc {
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 0px;
+}
+
+div.centerTXT {
+	text-align: center;
+	position:relative;
+}
+
+em.center {
+	text-align: center;
+}
+
+img#zoopic {
+	padding: 5%;
+	margin-left:auto;
+	margin-right:auto;
+	width:90%;
+}
+
+#vertCenter {
+	position:absolute;
+	top:100%;
+	margin-top:1em;
+}
+
+body.ul#menu li.page_item a {
+    color: #0CF0F0;
+}
+
+/* CTXPHC: Registration Page
+ * --------------------------------------------------------------*/
+
+div#label {
+   margin: 0.5em 1.5em 0em 4em;
+}
+
+input.button {
+   font-size: 12px;
+   color: black;
+   font-weight: bold;
+   font-family: verdanna, arial, sans-serif;
+   background-color: #ccc;
+}
+  
+.spacer {
+    clear: both;
+    height:2.5em;
+}
+
+fieldset {
+	padding: 0.2em 0.5em;
+	display: block;
+	border:1px solid black;
+	/* background: -moz-linear-gradient(top, #dbdad5 0%, #f2f6f9 50%, #f2f6f9 51%, #a0c0e9 100%);
+	background: -webkit-gradient(linear, left top, left bottom, from(#dbdad5), to(#f2f6f9), color-stop(0.4, #f2f6f9), color-stop(0.5, #fff), color-stop(.5, #fff), color-stop(0.9, #a0c0e9));
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#dbdad5', endColorstr='#f2f6f9', GradientType=0 ); */
+
+	background: #f5fafd; /* Old browsers */
+	background: -moz-linear-gradient(top,  #f5fafd 53%, #e0e8ec 71%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(53%,#f5fafd), color-stop(71%,#e0e8ec)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  #f5fafd 53%,#e0e8ec 71%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  #f5fafd 53%,#e0e8ec 71%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top,  #f5fafd 53%,#e0e8ec 71%); /* IE10+ */
+	background: linear-gradient(to bottom,  #f5fafd 53%,#e0e8ec 71%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f5fafd', endColorstr='#e0e8ec',GradientType=0 ); /* IE6-9 */
+
+
+}
+
+legend {
+	padding: 0.2em 0.5em;
+	border:1px solid black;
+	color:black;
+	font-family: Verdana, Geneva, sans-serif;
+	font-size: 1.5em;
+	*margin-left: 9px; /* Hack to get IE to contain float */
+	/* background: -moz-linear-gradient(top, #dbdad5 0%, #f2f6f9 50%, #f2f6f9 51%, #a0c0e9 100%);
+	background: -webkit-gradient(linear, left top, left bottom, from(#dbdad5), to(#f2f6f9), color-stop(0.4, #f2f6f9), color-stop(0.5, #fff), color-stop(.5, #fff), color-stop(0.9, #a0c0e9));
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#dbdad5', endColorstr='#f2f6f9', GradientType=0 ); */
+
+	background: #f5fafd; /* Old browsers */
+	background: -moz-linear-gradient(top,  #f5fafd 53%, #e0e8ec 71%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(53%,#f5fafd), color-stop(71%,#e0e8ec)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  #f5fafd 53%,#e0e8ec 71%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  #f5fafd 53%,#e0e8ec 71%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top,  #f5fafd 53%,#e0e8ec 71%); /* IE10+ */
+	background: linear-gradient(to bottom,  #f5fafd 53%,#e0e8ec 71%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f5fafd', endColorstr='#e0e8ec',GradientType=0 ); /* IE6-9 */
+}
+
+/* Primary Members Info  */
+/* div.memb_type {
+   margin: 5em;
+} */
+
+.memb_type {
+  vertical-align: middle;
+}
+label.memb_type {
+   margin: 0.5em 0.5em 0.5em 0em;
+}
+
+input.memb_type {
+   margin: 0.5em .2em 0.5em .7em;
+}
+
+/*###############################################
+# label and input settings for Primary Member
+###############################################*/
+
+/* first name */
+label#memb_first_name {
+   margin: 0.5em;
+}
+
+input#memb_first_name {
+   margin: 0.5em 0.5em 0.5em 0.2em;
+   width: 13.8em;
+}
+
+/* last name */
+label#memb_last_name {
+   margin: 0.5em 0.5em 0.5em 3.8em;
+}
+
+input#memb_last_name {
+   margin: 0.5em 0.5em 0.5em .7em;
+   width: 15em;
+}
+
+/* Birthday */
+label#memb_birthday {
+   margin: 0.5em;
+}
+
+select#memb_month {
+   margin: 0.5em 0.5em 0.5em 1em;
+}
+
+select#memb_day {
+   margin: 0.5em;
+}
+
+/* email address */
+label#memb_email {
+   margin: 0.5em 0.5em 0.5em 9em;
+}
+
+input#memb_email {
+   margin: 0.5em 0.5em 0.5em 3.7em;
+   width: 15em;
+}
+
+/* Phone Number */
+label#memb_phone {
+   margin: 0.5em;
+}
+
+input#memb_phone {
+   margin: 0.5em 0.5em 0.5em 2.2em;
+   width: 2em;
+   padding: 0em 0.2em;
+}
+
+input#memb_phone2 {
+   margin: 0.5em;
+   width: 2em;
+   padding: 0em 0.2em;
+}
+
+input#memb_phone3 {
+   margin: 0.5em;
+   width: 3em;
+   padding: 0em 0.2em;
+}
+
+/* Occupation */
+label#memb_occu {
+   margin: 0.5em 0.5em 0.5em 6em;
+}
+
+input#memb_occu {
+   margin: 0.5em;
+   width: 15em;
+}
+
+/* address */
+label#memb_addr1 {
+   margin: 0.5em;
+}
+
+input#memb_addr1 {
+   margin: 0.5em;
+   width: 20em;
+}
+
+label#memb_addr2 {
+   margin: 0.5em;
+}
+
+input#memb_addr2 {
+   margin: 0.5em;
+   width: 8em;
+}
+
+label#memb_city {
+   margin: 0.5em;
+}
+
+input#memb_city {
+   margin: 0.5em;
+   width: 8em;
+}
+
+label#memb_state {
+   margin: 0.5em 0em 0.5em 1em;
+}
+
+select#memb_state {
+   margin: 0.5em;
+   width: 11em;
+}
+
+label#memb_zip {
+   margin: 0.5em 0em 0.5em 1em;
+}
+
+input#memb_zip {
+   margin: 0.5em;
+   width: 4em;
+   padding: 0em;
+}
+
+label#memb_zip_4 {
+   margin: 0.5em 0em 0.5em 1em;
+}
+
+input#memb_zip_4 {
+   margin: 0.5em;
+   width: 3em;
+   padding: 0em;
+}
+
+/* username and password */
+label#memb_username {
+   margin: 0.5em;
+}
+
+input#memb_username {
+   margin: 0.5em 4.5em 0.5em 2px;
+}
+
+label#memb_password {
+   margin: 0.5em 1.5em 0.5em 0.5em;
+}
+
+input#memb_password {
+   margin: 0.5em;
+}
+
+div#passDef {
+	margin: 0.5em 0.5em 0.5em 170px;
+}
+
+/**********************
+*  Spouse/Partner Info 
+***********************/
+label#sp_first_name {
+   margin: 0.5em;
+}
+
+input#sp_first_name {
+   margin: 0.5em;
+}
+
+label#sp_last_name {
+   margin: 0.5em 0.5em 0.5em 3em;
+}
+
+input#sp_last_name {
+   margin: 0.5em;
+}
+
+label#sp_email {
+   margin: 0.5em;
+}
+
+input#sp_email {
+    margin: 0.5em 0.5em 0.5em 3.2em;
+}
+
+label#sp_phone {
+    margin: 0.5em 0.5em 0.5em 3em;
+}
+
+input#sp_phone {
+    margin: 0.5em 0.5em 0.5em 3em;
+    width: 2em;
+    padding: 0em 0.2em;
+}
+
+input#sp_phone2 {
+    margin: 0.5em;
+    width: 2em;
+    padding: 0em 0.2em;
+}
+
+input#sp_phone3 {
+    margin: 0.5em;
+    width: 3em;
+    padding: 0em 0.2em;
+}
+
+label#sp_birthday {
+   margin: 0.5em;
+}
+
+select#sp_month {
+   margin: 0.5em 0.5em 0.5em 1.2em;
+}
+
+select#sp_day {
+   margin: 0.5em;
+}
+
+label#sp_relationship {
+   margin: 0.5em 0.5em 0.5em 7.5em;
+}
+
+select#sp_relationship {
+   margin: 0.5em;
+   width: 6em;
+   padding: 0em;
+}
+
+
+/*******************
+* Children
+********************/
+label.child_first_name {
+   margin: 0.5em;
+}
+
+input.child_first_name {
+   margin: 0.5em 0.5em 0.5em 0em;
+   width: 10em;
+}
+
+label.child_last_name {
+   margin: 0.5em;
+}
+
+input.child_last_name {
+   margin: 0.5em 0.5em 0.5em 0em;
+   width: 10em;
+}
+
+label.child_relationship {
+   margin: 0.5em;
+}
+
+select.child_relationship {
+   margin: 0.5em 0.5em 0.5em 0em;
+   width: 6em;
+   padding: 0em;
+}
+
+label.child_b-day {
+   margin: 0.5em;
+}
+
+select.child_month {
+   margin: 0.5em 0.5em 0.5em 1em;
+}
+
+select.child_day {
+   margin: 0.5em;
+}
+
+label.child_email {
+   margin: 0.5em 0.5em 0.5em 2em;
+}
+
+input.child_email {
+   margin: 0.5em 0.5em 0.5em 2.7em;
+   width: 25em;
+}
+
+
+/*  Buttons  */
+input#reg_submit {
+   width: 100px;
+   font-size: 12px;
+   /*color: #e6b907;
+ *    font-weight: bold;
+ *       font-family: verdanna, arial, sans-serif;
+ *          background-color: #ccc;*/
+   color: #143D8F;
+   background-image:url('images/menu_on.png');
+   background-position:left top;
+   background-repeat:repeat-x;
+
+}
+
+.button1 {
+
+    font-family: Verdana, Geneva, sans-serif;
+    font-size: 24px;
+    color: #FFF;
+    padding: 0.5em 10px 0.5em 10px;
+    border: solid 1px #CCC;
+
+    background: #ba4742;
+    text-shadow: 0px 1px 0px #000;
+
+    border-radius: 0.5em;
+    -moz-border-radius: 0.5em;
+    -webkit-border-radius: 0.5em;
+
+    box-shadow: 0 1px 3px #111;
+    -moz-box-shadow: 3px 3px 1px #999;
+    -webkit-box-shadow: 3px 3px 1px #999;
+
+    cursor: pointer;
+	width: 120px;
+	display: block;
+	margin: 0 auto;
+
+}
+.button1:hover {
+    background: #a33f3a;
+}
+
+.button2 {
+
+    font-family: Verdana, Geneva, sans-serif;
+    font-size: 24px;
+    color: #FFF;
+    padding: 0.5em 10px 0.5em 10px;
+    border: 1px solid #999;
+
+    text-shadow: 0px 1px 1px #000;
+    text-decoration: none;
+
+    border-radius: 2.5em;
+    -moz-border-radius: 2.5em;
+    -webkit-border-radius: 2.5em;
+
+    background: #0060df;
+    background: -moz-linear-gradient(-90deg, #9299d0 5%, #6f78c1 15%, #3944a8 35%, #138aef 75%, #78e2ff 100%, #fff);
+    background: -webkit-gradient(linear, left top, left bottom, from(#9299d0), to(#78e2ff), color-stop(0.2, #6f78c1), color-stop(0.5, #3944a8), color-stop(.7, #138aef), color-stop(0.9, #78e2ff));
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3944a8', endColorstr='#78e2ff', GradientType=0 );
+
+    cursor: pointer;
+	width: 120px;
+	display: block;
+	margin: 0 auto;
+
+}
+.button2:hover {
+    background: -moz-linear-gradient(90deg, #9299d0 5%, #6f78c1 15%, #3944a8 35%, #138aef 75%, #78e2ff 100%, #fff);
+    background: -webkit-gradient(linear, left bottom, left top, from(#9299d0), to(#78e2ff), color-stop(0.2, #6f78c1), color-stop(0.5, #3944a8), color-stop(.7, #138aef), color-stop(0.9, #78e2ff));
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#78e2ff', endColorstr='#3944a8', GradientType=0 );
+}
+
+.button3 {
+
+    font-family: Verdana, Geneva, sans-serif;
+    font-size: 24px;
+    color: #000;
+    padding: 0.5em 10px 0.5em 10px;
+    border: 1px solid #999;
+
+    text-shadow: 0px 1px 1px #FFF;
+    text-decoration: none;
+
+    border-radius: 10px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+
+    /*
+    background: #a0c0e9;
+    background: -moz-linear-gradient(top, #a0c0e9 35%, #f2f6f9 50%, #ffbc47 51%, #a0c0e9 100%);
+    background: -webkit-gradient(linear, left top, left bottom, from(#a0c0e9), to(#f2f6f9), color-stop(0.4, #f2f6f9), color-stop(0.5, #fff), color-stop(.5, #ffbc47), color-stop(0.9, #a0c0e9));
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a0c0e9', endColorstr='#f2f6f9', GradientType=0 );
+    */
+
+    background: #f5fafd; /* Old browsers */
+    background: -moz-linear-gradient(top,  #f5fafd 53%, #e0e8ec 71%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(53%,#f5fafd), color-stop(71%,#e0e8ec)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  #f5fafd 53%,#e0e8ec 71%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  #f5fafd 53%,#e0e8ec 71%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  #f5fafd 53%,#e0e8ec 71%); /* IE10+ */
+    background: linear-gradient(to bottom,  #f5fafd 53%,#e0e8ec 71%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f5fafd', endColorstr='#e0e8ec',GradientType=0 ); /* IE6-9 */
+
+
+    cursor: pointer;
+	width: 120px;
+	display: block;
+	margin: 0 auto;
+
+}
+.button3:hover {
+    background: -moz-linear-gradient(top, #a0c0e9 0%, #f2f6f9 50%, #f2f6f9 51%, #a0c0e9 100%);
+    background: -webkit-gradient(linear, left top, left bottom, from(#a0c0e9), to(#f2f6f9), color-stop(0.4, #f2f6f9), color-stop(0.5, #fff), color-stop(.5, #fff), color-stop(0.9, #a0c0e9));
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f6f9', endColorstr='#f2f6f9', GradientType=0 );
+}
+
+/*
+* CTPXHC: Member Registration Print Page 
+*----------------------------------------------------------------*/
+
+.print {
+	visibility: hidden;
+}
+
+#hockey {
+	height: 200px;
+}
+
+#txstars {
+	padding: 20px 10px 10px 10px;
+	float: left;
+	width:204px;
+}
+
+#vs {
+	padding: 60px 60px 1.5em 60px;
+	margin-left:auto;
+	margin-right:auto;
+	width:70px;
+}
+
+#rampage{
+	padding: 10px;
+	float: right;
+	width:204px;
+}
+
+
+/* CTXPHC: Renewal Page
+ * --------------------------------------------------------------*/
+ 
+ 
+/* CTXPHC: Who Are We Page 
+*----------------------------------------------------------------*/
+
+.CTXPHCseperator .WAWseperator {
+   clear: both;
+   display: block;
+   width: 386px;
+   height: 2.5em;
+   margin:1.5em auto 1.5em auto;
+   background-image:url(http://www.ctxphc.com/wp-content/Images/palmline.gif);
+}
+
+#CXTPHCmenue li {
+   float: left;
+   list-style: none;
+   margin: 0.15em 0.15em;
+}
+
+
+#WAWmask{
+   position: relative;
+   overflow: hidden;
+   margin: 0px;
+/*   width: 650px; */
+}
+
+#WAWmenue li {
+   float: left;
+   list-style: none;
+   margin: 0.15em 0.15em;
+}
+
+#WAWwhoarewe {
+   position: relative;
+   float: left;
+   width: 100%;
+   margin: 10px 20px;
+}
+
+#WAWbodcont{
+   position: relative;
+   float: left;
+   width: 100%;
+   margin: 0.5em;
+}
+
+#WAWcol1{
+   position: relative;
+   overflow: hidden;
+   float: left;
+   width: 48%;
+   left: 1%;
+}
+
+#WAWcol2{
+   position: relative;
+   overflow: hidden;
+   float: left;
+   width: 48%;
+   left: 3%;
+}
+
+div.WAWmailaddr {
+   width: 500px;
+   position: relative;
+   float: left;
+   width: 100%;
+   margin: 10px auto;
+}
+
+div.mailadder {
+   position: relative;
+   text-align: center;
+   font-size: 12px;
+}
+
+#WAWhistory {
+   position: relative;
+   float: left;
+   width: 500px;
+   margin: 10px;
+}
+
+#WAWfooter{
+   float: left;
+   width: 100%;
+   background-color: #b4caf7
+}
+
+/* div.WAWseperator {
+   clear: both;
+   display: block;
+   width: 386px;
+   height: 2.5em;
+   margin:1.5em auto 1.5em auto;
+   background-image:url(images/palmline.gif);
+} */
+
+img.WAWimg {
+   float:left;
+   display:block;
+   margin:3px 8px 8px 0;
+}
+
+#WAWdiv.alignleft {
+   float: left;
+   margin: 10px 0.5em 0.5em 0.5em;
+}
+
+#WAWdiv.aligncenter {
+   clear: both;
+   display: block;
+   text-align: center;
+   margin:0 auto 3px auto;
+}
+
+ div.WAWinline {
+    display: inline;
+    font-size: 115%;
+ }
+
+
+/* Pirates Ball Registration Page */
+
+div.pb_reg {
+   margin: 20px 5.5em 10px 5.5em;
+}
+
+label#pb_first_name {
+   margin: 0.5em;
+   height:20px; /* or however tall they need to be*/
+   line-height:20px; /* setting the line-height equal to the height centers text */
+}
+
+input#pb_first_name {
+   margin: 0.5em 4.5em 0.5em 1px;
+   height:1.5em; /* or however tall they need to be*/
+   line-height:1.5em; /* setting the line-height equal to the height centers text */
+}
+
+label#pb_attendee_fname {
+   margin: 0.5em;
+   height:1.5em; /* or however tall they need to be*/
+   line-height:1.5em; /* setting the line-height equal to the height centers text */
+}
+
+input#pb_attendee_lname {
+   margin: 0.5em;
+   height:1.5em; /* or however tall they need to be*/
+   line-height:1.5em; /* setting the line-height equal to the height centers text */
+}
+
+label#pb_email {
+   margin: 0.5em 3.5em 0.5em 0.5em;
+   height:1.5em; /* or however tall they need to be*/
+   line-height:1.5em; /* setting the line-height equal to the height centers text */
+}
+
+input#pb_email {
+   margin: 0.5em 46px 0.5em 1px;
+   height:1.5em; /* or however tall they need to be*/
+   line-height:1.5em; /* setting the line-height equal to the height centers text */
+}
+
+
+
+fieldset.pbReg {
+  padding: 0.2em 0.5em;
+  display: block;
+  border:1px solid black;
+  /* background: -moz-linear-gradient(top, #8ed2ff 0%, #d0dff2 50%, #d0dff2 51%, #8ed2ff 100%);
+  background: -webkit-gradient(linear, left top, left bottom, from(#8ed2ff), to(#d0dff2), color-stop(0.4, #d0dff2), color-stop(0.5, #fff), color-stop(.5, #fff), color-stop(0.9, #8ed2ff));
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#8ed2ff', endColorstr='#d0dff2', GradientType=0 ); */
+}
+
+legend.pbReg {
+	padding: 0.2em 0.5em;
+	border:1px solid black;
+	color:black;
+	font-family: Verdana, Geneva, sans-serif;
+	font-size: 16px;
+	*margin-left: 9px; /* Hack to get IE to contain float */
+	background-color: white;
+	/* background: -moz-linear-gradient(top, #8ed2ff 0%, #d0dff2 50%, #d0dff2 51%, #8ed2ff 100%);
+	background: -webkit-gradient(linear, left top, left bottom, from(#8ed2ff), to(#d0dff2), color-stop(0.4, #f2f6f9), color-stop(0.5, #fff), color-stop(.5, #fff), color-stop(0.9, #8ed2ff));
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#8ed2ff', endColorstr='#d0dff2', GradientType=0 ); */
+}
+
+table.pb_reg {
+  width: 100%;
+}
+tr.pb_reg {
+  padding: 0.5em;
+}
+
+td.pb_regLeft {
+  padding: 0.5em;
+  text-align: left;
+}
+
+td.pb_regCenter {
+  /* border: 1px solid red; */
+  padding: 0.5em;
+  text-align: center;
+}
+
+td.pb_regLabel_cost {
+  padding: 0.5em;
+  text-align: left;
+}
+
+td.pb_regLabel_name {
+  padding: 0.5em;
+  width: 69px;
+  text-align: left;
+}
+
+td.pb_regInput {
+  padding-top: 0.5em;
+  padding-right: 10px;
+  padding-bottom: 0.5em;
+  padding-left: 0.5em;
+}
+
+td.pb_regSpace {
+  padding: 1.5em;
+  background-image: url('');
+
+}
+
+#PB_CTXPHC_logo {
+  padding-top: 0.5em;
+  padding-right: 10px;
+  padding-bottom: 0.5em;
+  padding-left: 1.5em;
+  float: right;
+}
+
+.PB_Reg_button {
+
+    font-family: Verdana, Geneva, sans-serif;
+    font-size: 24px;
+    color: #000;
+    padding: 0.5em 10px 0.5em 10px;
+    border: 1px solid #999;
+
+    text-shadow: 0px 1px 1px #FFF;
+    text-decoration: none;
+
+    border-radius: 10px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+
+   /* background: #dbdad5;
+    background: -moz-linear-gradient(top, #dbdad5 0%, #f0eeef 50%, #e4e0dd 51%, #a0c0e9 100%);
+    background: -webkit-gradient(linear, left top, left bottom, from(#dbdad5), to(#f0eeef), color-stop(0.4, #f0eeef), color-stop(0.5, #fff), color-stop(.5, #e4e0dd), color-stop(0.9, #a0c0e9));
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#dbdad5', endColorstr='#f0eeef', GradientType=0 ); */
+
+    background: #f5fafd; /* Old browsers */
+    background: -moz-linear-gradient(top,  #f5fafd 53%, #e0e8ec 71%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(53%,#f5fafd), color-stop(71%,#e0e8ec)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  #f5fafd 53%,#e0e8ec 71%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  #f5fafd 53%,#e0e8ec 71%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  #f5fafd 53%,#e0e8ec 71%); /* IE10+ */
+    background: linear-gradient(to bottom,  #f5fafd 53%,#e0e8ec 71%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f5fafd', endColorstr='#e0e8ec',GradientType=0 ); /* IE6-9 */
+
+
+    cursor: pointer;
+	width: 120px;
+	display: block;
+	margin: 0 auto;
+
+}
+.PB_Reg_button:hover {
+    background: -moz-linear-gradient(top, #a0c0e9 0%, #f2f6f9 50%, #f2f6f9 51%, #a0c0e9 100%);
+    background: -webkit-gradient(linear, left top, left bottom, from(#a0c0e9), to(#f2f6f9), color-stop(0.4, #f2f6f9), color-stop(0.5, #fff), color-stop(.5, #fff), color-stop(0.9, #a0c0e9));
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f6f9', endColorstr='#f2f6f9', GradientType=0 );
+}
+
+#pb_rev_ver_submit {
+  float: left;
+}
+
+#pb_rev_ver_update {
+  float: right;
+}
+
+#PB_logo {
+   display: block;
+    margin-left: auto;
+    margin-right: auto;
+}

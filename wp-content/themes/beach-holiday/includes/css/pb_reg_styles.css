@@ -1,0 +1,220 @@
+/* Pirates Ball Registration Page */
+
+.pieces_of_eight {
+    font-family: 'Pieces of Eight', philosopher, Georgia, verdanna, Arial, sans-serif;
+    font-size: 3em;
+    text-align: center;
+    line-height: 1;
+}
+
+.pb_header h4{
+    font-family: philosopher, Georgia, verdanna, Arial, sans-serif;
+    font-size: 1.5em;
+    text-align: center;
+    line-height: 1.4em;
+}
+
+.pb_center {
+    text-align: center;
+}
+
+
+.pb_display {
+    display: block;
+}
+
+.pb_hidden {
+    display: none;
+}
+
+.pb_text {
+    font-family: philosopher, Georgia, verdanna, arial, sans-serif;
+    font-size: 1.01em;
+}
+
+.pb_reg_form {
+    font-family: Georgia, Verdana, Arial, Helvetica, Sans-Serif;
+}
+
+#pb_reg_includes li{
+    position: relative;
+    line-height: 1.5em;
+    list-style-type: none;
+    font-size:1.2em;
+    margin: 0;
+    padding: 2px 2px 0 24px;
+    background: url('../../Images/Pirates_Ball/pb_starfish.jpg') no-repeat 0 5px;
+}
+
+dt {
+    font-weight: bold;
+    margin-bottom: .2em;
+}
+
+dd {
+    margin: 0 0 0 1em;
+    padding: 0 0 0.2em 0;
+}
+
+div.pb_rows {
+    padding: .5em;
+}
+
+div#personal_info{
+    margin-top: .5em;
+}
+div.pb_dates{
+    text-align: center;
+}
+
+span.pb_bold {
+    font-weight: bold;
+}
+
+/**********
+**  Pirate's Ball default form field styles
+*********/
+div.personal_info{
+    margin-top: 1em;
+}
+
+label.pb_field_col_1{
+    margin: .5em;
+}
+div.pb_reg_attendee {
+    padding: .5em;
+}
+/*
+label.pb_attendee_col_1 {
+    margin: .5em;
+}
+
+input.pb_attendee_col_1 {
+    margin: .7em;
+}
+
+.pb_attendee_col_2 {
+    margin: .5em;
+}
+*/
+
+.pb_lbl_left {
+    width: 5em;
+    position: relative;
+    vertical-align: bottom;
+    display: inline-block;
+}
+
+.pb_input_left {
+    width: 15em;
+    position: relative;
+    vertical-align: bottom;
+    display: inline-block;
+}
+
+.pb_lbl_right {
+    margin-left: 1em;
+    width: 5em;
+    position: relative;
+    vertical-align: bottom;
+    display: inline-block;
+}
+
+.pb_input_right {
+    width: 15em;
+    position: relative;
+    vertical-align: middle;
+}
+
+div#personal_info{
+    margin-top: 1em;
+}
+
+div#pb_attendee_count{
+    margin-top: 1em;
+}
+
+/**
+**  Pirate's Ball Registration field styles
+**/
+.pb_rgt_lbl {
+    width: 4em;
+    position: relative;
+    vertical-align: middle;
+}
+
+.pb_rgt_input {
+    width: 8em;
+    position: relative;
+    vertical-align: middle;
+}
+
+.attendee_club_lbl {
+    margin-left: 3.4em;
+}
+
+.pb_cruise_checkbox {
+    vertical-align: middle;
+}
+
+/* attendee count styles */
+div#pb_attendee_count{
+    padding: 1em 4em;
+}
+label.pb_attendeeCount {
+    font-size: .9em;
+    vertical-align: text-top;
+    margin-right: 2em;
+}
+
+input.pb_attendeeCount {
+    vertical-align: middle;
+    margin-right: .2em;
+}
+
+a.pb_details_link{
+    font-size: 1.3em;
+}
+
+li.pb_details{
+    font-size: 1.3em;
+}
+
+/**
+** Pirate's Ball Button Styles
+**/
+
+
+div#pb_reg_submit{
+    padding-top: 2em;
+}
+
+input#pb_submit {
+    text-align: center;
+}
+input.paypal_input{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+img.paypal_button {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#PB_CTXPHC_logo {
+    padding: 0.5em .9em 0.5em 1.5em;
+    float: right;
+}
+
+#PB_logo {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+img.wp-image-2553{
+    padding: 5px;
+}

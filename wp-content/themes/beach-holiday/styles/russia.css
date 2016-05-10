@@ -1,0 +1,178 @@
+/*	Layout and General */<!-- -->
+body{
+	color:#000000;
+	background: #120101 url('russia/bg_body_repeat.jpg') repeat-y center top;
+}
+
+a {color:#B9282D;text-decoration: none;}
+a:hover {color: #B9282D;text-decoration: underline;}
+
+hr {height:1px;border:none;border-top:1px dashed #EEC495; width:90%;}
+#bg_top{
+	background: url('russia/bg_top.jpg') no-repeat center top;
+}
+#bg_btm{
+	background: url('russia/bg_btm.jpg') no-repeat center bottom;
+}
+#base{
+	background: url('russia/bg_repeat.jpg') repeat-y center;
+}
+#base_btm{
+	background:url('russia/bg_footer.jpg') no-repeat center bottom;
+}
+#header{
+	background:url('russia/bg_header.jpg') no-repeat center top;
+}
+#container{
+	background: url('russia/bg_container.jpg') no-repeat center top;
+}
+#content{
+	padding:0px 4px 80px 0;
+}
+#footer{
+	width:560px;
+	height:50px;
+	margin: 35px 0px 0 0px;
+	padding: 35px 10px 5px 130px;
+	color:#ffffff;
+}
+#footer a, #footer a:hover{
+	color:#ffffff;
+	text-decoration:none;
+	font-style:italic;
+}
+
+/*	[ Header ] Blog Title, Description, Home URL, RSS                    */<!-- -->
+#blog_name {
+	top:45px;
+	width:500px;
+	color:#000000; 
+	text-shadow:#ffffff 0px 0px 0px,#ffffff 0px 0px 1px,#ffffff 0px 0px 2px,#ffffff 0px 0px 4px;
+}
+
+#blog_name a, #blog_name a:hover  {
+	color:#000000; 
+}
+	
+#blog_desc {
+	top:80px; 
+	right:20px; 
+	width:475px; 
+	height:45px;
+	color:#9D0038;
+	text-shadow:#ffffff 0px 0px 1px,#ffffff 0px 0px 2px;
+}
+
+/*	[ Menu ]  Level 1                                               */<!-- -->
+#menu li a {
+	color: #ED6E42;
+}
+#menu li a:hover{
+	color:#ffffff;
+}
+#menu > li.current_page_item > a {
+	color:#ffffff;
+	background:none;
+}
+/*		[ Menu ]  Level 2                                            */<!-- -->
+#menu li ul li {
+	color: #ED6E42;
+}
+#menu li ul li a{
+	color:#ED6E42;  
+	border: 1px #B42529 solid;
+	background:#B42529;
+}							
+#menu li ul li a:hover{		
+	color:#ffffff; 
+	background:#BA2D31;
+}
+#menu li.separator {
+	color: #ED6E42;
+}
+
+/*	[ Content ] Post                                                */<!-- -->
+#content .post, #content .page{
+	background: url('russia/bg_post_btm.jpg') no-repeat bottom center;
+}
+#content .post .post_title{
+	background:url('russia/bg_post_title.png') no-repeat top center;
+}
+#content .page .post_title{
+	background:url('russia/bg_page_title.png') no-repeat top center;
+}
+#content .post_title h1, #content .post_title h2{
+	color: #9D080D;	
+}
+
+#content .post_title a,#content .post_title a:hover{
+	color: #9D080D;
+	text-decoration:none;
+}
+#content .sticky .post_title{
+	background:url('russia/bg_post_title_sticky.png') no-repeat top center;
+}
+#content .sticky .post_title h1 a, #content .sticky .post_title h2 a{
+	color: #694E3C;
+}
+
+#content .sticky .post_date_d {
+	top:31px;
+	color:#B9282D;
+
+}
+#content .post_date_m {
+	top:11px;
+}
+/*		[ Content ] Entry                                            */<!-- -->
+img.post_thumb {
+	border:1px solid #B9282D;
+}
+
+/*		[ Content ] Post Info                                        */<!-- -->
+.info {
+	position:relative;
+	line-height: 1.8em;
+	font-size: 10px;
+	color:#000000;
+	margin:0px 22px 2px 22px;
+}
+.info a{
+	color:#B9282D;
+}
+.info_category {
+	color:#666666;
+}
+
+.info_tag {
+	color:#666666;
+}
+
+.info_comment {
+	color:#666666;
+}
+
+/*		[ Content ] Archive title, Navigation, Sorry                 */<!-- -->
+.archivetitle {
+	color: #8A6A5A;
+}
+.sorry {
+	border: 1px dashed #8A6A5A;
+}
+
+/*	[ Sidebar ]                                              */<!-- -->
+#sidebar a{color:#D0A55A;text-decoration:none;}
+#sidebar a:hover {color:#FFFFFF;text-decoration:underline;}
+#sidebar h4 {
+	color: #500000;
+	background:url('russia/sb_title.jpg') no-repeat right;
+}
+
+#sidebar ul ul li{
+	background: url('russia/sb_arrow.jpg') no-repeat 0px 5px;
+}
+
+#sidebar ul ul ul li {
+	background: url('russia/sb_arrow.jpg') no-repeat 0px 5px;
+}
+<!-- -->

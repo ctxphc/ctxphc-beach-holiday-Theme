@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="5062cfff-f9aa-47c5-a4ec-f35d8df9e709" name="ctxphc-beach-holiday-vagrant-server" url="http://ctxphc.com">
+        <fileTransfer host="ctxphc.com" port="22" rootFolder="/var/www/ctxphc.com/public_html" accessType="SFTP" password="dfdcdfcbdfcddfd8dfcbdfc4dfde" username="vagrant">
+          <option name="port" value="22" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

@@ -1,0 +1,261 @@
+<script type="text/javascript">
+    jQuery(document).ready(function ($) {
+        $("#spouse_info").hide();
+        $("#spouse_spacer").hide();
+        $("#family_info").hide();
+        $("#family_spacer").hide();
+        $("input:radio[name$='memb_type']").click(function () {
+
+            if ($("input[name$='memb_type']:checked").val() == 1) {
+                $("#spouse_info").hide();
+                $("#spouse_spacer").hide();
+                $("#family_info").hide();
+                $("#family_spacer").hide();
+            } else if ($("input[name$='memb_type']:checked").val() == 2) {
+                $("#spouse_info").hide();
+                $("#spouse_spacer").hide();
+                $("#family_info").show();
+                $("#family_spacer").show();
+            } else if ($("input[name$='memb_type']:checked").val() == 3) {
+                $("#spouse_spacer").show();
+                $("#spouse_info").show();
+                $("#family_info").hide();
+                $("#family_spacer").hide();
+            } else if ($("input[name$='memb_type']:checked").val() == 4) {
+                $("#spouse_info").show();
+                $("#spouse_spacer").show();
+                $("#family_info").show();
+                $("#family_spacer").show();
+            }
+        });
+    });
+</script>
+	<form class="memb_reg_form" id="regForm" name="regForm" method="post" action="<?php bloginfo( 'url' ); ?>/registration-review/">
+		<fieldset class="reg_form" id="memb_fld_type">
+			<legend><span class="memb_legend">Membership Options</span></legend>
+			<div class="memb_type" id="memb_type">
+				<!-- Individual Member Option -->
+				<input class="memb_type" id="memb_type_1" type="radio" name="memb_type" value=1 checked/>
+				<label class="memb_type" for="memb_type_1">Individual $25</label>
+
+				<!-- Individual + Child(ren) Member Option -->
+				<input class="memb_type" id="memb_type_2" type="radio" name="memb_type" value=2/>
+				<label class="memb_type" for="memb_type_2">Individual + Children $30</label>
+
+				<!-- Couple Member Option -->
+				<input class="memb_type" id="memb_type_3" type="radio" name="memb_type" value=3/>
+				<label class="memb_type" for="memb_type_3">Couple $40</label>
+
+				<!-- Household Member Option -->
+				<input class="memb_type" id="memb_type_4" type="radio" name="memb_type" value=4/>
+				<label class="memb_type" for="memb_type_4">Household $45</label>
+			</div>
+		</fieldset>
+
+		<div class="spacer"></div>
+
+		<fieldset class="reg_form" id="personal_info">
+			<legend><span class="memb_legend">Your Information</span></legend>
+			<div class="reg_renewal_row" id="memb_name">
+				<label class="reg_first_name" id="memb_lbl_first_name" for="memb_fast_name">First Name:</label>
+				<input class="reg_first_name validate[required, custom[onlyLetterSp]]" data-prompt-position="bottomLeft" id="memb_fast_name" name="first_name" type="text" value="" title="first_name"/>
+
+				<label class="reg_last_name" id="memb_lbl_last_name" for="memb_last_name">Last Name:</label>
+				<input class="reg_last_name validate[required, custom[onlyLetterSp]]" data-prompt-position="bottomLeft" id="memb_last_name" name="last_name" type="text" value=""/>
+			</div>
+			<div class="reg_renewal_row">
+				<label class="cm_birthday" id="memb_lbl_birthday" for="mb_birthday">Birthdate:</label>
+				<input class="cm_birthday validate[required, custom[onlyNumber]]" id="mb_birthday" data-prompt-position="bottomLeft" name="mb_birthday" type="date" value="" />
+
+
+				<label class="reg_email" id="memb_lbl_email" for="memb_email">Email:</label>
+				<input class="reg_email validate[required, custom[email]]" data-prompt-position="bottomLeft" id="memb_email" name="email" type="email" value="" />
+			</div>
+			<div class="reg_renewal_row">
+				<label class="reg_phone" id="memb_lbl_phone" for="memb_phone">Phone:</label>
+				<input class="reg_phone validate[required, custom[onlyNumber]]" data-prompt-position="bottomLeft" id="memb_phone" name="mb_phone" type="tel" size="10" value="" />
+
+				<label id="memb_lbl_occu" for="memb_occu">Occupation:</label>
+				<input id="memb_occu" class="validate[required, custom[onlyLetterSp]]" data-prompt-position="bottomLeft" name="occu" type="text" value=""/>
+			</div>
+		</fieldset>
+
+		<div class="spacer"></div>
+
+		<fieldset class="reg_form" id="memb_address">
+			<legend><span class="memb_legend">Address</span></legend>
+			<div class="reg_renewal_row">
+				<label id="memb_lbl_addr1" for="memb_addr1">Address:</label>
+				<input id="memb_addr1" class="validate[required, custom[address]]" data-prompt-position="bottomLeft" name="addr1" type="text" value=""/>
+
+				<label id="memb_lbl_addr2" for="memb_addr2">Suite/Apt:</label>
+				<input id="memb_addr2" name="addr2" type="text" value="" class="validate[custom[onlyLetterNumber]]" data-prompt-position="bottomLeft"/>
+			</div>
+			<div class="reg_renewal_row">
+				<label id="memb_lbl_city" for="memb_city">City:</label>
+				<input id="memb_city" class="validate[required, custom[onlyLetterSp]]" data-prompt-position="bottomLeft" name="city" type="text" value=""/>
+
+				<label id="memb_lbl_state" for="memb_state">State:</label>
+				<select id="memb_state" name="state" class="validate[required]">
+					<?php $defSel = 'TX';
+					echo showOptionsDrop( $states_arr, $defSel, true ); ?>
+				</select>
+
+				<label id="memb_lbl_zip" for="memb_zip">Zip:</label>
+				<input id="memb_zip" class="validate[required, custom[zip-code]]" data-prompt-position="bottomLeft" name="zip" type="text" value=""/>
+			</div>
+		</fieldset>
+
+		<div class="spacer" ID="spouse_spacer"></div>
+
+		<fieldset class="reg_form" id="spouse_info">
+			<legend><span class="memb_legend">Spouse/Partner</span></legend>
+			<div class="reg_renewal_row">
+				<label class="reg_first_name" id="sp_lbl_first_name" for="sp_first_name">First Name:</label>
+				<input class="reg_first_name validate[required,
+                        custom[onlyLetterSp]]" data-prompt-position="bottomLeft" id="sp_first_name"
+				       name="sp_first_name" type="text" value=""/>
+				<label class="reg_last_name" id="sp_lbl_last_name" for="sp_last_name">Last Name:</label>
+				<input class="reg_last_name validate[required,
+                        custom[onlyLetterSp]]" data-prompt-position="bottomLeft"
+				       id="sp_last_name" name="sp_last_name" type="text" value=""/>
+			</div>
+			<div class="reg_renewal_row">
+				<label class="cm_birthday" id="sp_lbl_birthday" for="sp_birthday">Birthdate:</label>
+				<input class="cm_birthday validate[required, custom[onlyNumber]]" id="sp_birthday" data-prompt-position="bottomLeft" name="sp_birthday" type="date"/>
+
+				<label class="reg_email" id="sp_lbl_email" for="sp_email">Email:</label>
+				<input class="reg_email validate[custom[email]]" data-prompt-position="bottomLeft" id="sp_email" name="sp_email" type="email" value=""/>
+			</div>
+			<div class="reg_renewal_row">
+				<label class="reg_phone" id="sp_lbl_phone" for="sp_phone">Phone:</label>
+				<input class="reg_phone validate[custom[onlyNumber]]" data-prompt-position="bottomLeft" id="sp_phone" name="sp_phone" type="tel" size="10"/>
+
+				<label class="sp_relationship" id="sp_lbl_relationship" for="sp_relationship">Relationship:</label>
+				<select id="sp_relationship" class="sp_relationship validate[required]" name="sp_relationship">
+					<?php echo showOptionsDrop( $relationship_arr, 2, true ); ?>
+				</select>
+			</div>
+		</fieldset>
+
+		<div class="spacer" id="family_spacer"></div>
+
+		<fieldset class="reg_form" id="family_info">
+			<legend><span class="memb_legend">Family Members</span></legend>
+			<section id="child1">
+				<div class="reg_renewal_row">
+					<label class="reg_first_name" for="c1_first_name">First Name:</label>
+					<input id="c1_first_name" class="reg_first_name validate[custom[onlyLetterSp]]" data-prompt-position="bottomLeft" name="c1_first_name" type="text" value=""/>
+
+					<label class="reg_last_name" for="c1_last_name">Last Name:</label>
+					<input class="reg_last_name validate[custom[onlyLetterSp]]" data-prompt-position="bottomLeft" id="c1_last_name" name="c1_last_name" type="text" value=""/>
+				</div>
+				<div class="reg_renewal_row">
+					<label class="cm_birthday" id="c1_lbl_birthday" for="c1_birthday">Birthdate:</label>
+					<input class="cm_birthday validate[custom[onlyNumber]]" data-prompt-position="bottomLeft" id="c1_birthday" name="c1_birthday" type="date">
+
+					<label class="child_relationship" id="c1_lbl_relationship" for="c1_relationship">Relationship:</label>
+					<select class="child_relationship" id="c1_relationship" name="c1_relationship">
+						<?php $defSel = 4; ?>
+						<?php echo showOptionsDrop( $relationship_arr, $defSel, true ); ?>
+					</select>
+				</div>
+				<div class="reg_renewal_row">
+					<label class="child_email" id="c1_lbl_email" for="c1_email">Email:</label>
+					<input class="child_email validate[custom[email]]" data-prompt-position="bottomLeft" id="c1_email" name="c1_email" type="email" value=""/>
+				</div>
+			</section>
+			<!--  //END of CHILD1 -->
+
+			<div class="spacer"></div>
+			<!--    BEGIN 2ND FAMILY MEMBER  -->
+
+			<section id="child2">
+				<div class="reg_renewal_row">
+					<label class="reg_first_name" id="c2_lbl_first_name" for="c2_first_name">First Name:</label>
+					<input class="reg_first_name validate[custom[onlyLetterSp]]" data-prompt-position="bottomLeft" id="c2_first_name" name="c2_first_name" type="text" value=""/>
+					<label class="reg_last_name" id="c2_lbl_last_name" for="c2_last_name">Last Name:</label>
+					<input class="reg_last_name validate[custom[onlyLetterSp]]" data-prompt-position="bottomLeft" id="c2_last_name" name="c2_last_name" type="text" value=""/>
+				</div>
+				<div class="reg_renewal_row">
+					<label class="cm_birthday" id="c2_lbl_birthday" for="c2_birthday">Birthdate:</label>
+					<input class="cm_birthday" id="c2_birthday" name="c2_birthday" type="date">
+
+					<label class="child_relationship" id="c2_lbl_relationship" for="c2_relationship">Relationship:</label>
+					<select class="child_relationship" id="c2_relationship" name="c2_relationship">
+						<?php $defSel = 4; ?>
+						<?php echo showOptionsDrop( $relationship_arr, $defSel, true ); ?>
+					</select>
+				</div>
+				<div class="reg_renewal_row">
+					<label class="child_email" id="c2_lbl_email" for="c2_email">Email:</label>
+					<input class="child_email validate[custom[email]]" data-prompt-position="bottomLeft" id="c2_email" name="c2_email" type="email" value=""/>
+				</div>
+			</section>
+			<!--  //END CHILD2 -->
+
+			<div class="spacer"></div>
+			<!--    BEGIN 3RD FAMILY MEMBER  -->
+
+			<section id="child3">
+				<div class="reg_renewal_row">
+					<label class="reg_first_name" id="c3_lbl_first_name" for="c3_first_name">First Name:</label>
+					<input class="reg_first_name validate[custom[onlyLetterSp]]" data-prompt-position="bottomLeft" id="c3_first_name" name="c3_first_name" type="text" value=""/>
+
+					<label class="reg_last_name" id="c3_lbl_last_name" for="c3_last_name">Last Name:</label>
+					<input class="reg_last_name validate[custom[onlyLetterSp]]" data-prompt-position="bottomLeft" id="c3_last_name" name="c3_last_name" type="text" value=""/>
+				</div>
+				<div class="reg_renewal_row">
+					<label class="cm_birthday" id="c3_lbl_birthday" for="c3_birthday">Birthdate:</label>
+					<input class="cm_birthday" id="c3_birthday" name="c3_birthday" type="date">
+
+					<label class="child_relationship" id="c3_lbl_relationship" for="c3_relationship">Relationship:</label>
+					<select class="child_relationship" id="c3_relationship" name="c3_relationship">
+						<?php $defSel = 4; ?>
+						<?php echo showOptionsDrop( $relationship_arr, $defSel, true ); ?>
+					</select>
+				</div>
+				<div class="reg_renewal_row">
+					<label class="child_email" id="c3_lbl_email" for="c3_email">Email:</label>
+					<input class="child_email validate[custom[email]]" data-prompt-position="bottomLeft" id="c3_email" name="c3_email" type="email" value=""/>
+				</div>
+			</section>
+			<!--  //END of CHILD3  -->
+
+			<div class="spacer"></div>
+			<!--    BEGIN 4th FAMILY MEMBER  -->
+
+			<section id="child4">
+				<div class="reg_renewal_row">
+					<label class="reg_first_name" id="c4_lbl_first_name" for="c4_first_name">First Name:</label>
+					<input class="reg_first_name validate[custom[onlyLetterSp]]" data-prompt-position="bottomLeft" id="c4_first_name" name="c4_first_name" type="text" value=""/>
+
+					<label class="reg_last_name" id="c4_lbl_last_name" for="c4_last_name">Last Name:</label>
+					<input class="reg_last_name validate[custom[onlyLetterSp]]" data-prompt-position="bottomLeft" id="c4_last_name" name="c4_last_name" type="text" value=""/>
+				</div>
+				<div class="reg_renewal_row">
+					<label class="cm_birthday" id="c4_lbl_birthday" for="c4_birthday">Birthdate:</label>
+					<input class="cm_birthday" id="c4_birthday" name="c4_birthday" type="date">
+
+					<label class="child_relationship" id="c4_lbl_relationship" for="c4_relationship">Relationship:</label>
+					<select class="child_relationship" id="c4_relationship" name="c4_relationship">
+						<?php $defSel = 4; ?>
+						<?php echo showOptionsDrop( $relationship_arr, $defSel, true ); ?>
+					</select>
+				</div>
+				<div class="reg_renewal_row">
+					<label class="child_email" id="c4_lbl_email" for="c4_email">Email:</label>
+					<input class="child_email validate[custom[email]]" data-prompt-position="bottomLeft" id="c4_email" name="c4_email" type="email" value=""/>
+				</div>
+			</section>
+			<!--  //END of CHILD3  -->
+		</fieldset>
+
+		<div class="spacer"></div>
+		<!--    BEGIN PREFERENCES  -->
+
+		<div>
+			<input class="ctxphc_button3 screen" id="reg_submit" type="submit" name="registration" value="Submit"/>
+		</div>
+
+	</form>
