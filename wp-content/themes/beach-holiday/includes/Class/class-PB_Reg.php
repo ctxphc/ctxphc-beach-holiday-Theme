@@ -68,7 +68,7 @@ class PB_Reg {
 		$args = wp_parse_args( $args, $this->defaults );
 		foreach ( $args as $arg_key => $arg_val ) {
 			$this->$arg_key = $arg_val;
-			if ( ! is_array( $arg_val ) ) {
+			if ( ! is_array( $arg_val ) || ! is_object( $arg_val) ) {
 				error_log( 'key is ' . $arg_key . ' | value is ' . $arg_val );
 			}
 		}

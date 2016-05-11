@@ -3,6 +3,8 @@
 Template Name: PB Reg
 */
 
+xdebug_start_trace();
+
 global $defSel, $wpdb;
 
 use CTXPHC\BeachHoliday\Classes\PB_Reg;
@@ -24,7 +26,6 @@ $pb_begin_open_reg_date = "May 1, " . $pb_curr_reg_year . " " . $pb_reg_begin_ti
 $pb_begin_reg_reg_date  = "August 1, " . $pb_curr_reg_year . ' ' . $pb_reg_begin_time;
 $pb_reg_table           = 'ctxphc_pb_reg';
 
-xdebug_break();
 /* Define args to pass to PB_Reg class */
 $args = array();
 if ( isset( $_GET[ 'pb_reg_type' ] ) && ( $_GET[ 'pb_reg_type' ] == 'member' || $_GET[ 'pb_reg_type' ] == 'complimentary' ) ) {
@@ -37,7 +38,7 @@ if ( isset( $_GET[ 'pb_reg_type' ] ) && ( $_GET[ 'pb_reg_type' ] == 'member' || 
 	}
 }
 
-$args[ 'states' ] = get_states_array();
+$args[ 'states' ] = load_states_array();
 
 $args[ 'pb_cost' ]       = $pb_cost;
 $args[ 'pb_open_cost' ]  = $pb_open_cost;
@@ -67,7 +68,7 @@ if ( isset( $_GET[ 'pb_reg_type' ] ) && ! empty( $_GET[ 'pb_reg_type' ] ) ) {
 	$pb_reg_req_type     = filter_input( INPUT_GET, 'pb_reg_type', FILTER_SANITIZE_STRING );
 	$args[ 'form_type' ] = $form_type = $pb_reg_form_type = 'new';
 	$memb_pb_reg         = new PB_Reg( $args );
-	xdebug_break();
+
 	$memb_pb_reg->display_pb_form( $form_type, $pb_reg_req_type );
 } else if ( isset( $_POST[ 'submit' ] ) ) {
 	$clean_post_data = array_map( 'mysql_real_escape_string', $_POST );
@@ -174,5 +175,6 @@ get_header(); ?>
 		endif;
 		?>
 	</div> <!-- content -->
+<?php xdebug_stop_trace(); ?>
 <?php get_sidebar(); ?>
 <?php get_footer(); ?>
