@@ -68,29 +68,27 @@ class PB_Reg {
 		$args = wp_parse_args( $args, $this->defaults );
 		foreach ( $args as $arg_key => $arg_val ) {
 			$this->$arg_key = $arg_val;
-			if ( ! is_array( $arg_val ) || ! is_object( $arg_val) ) {
-				error_log( 'key is ' . $arg_key . ' | value is ' . $arg_val );
-			}
 		}
 
 		//$this->pb_shirt_sizes = $this->pb_load_sizes();
 		$this->pb_reg_types = array(
-			'member'        => $pb_memb_reg_type,
-			'open'          => $pb_open_reg_type,
-			'registration'  => $pb_reg_reg_type,
-			'complimentary' => $pb_comp_reg_type,
+			'member'        => $this->pb_memb_reg_type,
+			'open'          => $this->pb_open_reg_type,
+			'registration'  => $this->pb_reg_reg_type,
+			'complimentary' => $this->pb_comp_reg_type,
 		);
 
-		$this->pb_reg_type = $this->pb_reg_types[ $this->pb_reg_req_type ];
+		$this->pb_reg_type = $this->pb_reg_types[ $this->pb_memb_reg_type ];
 		$this->pb_reg_text = $this->get_pb_reg_display_text();
 		$this->pb_reg_cost = $this->get_pb_reg_cost();
+		
 	}
 
 	private function get_pb_reg_display_text() {
 
 		$pb_reg_text[ 'pb_title_text' ] = $this->pb_title_text;
 
-		if ( isset( $this->pb_reg_type ) ) {
+		if ( isset( $this->pb_memb_reg_type ) ) {
 			switch ( $this->pb_reg_type ) {
 				case 'member':
 				case 'complimentary':
@@ -292,15 +290,15 @@ class PB_Reg {
 						</div>
 
 						<div class="pb_rows" id="pb_shirt">
+							<input class="validate[required] pb_cruise_checkbox"
+							       id="memb_pb_cruise_checkbox"
+							       name="pb_cruise"
+							       type="checkbox"
+							>
 							<label class="pb_lbl_cruise"
 							       id="pb_cruise_lbl"
-							       for="pb_cruise">
-								<input class="validate[required] pb_cruise_checkbox"
-								       id="pb_cruise_checkbox"
-								       name="pb_cruise"
-								       type="checkbox"
-								>
-								Attending Captain's Castaway Cruise(<?php echo $pb_cruise_cost; ?>)
+							       for="memb_pb_cruise_checkbox">
+								Attending Captain's Castaway Cruise(<?php echo $this->pb_cruise_cost; ?>)
 							</label>
 						</div>
 					</div>
@@ -387,6 +385,7 @@ class PB_Reg {
 							/>
 						</div>
 						<div class="pb_rows">
+							<!--
 							<label class="pb_lbl_left"
 							       id="pb_lbl_attendee_shirt_2"
 							       for="pb_attendee_shirt_2">T-Shirt Size:
@@ -397,7 +396,18 @@ class PB_Reg {
 								<?php $defSel = $pb_reg_data->attendee_shirt_size_2;
 								//echo showOptionsDrop( $this->pb_shirt_sizes, $defSel, true ); ?>
 							</select>
-
+							-->
+							<input class="validate[required] pb_cruise_checkbox"
+							       id="pb_attendee_cruise_checkbox_2"
+							       name="pb_attendee_cruise_2"
+							       type="checkbox"
+							>
+							<label class="pb_lbl_cruise"
+							       id="pb_attendee_2_cruise_lbl"
+							       for="pb_attendee_cruise_checkbox_2">
+								Attending Captain's Castaway Cruise(<?php echo $this->pb_cruise_cost; ?>)
+							</label>
+							
 							<label class="pb_lbl_right attendee_club_lbl"
 							       id="pb_lbl_attendee_club_2"
 							       for="pb_attendee_club_2">Club Affiliation:
@@ -440,15 +450,15 @@ class PB_Reg {
 						</div>
 
 						<div class="pb_rows">
+							<input class="validate[required] pb_cruise_checkbox"
+							       id="pb_attendee_cruise_checkbox_3"
+							       name="pb_attendee_cruise_3"
+							       type="checkbox"
+							>
 							<label class="pb_lbl_cruise"
 							       id="pb_attendee_3_cruise_lbl"
-							       for="pb_attendee_cruise_3">
-								<input class="validate[required] pb_cruise_checkbox"
-								       id="pb_attendee_cruise_checkbox_3"
-								       name="pb_attendee_cruise_3"
-								       type="checkbox"
-								>
-								Attending Captain's Castaway Cruise(<?php echo $pb_cruise_cost; ?>)
+							       for="pb_attendee_cruise_checkbox_3">
+								Attending Captain's Castaway Cruise(<?php echo $this->pb_cruise_cost; ?>)
 							</label>
 
 							<label class="pb_lbl_right attendee_club_lbl"
@@ -496,15 +506,15 @@ class PB_Reg {
 							/>
 						</div>
 						<div class="pb_rows">
+							<input class="validate[required] pb_cruise_checkbox"
+							       id="pb_attendee_cruise_checkbox_4"
+							       name="pb_attendee_cruise_4"
+							       type="checkbox"
+							>
 							<label class="pb_lbl_cruise"
 							       id="pb_attendee_4_cruise_lbl"
-							       for="pb_attendee_cruise_4">
-								<input class="validate[required] pb_cruise_checkbox"
-								       id="pb_attendee_cruise_checkbox_4"
-								       name="pb_attendee_cruise_4"
-								       type="checkbox"
-								>
-								Attending Captain's Castaway Cruise(<?php echo $pb_cruise_cost; ?>)
+							       for="pb_attendee_cruise_checkbox_4">
+								Attending Captain's Castaway Cruise(<?php echo $this->pb_cruise_cost; ?>)
 							</label>
 
 							<label class="pb_lbl_right attendee_club_lbl"
@@ -762,7 +772,7 @@ class PB_Reg {
 							       name="pb_cruise"
 							       type="checkbox"
 							>
-							Attending Captain's Castaway Cruise(<?php echo $pb_cruise_cost; ?>)
+							Attending Captain's Castaway Cruise(<?php echo $this->pb_cruise_cost; ?>)
 						</label>
 					</div>
 				</div>
@@ -850,7 +860,7 @@ class PB_Reg {
 							       name="pb_attendee_cruise_2"
 							       type="checkbox"
 							>
-							Attending Captain's Castaway Cruise(<?php echo $pb_cruise_cost; ?>)
+							Attending Captain's Castaway Cruise(<?php echo $this->pb_cruise_cost; ?>)
 						</label>
 
 						<label class="pb_lbl_right attendee_club_lbl"
@@ -912,7 +922,7 @@ class PB_Reg {
 							       name="pb_attendee_cruise_3"
 							       type="checkbox"
 							>
-							Attending Captain's Castaway Cruise(<?php echo $pb_cruise_cost; ?>)
+							Attending Captain's Castaway Cruise(<?php echo $this->pb_cruise_cost; ?>)
 						</label>
 
 						<label class="pb_lbl_right attendee_club_lbl"
@@ -973,7 +983,7 @@ class PB_Reg {
 							       name="pb_attendee_cruise_4"
 							       type="checkbox"
 							>
-							Attending Captain's Castaway Cruise(<?php echo $pb_cruise_cost; ?>)
+							Attending Captain's Castaway Cruise(<?php echo $this->pb_cruise_cost; ?>)
 						</label>
 
 						<label class="pb_lbl_right attendee_club_lbl"

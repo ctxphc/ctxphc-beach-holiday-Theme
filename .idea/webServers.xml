@@ -7,9 +7,6 @@
           <option name="port" value="22" />
         </fileTransfer>
       </webServer>
-      <webServer id="b285972e-dbf5-44ab-ab87-ea34638ff1e8" name="Vagrant CTXPHC Server" url="http://ctxphc.com">
-        <fileTransfer port="0" mountedRoot="E:\Web Development\Projects\ctxphc-beach-hoildy-theme-development" accessType="MOUNT" />
-      </webServer>
     </option>
   </component>
 </project>

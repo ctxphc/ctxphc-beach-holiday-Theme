@@ -22,7 +22,7 @@ $pb_cruise_cost          = 40.00;
 $pb_reg_begin_time      = "23:59:00";
 $pb_curr_reg_year       = date( "Y" );
 $pb_curr_date           = date( 'F d\, Y H:i:s' );
-$pb_begin_open_reg_date = "May 1, " . $pb_curr_reg_year . " " . $pb_reg_begin_time;
+$pb_begin_open_reg_date = "June 1, " . $pb_curr_reg_year . " " . $pb_reg_begin_time;
 $pb_begin_reg_reg_date  = "August 1, " . $pb_curr_reg_year . ' ' . $pb_reg_begin_time;
 $pb_reg_table           = 'ctxphc_pb_reg';
 
@@ -45,9 +45,12 @@ $args[ 'pb_open_cost' ]  = $pb_open_cost;
 $args[ 'pb_memb_cost' ]  = $pb_memb_cost;
 $args[ 'pb_cruse_cost' ] = $pb_cruise_cost;
 
-$args[ 'pb_today' ] = $pb_today = new DateTime();
-$args[ 'expiry' ]   = $expiry = new DateTime( $pb_begin_open_reg_date );
-$args[ 'expiry2' ]  = $expiry2 = new DateTime( $pb_begin_reg_reg_date );
+$pb_today = new DateTime();
+$expiry = new DateTime( $pb_begin_open_reg_date );
+$expiry2 = new DateTime( $pb_begin_reg_reg_date );
+$args[ 'pb_today' ] = $pb_today->date;
+$args[ 'expiry' ]   = $expiry->date;
+$args[ 'expiry2' ]  = $expiry2->date;
 $args[ 'table' ]    = $pb_reg_table;
 
 $args[ 'pb_reg_year' ]   = $pb_curr_reg_year;
@@ -68,8 +71,7 @@ if ( isset( $_GET[ 'pb_reg_type' ] ) && ! empty( $_GET[ 'pb_reg_type' ] ) ) {
 	$pb_reg_req_type     = filter_input( INPUT_GET, 'pb_reg_type', FILTER_SANITIZE_STRING );
 	$args[ 'form_type' ] = $form_type = $pb_reg_form_type = 'new';
 	$memb_pb_reg         = new PB_Reg( $args );
-
-	$memb_pb_reg->display_pb_form( $form_type, $pb_reg_req_type );
+	//$memb_pb_reg->display_pb_form( $form_type, $pb_reg_req_type );
 } else if ( isset( $_POST[ 'submit' ] ) ) {
 	$clean_post_data = array_map( 'mysql_real_escape_string', $_POST );
 
@@ -90,11 +92,11 @@ if ( isset( $_GET[ 'pb_reg_type' ] ) && ! empty( $_GET[ 'pb_reg_type' ] ) ) {
 	error_log( $pb_data_insert_results );
 
 	$args[ 'form_type' ] = $form_type = $pb_reg_form_type = 'review';
-	$memb_pb_reg->display_pb_form( $form_type, $pb_data_insert_results );
+	//$memb_pb_reg->display_pb_form( $form_type, $pb_data_insert_results );
 } else {
 	$form_type   = $pb_reg_type;
 	$memb_pb_reg = new PB_Reg( $args );
-	$memb_pb_reg->display_pb_form( $form_type );
+	//$memb_pb_reg->display_pb_form( $form_type );
 }
 
 get_header(); ?>
@@ -131,8 +133,8 @@ get_header(); ?>
 					<div class="clear"></div>
 					<div class="spacer"></div>
 					<div class="pb_header">
-						<h2 class="pieces_of_eight">$pb_title_text</h2>
-						<h2 class="pb_center" id="memb_reg"><?php echo $pb_reg_head_text; ?></h2>
+						<h2 class="pieces_of_eight"><?php echo $memb_pb_reg->pb_reg_text[ 'pb_title_text' ]; ?></h2>
+						<h2 class="pb_center" id="memb_reg"><?php echo $memb_pb_reg->pb_reg_text[ 'pb_reg_head_text' ]; ?></h2>
 					</div>
 
 					<div class="spacer"></div>
@@ -149,14 +151,14 @@ get_header(); ?>
 
 					<div class="pb_cost" id="memb_reg_cost">
 						<h4 class="pb_center pb_header">
-							<?php echo $pb_reg_cost_text . ': ' . $pb_memb_cost; ?> per person
+							<?php echo $memb_pb_reg->pb_reg_text['pb_reg_cost_text'] . ': $' . $memb_pb_reg->pb_memb_cost; ?> per person
 						</h4>
 						<ul>
 							<li class="pb_details">
-								<?php echo $pb_open_reg_cost_next_text . ': $' . $pb_open_cost . ' per person.'; ?>
+								<?php echo $memb_pb_reg->pb_reg_text[ 'pb_reg_cost_text_A' ] . ': $' . $memb_pb_reg->pb_open_cost . ' per person.'; ?>
 							</li>
 							<li class="pb_details">
-								<?php echo $pb_reg_cost_next_text . ': $' . $pb_cost . ' per person.'; ?>
+								<?php echo $memb_pb_reg->pb_reg_text[ 'pb_reg_cost_text_B' ] . ': $' . $memb_pb_reg->pb_cost . ' per person.'; ?>
 							</li>
 						</ul>
 					</div>
@@ -166,7 +168,15 @@ get_header(); ?>
 							Click here for additional event and hotel information!
 						</a>
 					</p>
-
+					<?php
+					if ( isset( $_GET[ 'pb_reg_type' ] ) && ! empty( $_GET[ 'pb_reg_type' ] ) ) {
+						$memb_pb_reg->display_pb_form( $form_type, $pb_reg_req_type );
+					} else if ( isset( $_POST[ 'submit' ] ) ) {
+						$memb_pb_reg->display_pb_form( $form_type, $pb_data_insert_results );
+					} else {
+						$memb_pb_reg->display_pb_form( $form_type );
+					}
+					?>
 				</div>
 				<!-- entry -->
 			</div> <!-- post -->
