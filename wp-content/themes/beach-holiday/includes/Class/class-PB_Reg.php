@@ -369,7 +369,7 @@ class PB_Reg {
 							<label class="pb_lbl_cruise"
 							       id="pb_cruise_lbl"
 							       for="memb_pb_cruise_checkbox">
-								Attending Captain's Castaway Cruise(<?php echo $this->pb_cruise_cost; ?>)
+								Attending Captain's Castaway Cruise( $<?php echo $this->pb_cruise_cost; ?>)
 							</label>
 						</div>
 					</div>

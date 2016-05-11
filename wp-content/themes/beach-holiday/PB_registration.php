@@ -28,10 +28,10 @@ if ( $_POST[ 'submit' ] ) {
 	$pb_submit_type = 'new';
 }
 
-$pb_cost                = 65.00;
-$pb_open_cost           = 55.00;
-$pb_memb_cost           = 45.00;
-$pb_cruise_cost         = 40.00;
+$pb_cost                = number_format(65, 2, '.', '');
+$pb_open_cost           = number_format(55, 2, '.', '');
+$pb_memb_cost           = number_format(45, 2, '.', '');
+$pb_cruise_cost         = number_format(40, 2, '.', '');
 $pb_reg_begin_time      = "23:59:00";
 $pb_curr_reg_year       = date( "Y" );
 $pb_begin_open_reg_date = 'June 1, ' . $pb_curr_reg_year . ' ' . $pb_reg_begin_time;
@@ -89,7 +89,7 @@ $args[ 'pb_reg_reg_cost_next_text' ] = 'Beginning August 1st Registration will c
 
 $args[ 'form_type' ] = $pb_reg_form_type;
 
-if ( $pb_submit_type !== 'new' ) {
+
 	switch ( $pb_submit_type ) {
 		case 'review':
 		case 'update':
@@ -113,20 +113,13 @@ if ( $pb_submit_type !== 'new' ) {
 			$args[ 'form_type' ] = $form_type = $pb_reg_form_type = 'review';
 			break;
 		case 'failed':
-
+			$form_type   = $pb_reg_type;
+			$memb_pb_reg = new PB_Reg( $args );
 			break;
 		default:
 			$memb_pb_reg = new PB_Reg( $args );
 			break;
 	}
-
-
-	//$memb_pb_reg->display_pb_form( $form_type, $pb_data_insert_results );
-} else {
-	$form_type   = $pb_reg_type;
-	$memb_pb_reg = new PB_Reg( $args );
-	//$memb_pb_reg->display_pb_form( $form_type );
-}
 
 get_header(); ?>
 <!--suppress ALL -->
