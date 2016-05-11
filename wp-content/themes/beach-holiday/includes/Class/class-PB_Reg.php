@@ -56,6 +56,16 @@ class PB_Reg {
 	public $expiry;
 	public $pb_reg_req_type;
 	public $expiry2;
+	public $pb_submit_button;
+	public $pb_member_reg_cost_text;
+	public $pb_open_reg_cost_next_text;
+	public $pb_reg_reg_cost_next_text;
+	public $pb_member_reg_head_text;
+	public $pb_open_reg_head_text;
+	public $pb_reg_reg_head_text;
+	public $pb_reg_reg_cost_text;
+	public $pb_title_text;
+	public $pb_attend_shirt_count;
 
 
 	/**
@@ -81,7 +91,10 @@ class PB_Reg {
 		$this->pb_reg_type = $this->pb_reg_types[ $this->pb_memb_reg_type ];
 		$this->pb_reg_text = $this->get_pb_reg_display_text();
 		$this->pb_reg_cost = $this->get_pb_reg_cost();
-		
+
+		if ( $_POST[ 'submit' ] ) {
+			$this->form_type = 'review';
+		}
 	}
 
 	private function get_pb_reg_display_text() {
@@ -147,6 +160,59 @@ class PB_Reg {
 		return $shirtsizes;
 	}
 
+	public function get_submit_button() {
+		$this->pb_submit_button[ 'member_only_pp_button' ] = "<!-- Pirate's Ball CTXPHC Members Only Registration PayPal Button -->";
+		$this->pb_submit_button[ 'member_only_pp_button' ] .= '<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">';
+		$this->pb_submit_button[ 'member_only_pp_button' ] .= '<input type="hidden" name="cmd" value="_s-xclick">';
+		$this->pb_submit_button[ 'member_only_pp_button' ] .= '<input type="hidden" name="hosted_button_id" value="VDW65WDHYXXYJ">';
+		$this->pb_submit_button[ 'member_only_pp_button' ] .= '<input type="hidden" name="quantity" value="<?php echo $pb_reg_data->quantity; ?>"/>';
+		$this->pb_submit_button[ 'member_only_pp_button' ] .= '<input type="hidden" name="custom" value="<?php echo $pb_reg_user_id; ?>"/>';
+		$this->pb_submit_button[ 'member_only_pp_button' ] .= '<input class="paypal_input" type="image"';
+		$this->pb_submit_button[ 'member_only_pp_button' ] .= ' src="https://www.paypalobjects.com/en_US/i/btn/btn_paynowCC_LG.gif"';
+		$this->pb_submit_button[ 'member_only_pp_button' ] .= ' name="submit" alt="PayPal - The safer, easier way to pay online!">';
+		$this->pb_submit_button[ 'member_only_pp_button' ] .= '<img class="paypal_button" alt="PayPal - The safer, easier way to pay online!"';
+		$this->pb_submit_button[ 'member_only_pp_button' ] .= ' src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">';
+		$this->pb_submit_button[ 'member_only_pp_button' ] .= '</form>';
+
+
+		$this->pb_submit_button[ 'open_reg_pp_button' ] = "<!--  Pirate's Ball Early Registration PayPal Button -->";
+		$this->pb_submit_button[ 'open_reg_pp_button' ] .= '<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">';
+		$this->pb_submit_button[ 'open_reg_pp_button' ] .= '<input type="hidden" name="cmd" value="_s-xclick">';
+		$this->pb_submit_button[ 'open_reg_pp_button' ] .= '<input type="hidden" name="hosted_button_id" value="4PH2DEAAH4LD8">';
+		$this->pb_submit_button[ 'open_reg_pp_button' ] .= '<input type="hidden" name="quantity" value="<?php echo $pb_reg_data->quantity; ?>"/>';
+		$this->pb_submit_button[ 'open_reg_pp_button' ] .= '<input type="hidden" name="custom" value="<?php echo $pb_reg_user_id; ?>"/>';
+		$this->pb_submit_button[ 'open_reg_pp_button' ] .= '<input type="image"';
+		$this->pb_submit_button[ 'open_reg_pp_button' ] .= 'src="https://www.paypalobjects.com/en_US/i/btn/btn_paynowCC_LG.gif" border="0" name="submit"';
+		$this->pb_submit_button[ 'open_reg_pp_button' ] .= 'alt="PayPal - The safer, easier way to pay online!">';
+		$this->pb_submit_button[ 'open_reg_pp_button' ] .= '<img class="paypal_button" alt="" border="0"';
+		$this->pb_submit_button[ 'open_reg_pp_button' ] .= 'src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif"';
+		$this->pb_submit_button[ 'open_reg_pp_button' ] .= 'width="1" height="1">';
+		$this->pb_submit_button[ 'open_reg_pp_button' ] .= '</form>';
+
+
+		$this->pb_submit_button[ 'reg_pp_button' ] = "<!-- Pirate's Ball Late Registration PayPal Button -->";
+		$this->pb_submit_button[ 'reg_pp_button' ] .= '<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">';
+		$this->pb_submit_button[ 'reg_pp_button' ] .= '<input type="hidden" name="cmd" value="_s-xclick">';
+		$this->pb_submit_button[ 'reg_pp_button' ] .= '<input type="hidden" name="hosted_button_id" value="DU9MPK4H5L3ZQ">';
+		$this->pb_submit_button[ 'reg_pp_button' ] .= '<input type="hidden" name="quantity" value="<?php echo $pb_reg_data->quantity; ?>"/>';
+		$this->pb_submit_button[ 'reg_pp_button' ] .= '<input type="hidden" name="custom" value="<?php echo $pb_reg_user_id; ?>"/>';
+		$this->pb_submit_button[ 'reg_pp_button' ] .= '<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_paynowCC_LG.gif"';
+		$this->pb_submit_button[ 'reg_pp_button' ] .= 'name="submit" alt="PayPal - The safer, easier way to pay online!">';
+		$this->pb_submit_button[ 'reg_pp_button' ] .= '<img class="paypal_button" alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">';
+		$this->pb_submit_button[ 'reg_pp_button' ] .= '</form>';
+
+		$this->pb_submit_button[ 'comp_reg_pp_button' ] = "<!-- Pirate's Ball Private Registration PayPal Button -->";
+		$this->pb_submit_button[ 'comp_reg_pp_button' ] .= '<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">';
+		$this->pb_submit_button[ 'comp_reg_pp_button' ] .= '<input type="hidden" name="cmd" value="_s-xclick">';
+		$this->pb_submit_button[ 'comp_reg_pp_button' ] .= '<input type="hidden" name="hosted_button_id" value="5YCZ8AV3GT83S">';
+		$this->pb_submit_button[ 'comp_reg_pp_button' ] .= '<input type="hidden" name="quantity" value="<?php echo $pb_reg_data->quantity; ?>"/>';
+		$this->pb_submit_button[ 'comp_reg_pp_button' ] .= '<input type="hidden" name="custom" value="<?php echo $pb_reg_user_id; ?>"/>';
+		$this->pb_submit_button[ 'comp_reg_pp_button' ] .= '<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_paynowCC_LG.gif" name="submit" alt="PayPal - The safer, easier way to pay online!">';
+		$this->pb_submit_button[ 'comp_reg_pp_button' ] .= '<img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1"> </form>';
+
+		return $this->pb_submit_button;
+	}
+
 	public function display_pb_form( $form_type, $pb_reg_user_id = null ) {
 
 		switch ( $form_type ) {
@@ -199,7 +265,7 @@ class PB_Reg {
 			<form id="pbMembOnlyRegForm" name="regForm" method="post" action=""
 			      onsubmit="return checkEmail(this);">
 
-				<fieldset class="pb_reg_form" id=members_info>
+				<fieldset class="pb_reg_form" id="members_info">
 					<legend><span class="memb_legend"> Your Information </span></legend>
 					<div class="personal_info">
 						<input type="hidden"
@@ -289,7 +355,7 @@ class PB_Reg {
 							/>
 						</div>
 
-						<div class="pb_rows" id="pb_shirt">
+						<div class="pb_rows">
 							<input class="validate[required] pb_cruise_checkbox"
 							       id="memb_pb_cruise_checkbox"
 							       name="pb_cruise"
@@ -393,8 +459,8 @@ class PB_Reg {
 							<select class="validate[required] pb_input_left"
 							        id="pb_attendee_shirt_2"
 							        name="pb_attendee_shirt_size_2">
-								<?php $defSel = $pb_reg_data->attendee_shirt_size_2;
-								//echo showOptionsDrop( $this->pb_shirt_sizes, $defSel, true ); ?>
+								<?php //$defSel = $pb_reg_data->attendee_shirt_size_2;
+							//echo showOptionsDrop( $this->pb_shirt_sizes, $defSel, true ); ?>
 							</select>
 							-->
 							<input class="validate[required] pb_cruise_checkbox"
@@ -407,7 +473,7 @@ class PB_Reg {
 							       for="pb_attendee_cruise_checkbox_2">
 								Attending Captain's Castaway Cruise(<?php echo $this->pb_cruise_cost; ?>)
 							</label>
-							
+
 							<label class="pb_lbl_right attendee_club_lbl"
 							       id="pb_lbl_attendee_club_2"
 							       for="pb_attendee_club_2">Club Affiliation:
@@ -535,72 +601,12 @@ class PB_Reg {
 				<div class="spacer"></div>
 
 				<div>
-					<!--<input class="PB_Reg_button" id="update" type=submit name="update" value="update" />-->
+					<!--<input class="PB_Reg_button" id="update" type="submit" name="update" value="update" />-->
 				</div>
 
 			</form>
 
-			<!-- Pirate's Ball CTXPHC Members Only Registration PayPal Button -->
-			<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-				<input type="hidden" name="cmd" value="_s-xclick">
-				<input type="hidden" name="hosted_button_id" value="VDW65WDHYXXYJ">
-				<input type="hidden" name="quantity" value="<?php echo $pb_reg_data->quantity; ?>"/>
-				<input type="hidden" name="custom" value="<?php echo $pb_reg_user_id; ?>"/>
-				<input class="paypal_input" type="image"
-				       src="https://www.paypalobjects.com/en_US/i/btn/btn_paynowCC_LG.gif"
-				       name="submit" alt="PayPal - The safer, easier way to pay online!">
-				<img class="paypal_button" alt="" border="0"
-				     src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif"
-				     width="1" height="1">
-			</form>
-
-
-			<!--  Pirate's Ball Early Registration PayPal Button -->
-			<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-				<input type="hidden" name="cmd" value="_s-xclick">
-				<input type="hidden" name="hosted_button_id" value="4PH2DEAAH4LD8">
-				<input type="hidden" name="quantity" value="<?php echo $pb_reg_data->quantity; ?>"/>
-				<input type="hidden" name="custom" value="<?php echo $pb_reg_user_id; ?>"/>
-				<input type="image"
-				       src="https://www.paypalobjects.com/en_US/i/btn/btn_paynowCC_LG.gif" border="0" name="submit"
-				       alt="PayPal - The safer, easier way to pay online!">
-				<img class="paypal_button" alt="" border="0"
-				     src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif"
-				     width="1" height="1">
-			</form>
-
-
-			<!-- Pirate's Ball Late Registration PayPal Button -->
-
-			<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-				<input type="hidden" name="cmd" value="_s-xclick">
-				<input type="hidden" name="hosted_button_id" value="DU9MPK4H5L3ZQ">
-				<input type="hidden" name="quantity" value="<?php echo $pb_reg_data->quantity; ?>"/>
-				<input type="hidden" name="custom" value="<?php echo $pb_reg_user_id; ?>"/>
-				<input type="image"
-				       src="https://www.paypalobjects.com/en_US/i/btn/btn_paynowCC_LG.gif"
-				       border="0"
-				       name="submit" alt="PayPal - The safer, easier way to pay online!">
-				<img class="paypal_button" alt="" border="0"
-				     src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif"
-				     width="1" height="1">
-			</form>
-
-			<!-- Pirate's Ball Private Registration PayPal Button -->
-
-			<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-				<input type="hidden" name="cmd" value="_s-xclick">
-				<input type="hidden" name="hosted_button_id" value="5YCZ8AV3GT83S">
-				<input type="hidden" name="quantity" value="<?php echo $pb_reg_data->quantity; ?>"/>
-				<input type="hidden" name="custom" value="<?php echo $pb_reg_user_id; ?>"/>
-				<input type="image"
-				       src="https://www.paypalobjects.com/en_US/i/btn/btn_paynowCC_LG.gif"
-				       border="0"
-				       name="submit" alt="PayPal - The safer, easier way to pay online!">
-				<img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif"
-				     width="1" height="1">
-			</form>
-
+			<?php echo $this->pb_submit_button; ?>
 		</div>
 
 		<div class="spacer"></div>
@@ -676,7 +682,7 @@ class PB_Reg {
 		<div class="spacer"></div>
 
 		<form id="pbMembOnlyRegForm" name="pbRegForm" method="post" action="">
-			<fieldset class="pb_reg_form" id=members_info>
+			<fieldset class="pb_reg_form" id="members_info">
 				<legend><span class="memb_legend">Your Information</span></legend>
 				<div class="personal_info">
 					<div class="pb_rows" id="personal_info">
@@ -848,7 +854,7 @@ class PB_Reg {
 						<select class="validate[required] pb_attendee_shirt pb_input_left"
 						        id="pb_attendee_shirt_2"
 						        name="pb_attendee_shirt_size_2">
-							<?php $defSel = 'LG';
+							<?php //$defSel = 'LG';
 						//echo showOptionsDrop( $this->pb_shirt_sizes, $defSel, true ); ?>
 						</select>
 					-->
@@ -910,7 +916,7 @@ class PB_Reg {
 						<select class="validate[required] pb_attendee_shirt pb_input_left"
 						        id="pb_attendee_shirt_3"
 						        name="pb_attendee_shirt_size_3">
-							<?php $defSel = 'LG';
+							<?php //$defSel = 'LG';
 						//echo showOptionsDrop( $this->pb_shirt_sizes, $defSel, true ); ?>
 						</select>
 						-->
@@ -971,7 +977,7 @@ class PB_Reg {
 						<select class="validate[required] pb_input_left"
 						        id="pb_attendee_shirt_4"
 						        name="pb_attendee_shirt_size_4">
-							<?php $defSel = 'LG';
+							<?php //$defSel = 'LG';
 						//echo showOptionsDrop( $this->pb_shirt_sizes, $defSel, true ); ?>
 						</select>
 						-->
@@ -1001,7 +1007,7 @@ class PB_Reg {
 			</fieldset>
 
 			<div id="pb_reg_submit">
-				<input class="ctxphc_button3" id="pb_submit" type=submit name="submit"
+				<input class="ctxphc_button3" id="pb_submit" type="submit" name="submit"
 				       value="submit"/>
 			</div>
 		</form>

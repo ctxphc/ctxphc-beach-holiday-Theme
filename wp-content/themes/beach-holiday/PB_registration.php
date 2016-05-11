@@ -9,10 +9,10 @@ global $defSel, $wpdb;
 
 use CTXPHC\BeachHoliday\Classes\PB_Reg;
 
-define( 'BH_CLASSES', trailingslashit( get_template_directory() ) . trailingslashit( 'includes/Class' ) );
+define( 'THEME_CLASSES', trailingslashit( get_template_directory() ) . trailingslashit( 'includes/Class' ) );
 
 if ( ! class_exists( 'PB_Reg' ) ) {
-	require_once( BH_CLASSES . 'class-PB_Reg.php' );
+	require_once( THEME_CLASSES . 'class-PB_Reg.php' );
 }
 
 $pb_cost                = 65.00;
@@ -21,13 +21,13 @@ $pb_memb_cost           = 45.00;
 $pb_cruise_cost          = 40.00;
 $pb_reg_begin_time      = "23:59:00";
 $pb_curr_reg_year       = date( "Y" );
-$pb_curr_date           = date( 'F d\, Y H:i:s' );
-$pb_begin_open_reg_date = "June 1, " . $pb_curr_reg_year . " " . $pb_reg_begin_time;
-$pb_begin_reg_reg_date  = "August 1, " . $pb_curr_reg_year . ' ' . $pb_reg_begin_time;
+$pb_begin_open_reg_date = 'June 1, ' . $pb_curr_reg_year . ' ' . $pb_reg_begin_time;
+$pb_begin_reg_reg_date  = 'August 1, ' . $pb_curr_reg_year . ' ' . $pb_reg_begin_time;
 $pb_reg_table           = 'ctxphc_pb_reg';
 
 /* Define args to pass to PB_Reg class */
 $args = array();
+
 if ( isset( $_GET[ 'pb_reg_type' ] ) && ( $_GET[ 'pb_reg_type' ] == 'member' || $_GET[ 'pb_reg_type' ] == 'complimentary' ) ) {
 	$args[ 'pb_reg_req_type' ] = $pb_reg_type = $_GET[ 'pb_reg_type' ];
 } else {
@@ -48,9 +48,16 @@ $args[ 'pb_cruse_cost' ] = $pb_cruise_cost;
 $pb_today = new DateTime();
 $expiry = new DateTime( $pb_begin_open_reg_date );
 $expiry2 = new DateTime( $pb_begin_reg_reg_date );
-$args[ 'pb_today' ] = $pb_today->date;
-$args[ 'expiry' ]   = $expiry->date;
-$args[ 'expiry2' ]  = $expiry2->date;
+
+if ( isset( $pb_today->date ) ) {
+	$args[ 'pb_today' ] = $pb_today->date;
+}
+if ( isset( $expiry->date ) ) {
+	$args[ 'expiry' ]   = $expiry->date;
+}
+if ( isset( $expiry2 ) ) {
+	$args[ 'expiry2' ]  = $expiry2->date;
+}
 $args[ 'table' ]    = $pb_reg_table;
 
 $args[ 'pb_reg_year' ]   = $pb_curr_reg_year;
