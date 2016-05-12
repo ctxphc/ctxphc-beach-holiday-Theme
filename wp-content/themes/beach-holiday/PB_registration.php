@@ -176,9 +176,9 @@ get_header(); ?>
 				</p>
 				<?php
 				if ( isset( $_POST[ 'submit' ] ) ) {
-					$memb_pb_reg->display_pb_form( $pb_reg_type, $pb_display_data[ 'pbRegID' ] );
+					$memb_pb_reg->display_pb_form( $pb_submit_type, $pb_display_data[ 'pbRegID' ] );
 				} else {
-					$memb_pb_reg->display_pb_form( $pb_reg_type );
+					$memb_pb_reg->display_pb_form( $pb_submit_type );
 				}
 				?>
 			</div> <!-- entry -->

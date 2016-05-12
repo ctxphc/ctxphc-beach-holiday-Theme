@@ -92,6 +92,7 @@ class PB_Reg {
 		);
 
 		$this->pb_reg_type         = $this->pb_reg_types[ $this->pb_memb_reg_type ];
+		$this->pb_reg_form         = $this->form_type;
 		$this->pb_reg_text         = $this->get_pb_reg_display_text();
 		$this->pb_reg_cost         = $this->get_pb_reg_cost();
 		$this->pb_submit_button    = $this->get_submit_button_options();
@@ -235,13 +236,13 @@ class PB_Reg {
 		return $shirtsizes;
 	}
 
-	public function display_pb_form( $pb_reg_type, $pb_display_data = array() ) {
+	public function display_pb_form( $pb_reg_form, $pb_user_id = null ) {
 
-		switch ( $pb_reg_type ) {
+		switch ( $pb_reg_form ) {
 			case 'review':
 				$this->pb_submit_button = $this->pb_submit_button_array[ 'update' ];
-				if ( ! empty( $pb_display_data ) ) {
-					$this->render_pb_review_form( $pb_display_data );
+				if ( ! empty( $pb_user_id ) ) {
+					$this->render_pb_review_form( $pb_user_id );
 				} else {
 					//some kind of major error has occurred
 				}
@@ -255,8 +256,7 @@ class PB_Reg {
 		}
 	}
 
-	public function render_pb_review_form( $pb_display_data ) {  // Display REVIEW form
-		$pb_reg_user_id = $pb_display_data[ 'pbRegID' ];
+	public function render_pb_review_form( $pb_reg_user_id ) {  // Display REVIEW form
 		global $wpdb;
 
 		$pb_reg_data = $wpdb->get_row( "SELECT * FROM ctxphc_pb_reg WHERE pbRegID = $pb_reg_user_id" );
@@ -396,6 +396,7 @@ class PB_Reg {
 							       name="pb_cruise"
 							       type="radio"
 							       value="Y"
+							       <?php if ( $pb_reg_data->cruise == "Y" ) { ?>checked<?php }; ?>
 							>
 							Yes
 							<input class="validate[required] pb_cruise_choice"
@@ -403,6 +404,7 @@ class PB_Reg {
 							       name="pb_cruise"
 							       type="radio"
 							       value="N"
+							       <?php if ( $pb_reg_data->cruise == "Y" ) { ?>checked<?php }; ?>
 							>
 							No
 						</div>
@@ -513,6 +515,7 @@ class PB_Reg {
 							       name="pb_attendee_cruise_2"
 							       type="radio"
 							       value="Y"
+							       <?php if ( $pb_reg_data->cruise == "Y" ) { ?>checked<?php }; ?>
 							>
 							Yes
 							<input class="validate[required] pb_cruise_choice"
@@ -520,6 +523,7 @@ class PB_Reg {
 							       name="pb_attendee_cruise_2"
 							       type="radio"
 							       value="N"
+							       <?php if ( $pb_reg_data->cruise == "N" ) { ?>checked<?php }; ?>
 							>
 							No
 
@@ -575,6 +579,7 @@ class PB_Reg {
 							       name="pb_attendee_cruise_3"
 							       type="radio"
 							       value="Y"
+							       <?php if ( $pb_reg_data->cruise == "Y" ) { ?>checked<?php }; ?>
 							>
 							Yes
 							<input class="validate[required] pb_cruise_choice"
@@ -582,6 +587,7 @@ class PB_Reg {
 							       name="pb_attendee_cruise_3"
 							       type="radio"
 							       value="N"
+							       <?php if ( $pb_reg_data->cruise == "N" ) { ?>checked<?php }; ?>
 							>
 							No
 
@@ -640,6 +646,7 @@ class PB_Reg {
 							       name="pb_attendee_cruise_4"
 							       type="radio"
 							       value="Y"
+							       <?php if ( $pb_reg_data->cruise == "Y" ) { ?>checked<?php }; ?>
 							>
 							Yes
 							<input class="validate[required] pb_cruise_choice"
@@ -647,6 +654,7 @@ class PB_Reg {
 							       name="pb_attendee_cruise_4"
 							       type="radio"
 							       value="N"
+							       <?php if ( $pb_reg_data->cruise == "N" ) { ?>checked<?php }; ?>
 							>
 							No
 							<label class="pb_lbl_right attendee_club_lbl"
@@ -827,7 +835,7 @@ class PB_Reg {
 						       type="text"
 						/>
 					</div>
-					
+
 					<div class="pb_rows">
 						<label class="pb_lbl_cruise pb_cruise_choice"
 						       id="pb_cruise_lbl"
