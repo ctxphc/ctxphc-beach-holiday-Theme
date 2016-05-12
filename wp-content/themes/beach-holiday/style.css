@@ -1336,11 +1336,12 @@ p + ul {
     width: 15em;
 }
 
-input[type=checkbox], input[type=radio] {
+input[type=checkbox] {
     vertical-align: middle;
     position: relative;
     bottom: 1px;
 }
-input[type=radio] {
-    bottom: 2px;
+
+.pb_cruise_choice {
+    font-size: 1.4em;
 }

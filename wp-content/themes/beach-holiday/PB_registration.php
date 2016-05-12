@@ -3,7 +3,7 @@
 Template Name: PB Reg
 */
 
-xdebug_start_trace();
+//xdebug_start_trace();
 
 global $defSel, $wpdb;
 
@@ -19,19 +19,17 @@ if ( $_POST[ 'submit' ] ) {
 	$pb_submit_type = sanitize_text_field( $_POST[ 'submit' ] );
 
 	if ( isset( $pb_submit_type ) && ! empty( $pb_submit_type ) ) {
-		$pb_reg_form_type = $pb_submit_type;
-
-		$clean_post_data = array_map( 'mysql_real_escape_string', $_POST );
+		$clean_post_data = filter_var_array( $_POST, FILTER_SANITIZE_STRING );
 	}
 } else {
-	//This was accessed from a link and from a submit button
+	//This was accessed from a link and not from a submit button
 	$pb_submit_type = 'new';
 }
 
-$pb_cost                = number_format(65, 2, '.', '');
-$pb_open_cost           = number_format(55, 2, '.', '');
-$pb_memb_cost           = number_format(45, 2, '.', '');
-$pb_cruise_cost         = number_format(40, 2, '.', '');
+$pb_cost                = number_format( 65, 2, '.', '' );
+$pb_open_cost           = number_format( 55, 2, '.', '' );
+$pb_memb_cost           = number_format( 45, 2, '.', '' );
+$pb_cruise_cost         = number_format( 40, 2, '.', '' );
 $pb_reg_begin_time      = "23:59:00";
 $pb_curr_reg_year       = date( "Y" );
 $pb_begin_open_reg_date = 'June 1, ' . $pb_curr_reg_year . ' ' . $pb_reg_begin_time;
@@ -60,7 +58,7 @@ $args[ 'pb_reg_req_type' ] = $pb_reg_type;
 $args[ 'pb_cost' ]         = $pb_cost;
 $args[ 'pb_open_cost' ]    = $pb_open_cost;
 $args[ 'pb_memb_cost' ]    = $pb_memb_cost;
-$args[ 'pb_cruse_cost' ]   = $pb_cruise_cost;
+$args[ 'pb_cruise_cost' ]   = $pb_cruise_cost;
 
 if ( isset( $pb_today->date ) ) {
 	$args[ 'pb_today' ] = $pb_today->date;
@@ -87,39 +85,39 @@ $args[ 'pb_reg_reg_head_text' ]      = 'Registration';
 $args[ 'pb_reg_reg_cost_text' ]      = 'Registration cost';
 $args[ 'pb_reg_reg_cost_next_text' ] = 'Beginning August 1st Registration will cost';
 
-$args[ 'form_type' ] = $pb_reg_form_type;
+$args[ 'form_type' ] = $pb_submit_type;
 
 
-	switch ( $pb_submit_type ) {
-		case 'review':
-		case 'update':
-			if ( ! isset( $clean_post_data[ 'attendee_count' ] ) ) {
-				$clean_post_data[ 'attendee_count' ] = 1;
-			}
+switch ( $pb_submit_type ) {
+	case 'review':
+	case 'update':
+		
+		$result = pb_insert_registration_data( $pb_reg_table, $clean_post_data );
 
-			foreach ( $clean_post_data as $ckey => $cval ) {
-				error_log( $ckey . ' ------------> ' . $cval );
-			}
+		foreach ( $clean_post_data as $ckey => $cval ) {
+			error_log( $ckey . ' ------------> ' . $cval );
+		}
 
-			$memb_pb_reg    = new PB_Reg( $args );
-			$pb_loaded_data = $memb_pb_reg->load_user_data( $clean_post_data );
+		$args[ 'form_type' ] = $pb_reg_form_type = 'review';
+		$memb_pb_reg         = new PB_Reg( $args );
+		$pb_loaded_data      = $memb_pb_reg->load_user_data( $clean_post_data );
 
-			foreach ( $pb_loaded_data as $lkey => $lval ) {
-				error_log( $lkey . ' ------> ' . $lval );
-			}
-			$pb_data_insert_results = $memb_pb_reg->pb_data_insert( $pb_reg_table, $pb_loaded_data );
-			error_log( $pb_data_insert_results );
+		foreach ( $pb_loaded_data as $lkey => $lval ) {
+			error_log( $lkey . ' ------> ' . $lval );
+		}
+		$pb_data_insert_results = $memb_pb_reg->pb_data_insert( $pb_reg_table, $pb_loaded_data );
+		error_log( $pb_data_insert_results );
 
-			$args[ 'form_type' ] = $form_type = $pb_reg_form_type = 'review';
-			break;
-		case 'failed':
-			$form_type   = $pb_reg_type;
-			$memb_pb_reg = new PB_Reg( $args );
-			break;
-		default:
-			$memb_pb_reg = new PB_Reg( $args );
-			break;
-	}
+
+		break;
+	case 'failed':
+		$form_type   = $pb_reg_type;
+		$memb_pb_reg = new PB_Reg( $args );
+		break;
+	default:
+		$memb_pb_reg = new PB_Reg( $args );
+		break;
+}
 
 get_header(); ?>
 <!--suppress ALL -->
@@ -192,11 +190,11 @@ get_header(); ?>
 				</p>
 				<?php
 				if ( isset( $_GET[ 'pb_reg_type' ] ) && ! empty( $_GET[ 'pb_reg_type' ] ) ) {
-					$memb_pb_reg->display_pb_form( $form_type, $pb_reg_req_type );
+					$memb_pb_reg->display_pb_form( $pb_reg_form_type, $pb_reg_req_type );
 				} else if ( isset( $_POST[ 'submit' ] ) ) {
-					$memb_pb_reg->display_pb_form( $form_type, $pb_data_insert_results );
+					$memb_pb_reg->display_pb_form( $pb_reg_form_type, $pb_data_insert_results );
 				} else {
-					$memb_pb_reg->display_pb_form( $form_type );
+					$memb_pb_reg->display_pb_form( $pb_reg_form_type );
 				}
 				?>
 			</div>
@@ -207,6 +205,6 @@ get_header(); ?>
 	endif;
 	?>
 </div> <!-- content -->
-<?php xdebug_stop_trace(); ?>
+<?php //xdebug_stop_trace(); ?>
 <?php get_sidebar(); ?>
 <?php get_footer(); ?>
