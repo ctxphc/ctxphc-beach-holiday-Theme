@@ -16,20 +16,18 @@ if ( ! class_exists( 'PB_Reg' ) ) {
 }
 
 if ( $_POST[ 'submit' ] ) {
-	$pb_submit_type = sanitize_text_field( $_POST[ 'submit' ] );
-
-	if ( isset( $pb_submit_type ) && ! empty( $pb_submit_type ) ) {
-		$clean_post_data = filter_var_array( $_POST, FILTER_SANITIZE_STRING );
-	}
+	$pb_submit_type  = $_POST[ 'submit' ];
+	$clean_post_data = filter_var_array( $_POST, FILTER_SANITIZE_STRING );
 } else {
 	//This was accessed from a link and not from a submit button
 	$pb_submit_type = 'new';
 }
 
-$pb_cost                = number_format( 65, 2, '.', '' );
-$pb_open_cost           = number_format( 55, 2, '.', '' );
-$pb_memb_cost           = number_format( 45, 2, '.', '' );
-$pb_cruise_cost         = number_format( 40, 2, '.', '' );
+$pb_cost        = number_format( 65, 2, '.', '' );
+$pb_open_cost   = number_format( 55, 2, '.', '' );
+$pb_memb_cost   = number_format( 45, 2, '.', '' );
+$pb_cruise_cost = number_format( 40, 2, '.', '' );
+
 $pb_reg_begin_time      = "23:59:00";
 $pb_curr_reg_year       = date( "Y" );
 $pb_begin_open_reg_date = 'June 1, ' . $pb_curr_reg_year . ' ' . $pb_reg_begin_time;
@@ -40,6 +38,10 @@ $pb_today = new DateTime();
 $expiry   = new DateTime( $pb_begin_open_reg_date );
 $expiry2  = new DateTime( $pb_begin_reg_reg_date );
 
+//Which version of form to present
+//Member Only for members of CTXPHC
+//Open registration for those registering early
+//Registration for those procrastinators out there.
 if ( isset( $_GET[ 'pb_reg_type' ] ) && ( $_GET[ 'pb_reg_type' ] == 'member' || $_GET[ 'pb_reg_type' ] == 'complimentary' ) ) {
 	$pb_reg_type = $_GET[ 'pb_reg_type' ];
 } else {
@@ -51,14 +53,15 @@ if ( isset( $_GET[ 'pb_reg_type' ] ) && ( $_GET[ 'pb_reg_type' ] == 'member' || 
 }
 
 /* Define args to pass to PB_Reg class */
-$args             = array();
+$args = array();
+
 $args[ 'states' ] = load_states_array();
 
-$args[ 'pb_reg_req_type' ] = $pb_reg_type;
 $args[ 'pb_cost' ]         = $pb_cost;
 $args[ 'pb_open_cost' ]    = $pb_open_cost;
 $args[ 'pb_memb_cost' ]    = $pb_memb_cost;
-$args[ 'pb_cruise_cost' ]   = $pb_cruise_cost;
+$args[ 'pb_cruise_cost' ]  = $pb_cruise_cost;
+$args[ 'pb_reg_req_type' ] = $pb_reg_type;
 
 if ( isset( $pb_today->date ) ) {
 	$args[ 'pb_today' ] = $pb_today->date;
@@ -69,6 +72,7 @@ if ( isset( $expiry->date ) ) {
 if ( isset( $expiry2 ) ) {
 	$args[ 'expiry2' ] = $expiry2->date;
 }
+
 $args[ 'table' ] = $pb_reg_table;
 
 $args[ 'pb_reg_year' ]   = $pb_curr_reg_year;
@@ -91,24 +95,11 @@ $args[ 'form_type' ] = $pb_submit_type;
 switch ( $pb_submit_type ) {
 	case 'review':
 	case 'update':
-		
-		$result = pb_insert_registration_data( $pb_reg_table, $clean_post_data );
 
-		foreach ( $clean_post_data as $ckey => $cval ) {
-			error_log( $ckey . ' ------------> ' . $cval );
-		}
+		$memb_pb_reg    = new PB_Reg( $args );
+		$pb_loaded_data = $memb_pb_reg->load_user_data( $clean_post_data );
 
-		$args[ 'form_type' ] = $pb_reg_form_type = 'review';
-		$memb_pb_reg         = new PB_Reg( $args );
-		$pb_loaded_data      = $memb_pb_reg->load_user_data( $clean_post_data );
-
-		foreach ( $pb_loaded_data as $lkey => $lval ) {
-			error_log( $lkey . ' ------> ' . $lval );
-		}
 		$pb_data_insert_results = $memb_pb_reg->pb_data_insert( $pb_reg_table, $pb_loaded_data );
-		error_log( $pb_data_insert_results );
-
-
 		break;
 	case 'failed':
 		$form_type   = $pb_reg_type;
@@ -189,16 +180,15 @@ get_header(); ?>
 					</a>
 				</p>
 				<?php
-				if ( isset( $_GET[ 'pb_reg_type' ] ) && ! empty( $_GET[ 'pb_reg_type' ] ) ) {
-					$memb_pb_reg->display_pb_form( $pb_reg_form_type, $pb_reg_req_type );
-				} else if ( isset( $_POST[ 'submit' ] ) ) {
+				if ( isset( $_POST[ 'submit' ] ) ) {
 					$memb_pb_reg->display_pb_form( $pb_reg_form_type, $pb_data_insert_results );
+				} else if ( isset( $_GET[ 'pb_reg_type' ] ) && ! empty( $_GET[ 'pb_reg_type' ] ) ) {
+					$memb_pb_reg->display_pb_form( $pb_reg_form_type, $pb_reg_req_type );
 				} else {
 					$memb_pb_reg->display_pb_form( $pb_reg_form_type );
 				}
 				?>
-			</div>
-			<!-- entry -->
+			</div> <!-- entry -->
 		</div> <!-- post -->
 		<?php
 	endwhile;

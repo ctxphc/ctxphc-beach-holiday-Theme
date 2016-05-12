@@ -68,6 +68,7 @@ class PB_Reg {
 	public $pb_attend_shirt_count;
 	public $pb_attendee_cruise_count;
 	public $pb_submit_button_array;
+	public $attending_cruise_count;
 
 
 	/**
@@ -93,12 +94,9 @@ class PB_Reg {
 		$this->pb_reg_type         = $this->pb_reg_types[ $this->pb_memb_reg_type ];
 		$this->pb_reg_text         = $this->get_pb_reg_display_text();
 		$this->pb_reg_cost         = $this->get_pb_reg_cost();
-		$this->pb_submit_button    = $this->get_submit_button();
+		$this->pb_submit_button    = $this->get_submit_button_options();
 		$this->pb_submit_pp_button = $this->get_paypal_button();
 
-		if ( $_POST[ 'submit' ] ) {
-			//$this->form_type = 'review';
-		}
 	}
 
 	private function get_pb_reg_display_text() {
@@ -141,7 +139,7 @@ class PB_Reg {
 		return $pb_reg_cost;
 	}
 
-	public function get_submit_button() {
+	public function get_submit_button_options() {
 
 		$this->pb_submit_button_array[ 'review' ] = '<input class="ctxphc_button3 screen" id="review" type="submit" name="submit" value="review" />';
 		$this->pb_submit_button_array[ 'update' ] = '<input class="ctxphc_button3 screen" id="update" type="submit" name="submit" value="update" />';
@@ -159,7 +157,6 @@ class PB_Reg {
 		$this->pb_submit_button_array[ 'member_only_pp_button' ] .= ' src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">';
 		$this->pb_submit_button_array[ 'member_only_pp_button' ] .= '</form>';
 
-
 		$this->pb_submit_button_array[ 'open_reg_pp_button' ] = "<!--  Pirate's Ball Early Registration PayPal Button -->";
 		$this->pb_submit_button_array[ 'open_reg_pp_button' ] .= '<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">';
 		$this->pb_submit_button_array[ 'open_reg_pp_button' ] .= '<input type="hidden" name="cmd" value="_s-xclick">';
@@ -173,7 +170,6 @@ class PB_Reg {
 		$this->pb_submit_button_array[ 'open_reg_pp_button' ] .= 'src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif"';
 		$this->pb_submit_button_array[ 'open_reg_pp_button' ] .= 'width="1" height="1">';
 		$this->pb_submit_button_array[ 'open_reg_pp_button' ] .= '</form>';
-
 
 		$this->pb_submit_button_array[ 'reg_pp_button' ] = "<!-- Pirate's Ball Late Registration PayPal Button -->";
 		$this->pb_submit_button_array[ 'reg_pp_button' ] .= '<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">';
@@ -1087,7 +1083,7 @@ class PB_Reg {
 							Attending Captain's Castaway Cruise(<?php echo $this->pb_cruise_cost; ?>)
 						</label>
 						<input class="validate[required] pb_cruise_choice"
-						       id="pb_attendee_cruise4"
+						       id="pb_attendee_cruise_4"
 						       name="pb_attendee_cruise_4"
 						       type="radio"
 						       value="Y"
@@ -1128,60 +1124,74 @@ class PB_Reg {
 	public function load_user_data( $user_post_data ) {
 		$attendee_count = intval( $user_post_data[ 'attendee_count' ] );
 		foreach ( $user_post_data as $u_key => $u_value ) {
-			switch ( $u_key ) {
-				case ( $u_key == 'pb_fname' ):
-					$pb_reg_data[ 'first_name' ] = $u_value;
-					break;
-				case ( $u_key == 'pb_lname' ):
-					$pb_reg_data[ 'last_name' ] = $u_value;
-					break;
-				case ( $u_key == 'pb_email' ):
-					$user = get_user_by( 'email', $u_value );
-					if ( ! $user && $this->pb_reg_type == 'member' ) {
-						$to      = "support@ctxphc.com";
-						$subject = "PB Member's Only Registration Issue!";
-						$body    = "{$pb_reg_data['first_name']} {$pb_reg_data['last_name']} email address didn't have a match in the wordpress users on in family members tables.  Review is needed!!! \n\n";
-						mail( $to, $subject, $body );
-					}
-					$pb_reg_data[ 'email' ] = $u_value;
-					break;
-				case ( strpos( $u_key, 'pb_phone' ) ):
-					$pb_reg_data[ 'phone' ] = format_save_phone( $u_value );
-					break;
-				case ( strpos( $u_key, 'pb_cruise' ) ):
-					$pb_reg_data[ 'cruise' ] = $u_value;
-					break;
-				case ( strpos( $u_key, 'pb_club' ) );
-					$pb_reg_data[ 'club_aff' ] = $u_value;
-					break;
-				case ( $u_key == 'attendee_count' ):
-					$pb_reg_data[ 'quantity' ] = intval( $u_value );
-					$pb_reg_data[ 'amount' ]   = intval( $this->pb_reg_cost * $u_value );
-					break;
-				default:
-					if ( $attendee_count >= 2 ) {
-						switch ( $u_key ) {
-							case ( strpos( $u_key, 'pb_attendee_fname' ) ):
-								$attendee_name = $u_value;
-								break;
-							case ( strpos( $u_key, 'pb_attendee_lname' ) ):
-								$this->pb_attend_count ++;
-								$attendee_name .= ' ' . $u_value;
-								$pbkey                 = 'attendee_' . $this->pb_attend_count;
-								$pb_reg_data[ $pbkey ] = $attendee_name;
-								break;
-							case ( strpos( $u_key, 'pb_attendee_cruise' ) ):
-								$this->pb_attendee_cruise_count ++;
-								$pb_attend_cruise_key                 = 'attendee_cruise_' . $this->pb_attendee_cruise_count;
-								$pb_reg_data[ $pb_attend_shirt_key ] = $u_value;
-								break;
-							case ( strpos( $u_key, 'pb_attendee_club' ) );
-								$this->pb_attend_club_count ++;
-								$pb_club_key                 = 'attendee_club_' . $this->pb_attend_club_count;
-								$pb_reg_data[ $pb_club_key ] = $u_value;
-								break;
+			if ( ! empty( $u_value ) ) {
+				switch ( $u_key ) {
+					case ( $u_key == 'pb_fname' ):
+						$pb_reg_data[ 'first_name' ] = $u_value;
+						break;
+					case ( $u_key == 'pb_lname' ):
+						$pb_reg_data[ 'last_name' ] = $u_value;
+						break;
+					case ( $u_key == 'pb_email' ):
+						$user = get_user_by( 'email', $u_value );
+						if ( ! $user && $this->pb_reg_type == 'member' ) {
+							$to      = "support@ctxphc.com";
+							$subject = "PB Member's Only Registration Issue!";
+							$body    = "{$pb_reg_data['first_name']} {$pb_reg_data['last_name']} email address";
+							$body .= "didn't have a match in the wordpress users on in family members tables.  Review is needed!!! \n\n";
+							mail( $to, $subject, $body );
 						}
-					}
+						$pb_reg_data[ 'email' ] = $u_value;
+						break;
+					case ( strpos( $u_key, 'pb_phone' ) ):
+						$pb_reg_data[ 'phone' ] = format_save_phone( $u_value );
+						break;
+					case ( strpos( $u_key, 'pb_cruise' ) ):
+						$pb_reg_data[ 'cruise' ] = $u_value;
+						if ( $u_value == "Y" ) {
+							$this->attending_cruise_count ++;
+						}
+						break;
+					case ( strpos( $u_key, 'pb_club' ) );
+						$pb_reg_data[ 'club_aff' ] = $u_value;
+						break;
+					case ( $u_key == 'attendee_count' ):
+						$pb_reg_data[ 'quantity' ] = intval( $u_value );
+						$pb_reg_data[ 'amount' ]   = intval( $this->pb_reg_cost * $u_value );
+						break;
+					case ( $u_key == 'attending_cruise_count' ):
+						$pb_reg_data[ 'cruise_quantity' ] = intval( $u_value );
+						$pb_reg_data[ 'cruise_amount' ]   = intval( $this->pb_cruise_cost * $u_value );
+						break;
+					default:
+						if ( $attendee_count >= 2 ) {
+							switch ( $u_key ) {
+								case ( strpos( $u_key, 'pb_attendee_fname' ) ):
+									$attendee_name = $u_value;
+									break;
+								case ( strpos( $u_key, 'pb_attendee_lname' ) ):
+									$this->pb_attend_count ++;
+									$attendee_name .= ' ' . $u_value;
+									$pbkey                 = 'attendee_' . $this->pb_attend_count . '_name';
+									$pb_reg_data[ $pbkey ] = $attendee_name;
+									break;
+								case ( strpos( $u_key, 'pb_attendee_cruise' ) ):
+									$this->pb_attendee_cruise_count ++;
+									if ( $u_value == "Y" ) {
+										$this->attending_cruise_count ++;
+									}
+									$pbkey                 = 'attendee_' . $this->pb_attendee_cruise_count . '_cruise';
+									$pb_reg_data[ $pbkey ] = $u_value;
+									break;
+								case ( strpos( $u_key, 'pb_attendee_club' ) );
+									$this->pb_attend_club_count ++;
+									$pb_club_key                 = 'attendee_club_' . $this->pb_attend_club_count;
+									$pb_reg_data[ $pb_club_key ] = $u_value;
+									break;
+							}
+						}
+				}
+				$pb_reg_data[ 'attending_cruise_count' ] = $this->attending_cruise_count;
 			}
 		}
 
@@ -1194,9 +1204,7 @@ class PB_Reg {
 	 *
 	 * @return bool|int
 	 */
-	public function pb_data_insert(
-		$table, $pb_reg_data
-	) {
+	public function pb_data_insert( $table, $pb_reg_data ) {
 		global $wpdb;
 
 		$pb_insert_results = $wpdb->insert( $table, $pb_reg_data );
