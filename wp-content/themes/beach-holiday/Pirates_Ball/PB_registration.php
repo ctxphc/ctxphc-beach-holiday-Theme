@@ -150,7 +150,7 @@ get_header(); ?>
 						error_log( $ckey . ' ------------> ' . $cval );
 					}
 					$memb_pb_reg    = new PB_Reg( $args );
-					$pb_loaded_data = $memb_pb_reg->load_user_data( $clean_post_data );
+					$pb_loaded_data = $memb_pb_reg->prep_user_data( $clean_post_data );
 					foreach ( $pb_loaded_data as $lkey => $lval ) {
 						error_log( $lkey . ' ------> ' . $lval );
 					}

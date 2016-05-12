@@ -196,7 +196,7 @@ class PB_Reg {
 
 	public function get_paypal_button() {
 
-		if ( isset( $this->pb_memb_reg_type ) ) {
+		if ( isset( $this->pb_reg_type ) ) {
 			switch ( $this->pb_reg_type ) {
 				case 'member':
 				case 'complimentary':
@@ -235,12 +235,16 @@ class PB_Reg {
 		return $shirtsizes;
 	}
 
-	public function display_pb_form( $form_type, $pb_reg_user_id = null ) {
+	public function display_pb_form( $pb_reg_type, $pb_display_data = array() ) {
 
-		switch ( $form_type ) {
+		switch ( $pb_reg_type ) {
 			case 'review':
 				$this->pb_submit_button = $this->pb_submit_button_array[ 'update' ];
-				$this->render_pb_review_form( $pb_reg_user_id );
+				if ( ! empty( $pb_display_data ) ) {
+					$this->render_pb_review_form( $pb_display_data );
+				} else {
+					//some kind of major error has occurred
+				}
 				break;
 			case 'failed':
 				$this->render_pb_failed_form();
@@ -251,7 +255,8 @@ class PB_Reg {
 		}
 	}
 
-	public function render_pb_review_form( $pb_reg_user_id ) {  // Display REVIEW form
+	public function render_pb_review_form( $pb_display_data ) {  // Display REVIEW form
+		$pb_reg_user_id = $pb_display_data[ 'pbRegID' ];
 		global $wpdb;
 
 		$pb_reg_data = $wpdb->get_row( "SELECT * FROM ctxphc_pb_reg WHERE pbRegID = $pb_reg_user_id" );
@@ -822,20 +827,7 @@ class PB_Reg {
 						       type="text"
 						/>
 					</div>
-					<!--
-					<div class="pb_rows">
-						<label class="pb__shirt"
-						       id="pb_lbl_t-shirt"
-						       for="pb_t-shirt">T-Shirt
-							Size:</label>
-						<select class="validate[required] pb_input_left"
-						        id="pb_t-shirt"
-						        name="pb_shirt_size">
-							<?php //$defSel = 'LG';
-					//echo showOptionsDrop( $this->pb_shirt_sizes, $defSel, true ); ?>
-						</select>
-					</div>
-					-->
+					
 					<div class="pb_rows">
 						<label class="pb_lbl_cruise pb_cruise_choice"
 						       id="pb_cruise_lbl"
@@ -1121,7 +1113,7 @@ class PB_Reg {
 		<?php
 	}
 
-	public function load_user_data( $user_post_data ) {
+	public function prep_user_data( $user_post_data ) {
 		$attendee_count = intval( $user_post_data[ 'attendee_count' ] );
 		foreach ( $user_post_data as $u_key => $u_value ) {
 			if ( ! empty( $u_value ) ) {

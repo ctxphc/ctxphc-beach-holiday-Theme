@@ -91,19 +91,14 @@ $args[ 'pb_reg_reg_cost_next_text' ] = 'Beginning August 1st Registration will c
 
 $args[ 'form_type' ] = $pb_submit_type;
 
-
 switch ( $pb_submit_type ) {
 	case 'review':
 	case 'update':
 
-		$memb_pb_reg    = new PB_Reg( $args );
-		$pb_loaded_data = $memb_pb_reg->load_user_data( $clean_post_data );
+		$memb_pb_reg     = new PB_Reg( $args );
+		$pb_display_data = $memb_pb_reg->prep_user_data( $clean_post_data );
 
-		$pb_data_insert_results = $memb_pb_reg->pb_data_insert( $pb_reg_table, $pb_loaded_data );
-		break;
-	case 'failed':
-		$form_type   = $pb_reg_type;
-		$memb_pb_reg = new PB_Reg( $args );
+	$pb_display_data[ 'pbRegID' ] = $memb_pb_reg->pb_data_insert( $pb_reg_table, $pb_display_data );
 		break;
 	default:
 		$memb_pb_reg = new PB_Reg( $args );
@@ -181,11 +176,9 @@ get_header(); ?>
 				</p>
 				<?php
 				if ( isset( $_POST[ 'submit' ] ) ) {
-					$memb_pb_reg->display_pb_form( $pb_reg_form_type, $pb_data_insert_results );
-				} else if ( isset( $_GET[ 'pb_reg_type' ] ) && ! empty( $_GET[ 'pb_reg_type' ] ) ) {
-					$memb_pb_reg->display_pb_form( $pb_reg_form_type, $pb_reg_req_type );
+					$memb_pb_reg->display_pb_form( $pb_reg_type, $pb_display_data[ 'pbRegID' ] );
 				} else {
-					$memb_pb_reg->display_pb_form( $pb_reg_form_type );
+					$memb_pb_reg->display_pb_form( $pb_reg_type );
 				}
 				?>
 			</div> <!-- entry -->
