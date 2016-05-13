@@ -13,6 +13,7 @@ wp-content/plugins/
 wp-content/features/
 wp-content/gallery/
 wp-content/mu-plugins/
+/opt
 wp-content/ngg/
 wp-content/themes/twenty*
 wp-includes/
