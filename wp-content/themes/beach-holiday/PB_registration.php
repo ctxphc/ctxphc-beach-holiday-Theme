@@ -16,11 +16,11 @@ if ( ! class_exists( 'PB_Reg' ) ) {
 }
 
 if ( $_POST[ 'submit' ] ) {
-	$pb_submit_type  = $_POST[ 'submit' ];
+	$form_type       = $_POST[ 'submit' ];
 	$clean_post_data = filter_var_array( $_POST, FILTER_SANITIZE_STRING );
 } else {
-	//This was accessed from a link and not from a submit button
-	$pb_submit_type = 'new';
+	// Accessed from a link and not from a submit button
+	$form_type = 'new';
 }
 
 $pb_cost        = number_format( 65, 2, '.', '' );
@@ -57,11 +57,11 @@ $args = array();
 
 $args[ 'states' ] = load_states_array();
 
-$args[ 'pb_cost' ]         = $pb_cost;
-$args[ 'pb_open_cost' ]    = $pb_open_cost;
-$args[ 'pb_memb_cost' ]    = $pb_memb_cost;
-$args[ 'pb_cruise_cost' ]  = $pb_cruise_cost;
-$args[ 'pb_reg_req_type' ] = $pb_reg_type;
+$args[ 'pb_cost' ]        = $pb_cost;
+$args[ 'pb_open_cost' ]   = $pb_open_cost;
+$args[ 'pb_memb_cost' ]   = $pb_memb_cost;
+$args[ 'pb_cruise_cost' ] = $pb_cruise_cost;
+$args[ 'pb_reg_type' ]    = $pb_reg_type;
 
 if ( isset( $pb_today->date ) ) {
 	$args[ 'pb_today' ] = $pb_today->date;
@@ -89,20 +89,16 @@ $args[ 'pb_reg_reg_head_text' ]      = 'Registration';
 $args[ 'pb_reg_reg_cost_text' ]      = 'Registration cost';
 $args[ 'pb_reg_reg_cost_next_text' ] = 'Beginning August 1st Registration will cost';
 
-$args[ 'form_type' ] = $pb_submit_type;
+$args[ 'form_type' ] = $form_type;
 
-switch ( $pb_submit_type ) {
-	case 'review':
-	case 'update':
 
-		$memb_pb_reg     = new PB_Reg( $args );
-		$pb_display_data = $memb_pb_reg->prep_user_data( $clean_post_data );
+if ( $form_type == 'new' ) {
+	$memb_pb_reg = new PB_Reg( $args );
+} else {
+	$memb_pb_reg     = new PB_Reg( $args );
+	$pb_display_data = $memb_pb_reg->prep_user_data( $clean_post_data );
 
 	$pb_display_data[ 'pbRegID' ] = $memb_pb_reg->pb_data_insert( $pb_reg_table, $pb_display_data );
-		break;
-	default:
-		$memb_pb_reg = new PB_Reg( $args );
-		break;
 }
 
 get_header(); ?>
@@ -176,9 +172,9 @@ get_header(); ?>
 				</p>
 				<?php
 				if ( isset( $_POST[ 'submit' ] ) ) {
-					$memb_pb_reg->display_pb_form( $pb_submit_type, $pb_display_data[ 'pbRegID' ] );
+					$memb_pb_reg->display_pb_form( $form_type, $pb_reg_type ,$pb_display_data[ 'pbRegID' ] );
 				} else {
-					$memb_pb_reg->display_pb_form( $pb_submit_type );
+					$memb_pb_reg->display_pb_form( $form_type, $pb_reg_type );
 				}
 				?>
 			</div> <!-- entry -->

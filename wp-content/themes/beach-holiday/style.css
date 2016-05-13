@@ -1055,7 +1055,9 @@ fieldset {
 
 legend {
     position: absolute;
-    top: -10px;
+    top: -4px;
+    left: 15px;
+    width: 14em;
     background: #ffffff;
     padding: 10px 20px;
     border: 2px groove threedface;
@@ -1344,4 +1346,8 @@ input[type=checkbox] {
 
 .pb_cruise_choice {
     font-size: 1.4em;
+}
+
+.store_row {
+    display: inline-block;
 }

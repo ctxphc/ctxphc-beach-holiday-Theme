@@ -15,60 +15,71 @@ class PB_Reg {
 	var $pb_open_reg_type = 'open';
 	var $pb_reg_reg_type = 'registration';
 	var $pb_comp_reg_type = 'complimentary';
-	var $pb_reg_type = null;
+
+	var $pb_reg_type;
 	var $attendee_count;
 	var $pb_attend_count;
 	var $pb_attend_club_count;
-	var $pb_cost;
-	var $pb_open_cost;
+
+	var $pb_cruise_count;
+	var $attending_cruise_count;
+
 	var $pb_memb_cost;
+	var $pb_open_cost;
+	var $pb_cost;
 	var $pb_reg_cost;
 	var $pb_reg_total;
-	var $pb_reg_text = array();
+	var $pb_reg_quantity;
+	var $pb_cruise_cost;
+	var $pb_cruise_total;
+
 	var $item_name;
 	var $item_num;
-	var $tAmount;
 	var $quantity;
-	var $states;
 
-	var $pb_cruise_cost;
-	var $pb_cruise_count;
+
+	var $pb_attend_shirt_count;
+
+	var $pb_notify_url = "http://www.ctxphc.com/?AngellEYE_Paypal_Ipn_For_Wordpress&action=ipn_handler";
+	var $pb_submit_button;
+	var $pb_submit_button_array;
+	var $pb_reg_text = array();
+	var $form_type;
+
+	var $pb_member_reg_head_text;
+	var $pb_member_reg_cost_text;
+
+	var $pb_open_reg_head_text;
+	var $pb_open_reg_cost_next_text;
+
+	var $pb_reg_reg_cost_text;
+	var $pb_reg_reg_cost_next_text;
+	var $pb_reg_reg_head_text;
+
+	var $pb_title_text;
+
+	var $pb_today;
+	var $expiry;
+	var $expiry2;
+
+	var $submit_button;
+	var $paypal_button;
+
+
 
 	public $defaults = array(
 		'attendee_count'       => 1,
 		'pb_attend_count'      => 1,
 		'pb_attend_club_count' => 1,
 		'pb_cruise_count'      => 0,
-		'pb_cost'              => 0,
-		'pb_open_cost'         => 0,
-		'pb_memb_cost'         => 0,
-		'pb_cruise_cost'       => 0,
-		'pb_reg_cost'          => 0,
-		'pb_reg_total'         => 0,
-		'pb_reg_req_type'      => null,
 		'item_name'            => '',
 		'item_num'             => '',
-		'tAmount'              => '',
-		'quantity'             => 1,
+		'pb_reg_total'         => 0,
+		'pb_cruise_total'      => 0,
+		'pb_reg_quantity'      => 1,
 		'states'               => array(),
 	);
-	public $pb_today;
-	public $expiry;
-	public $pb_reg_req_type;
-	public $expiry2;
-	public $pb_submit_button;
-	public $pb_member_reg_cost_text;
-	public $pb_open_reg_cost_next_text;
-	public $pb_reg_reg_cost_next_text;
-	public $pb_member_reg_head_text;
-	public $pb_open_reg_head_text;
-	public $pb_reg_reg_head_text;
-	public $pb_reg_reg_cost_text;
-	public $pb_title_text;
-	public $pb_attend_shirt_count;
-	public $pb_attendee_cruise_count;
-	public $pb_submit_button_array;
-	public $attending_cruise_count;
+
 
 
 	/**
@@ -91,16 +102,14 @@ class PB_Reg {
 			'complimentary' => $this->pb_comp_reg_type,
 		);
 
-		$this->pb_reg_type         = $this->pb_reg_types[ $this->pb_memb_reg_type ];
-		$this->pb_reg_form         = $this->form_type;
-		$this->pb_reg_text         = $this->get_pb_reg_display_text();
-		$this->pb_reg_cost         = $this->get_pb_reg_cost();
-		$this->pb_submit_button    = $this->get_submit_button_options();
-		$this->pb_submit_pp_button = $this->get_paypal_button();
+		$this->pb_reg_form = $this->form_type;
+		$this->pb_reg_text = $this->get_pb_reg_display_text();
+		$this->pb_reg_cost = $this->get_pb_reg_cost();
+		$this->pb_paypal_button_required = $this->get_paypal_required();
 
 	}
 
-	private function get_pb_reg_display_text() {
+	public function get_pb_reg_display_text() {
 
 		$pb_reg_text[ 'pb_title_text' ] = $this->pb_title_text;
 
@@ -140,79 +149,31 @@ class PB_Reg {
 		return $pb_reg_cost;
 	}
 
-	public function get_submit_button_options() {
+	private function get_paypal_required(  ) {
+		?>
+		<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+  <input type="hidden" name="cmd" value="_xclick">
+  <input type="hidden" name="business" value="seller@designerfotos.com">
+  <input type="hidden" name="item_name" value="Memorex 256MB Memory Stick">
+  <input type="hidden" name="item_number" value="MEM32507725">
+  <input type="hidden" name="amount" value="3">
+  <input type="hidden" name="tax" value="1">
+  <input type="hidden" name="quantity" value="1">
+  <input type="hidden" name="no_note" value="1">
+  <input type="hidden" name="currency_code" value="USD">
+		<?php
+		$paypal_required_fields .= '<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">';
+		$paypal_required_fields = '<INPUT TYPE="hidden" NAME="currency_code" value="CurrencyCode">';
 
-		$this->pb_submit_button_array[ 'review' ] = '<input class="ctxphc_button3 screen" id="review" type="submit" name="submit" value="review" />';
-		$this->pb_submit_button_array[ 'update' ] = '<input class="ctxphc_button3 screen" id="update" type="submit" name="submit" value="update" />';
+		$paypal_required_fields .= '<INPUT TYPE="hidden" NAME="return" value="URLspecificToThisTransaction">';
+		$paypal_required_fields .= '<input type="hidden" name="cmd" value="_s-xclick">';
+		$paypal_required_fields .= '';
+		$paypal_required_fields .= '';
+		$paypal_required_fields .= '';
+		$paypal_required_fields .= '';
+		$paypal_required_fields .= '';
+		$paypal_required_fields .= '';
 
-		$this->pb_submit_button_array[ 'member_only_pp_button' ] = "<!-- Pirate's Ball CTXPHC Members Only Registration PayPal Button -->";
-		$this->pb_submit_button_array[ 'member_only_pp_button' ] .= '<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">';
-		$this->pb_submit_button_array[ 'member_only_pp_button' ] .= '<input type="hidden" name="cmd" value="_s-xclick">';
-		$this->pb_submit_button_array[ 'member_only_pp_button' ] .= '<input type="hidden" name="hosted_button_id" value="VDW65WDHYXXYJ">';
-		$this->pb_submit_button_array[ 'member_only_pp_button' ] .= '<input type="hidden" name="quantity" value="<?php echo $pb_reg_data->quantity; ?>"/>';
-		$this->pb_submit_button_array[ 'member_only_pp_button' ] .= '<input type="hidden" name="custom" value="<?php echo $pb_reg_user_id; ?>"/>';
-		$this->pb_submit_button_array[ 'member_only_pp_button' ] .= '<input class="paypal_input" type="image"';
-		$this->pb_submit_button_array[ 'member_only_pp_button' ] .= ' src="https://www.paypalobjects.com/en_US/i/btn/btn_paynowCC_LG.gif"';
-		$this->pb_submit_button_array[ 'member_only_pp_button' ] .= ' name="submit" alt="PayPal - The safer, easier way to pay online!">';
-		$this->pb_submit_button_array[ 'member_only_pp_button' ] .= '<img class="paypal_button" alt="PayPal - The safer, easier way to pay online!"';
-		$this->pb_submit_button_array[ 'member_only_pp_button' ] .= ' src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">';
-		$this->pb_submit_button_array[ 'member_only_pp_button' ] .= '</form>';
-
-		$this->pb_submit_button_array[ 'open_reg_pp_button' ] = "<!--  Pirate's Ball Early Registration PayPal Button -->";
-		$this->pb_submit_button_array[ 'open_reg_pp_button' ] .= '<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">';
-		$this->pb_submit_button_array[ 'open_reg_pp_button' ] .= '<input type="hidden" name="cmd" value="_s-xclick">';
-		$this->pb_submit_button_array[ 'open_reg_pp_button' ] .= '<input type="hidden" name="hosted_button_id" value="4PH2DEAAH4LD8">';
-		$this->pb_submit_button_array[ 'open_reg_pp_button' ] .= '<input type="hidden" name="quantity" value="<?php echo $pb_reg_data->quantity; ?>"/>';
-		$this->pb_submit_button_array[ 'open_reg_pp_button' ] .= '<input type="hidden" name="custom" value="<?php echo $pb_reg_user_id; ?>"/>';
-		$this->pb_submit_button_array[ 'open_reg_pp_button' ] .= '<input type="image"';
-		$this->pb_submit_button_array[ 'open_reg_pp_button' ] .= 'src="https://www.paypalobjects.com/en_US/i/btn/btn_paynowCC_LG.gif" border="0" name="submit"';
-		$this->pb_submit_button_array[ 'open_reg_pp_button' ] .= 'alt="PayPal - The safer, easier way to pay online!">';
-		$this->pb_submit_button_array[ 'open_reg_pp_button' ] .= '<img class="paypal_button" alt="" border="0"';
-		$this->pb_submit_button_array[ 'open_reg_pp_button' ] .= 'src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif"';
-		$this->pb_submit_button_array[ 'open_reg_pp_button' ] .= 'width="1" height="1">';
-		$this->pb_submit_button_array[ 'open_reg_pp_button' ] .= '</form>';
-
-		$this->pb_submit_button_array[ 'reg_pp_button' ] = "<!-- Pirate's Ball Late Registration PayPal Button -->";
-		$this->pb_submit_button_array[ 'reg_pp_button' ] .= '<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">';
-		$this->pb_submit_button_array[ 'reg_pp_button' ] .= '<input type="hidden" name="cmd" value="_s-xclick">';
-		$this->pb_submit_button_array[ 'reg_pp_button' ] .= '<input type="hidden" name="hosted_button_id" value="DU9MPK4H5L3ZQ">';
-		$this->pb_submit_button_array[ 'reg_pp_button' ] .= '<input type="hidden" name="quantity" value="<?php echo $pb_reg_data->quantity; ?>"/>';
-		$this->pb_submit_button_array[ 'reg_pp_button' ] .= '<input type="hidden" name="custom" value="<?php echo $pb_reg_user_id; ?>"/>';
-		$this->pb_submit_button_array[ 'reg_pp_button' ] .= '<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_paynowCC_LG.gif"';
-		$this->pb_submit_button_array[ 'reg_pp_button' ] .= 'name="submit" alt="PayPal - The safer, easier way to pay online!">';
-		$this->pb_submit_button_array[ 'reg_pp_button' ] .= '<img class="paypal_button" alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">';
-		$this->pb_submit_button_array[ 'reg_pp_button' ] .= '</form>';
-
-		$this->pb_submit_button_array[ 'comp_reg_pp_button' ] = "<!-- Pirate's Ball Private Registration PayPal Button -->";
-		$this->pb_submit_button_array[ 'comp_reg_pp_button' ] .= '<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">';
-		$this->pb_submit_button_array[ 'comp_reg_pp_button' ] .= '<input type="hidden" name="cmd" value="_s-xclick">';
-		$this->pb_submit_button_array[ 'comp_reg_pp_button' ] .= '<input type="hidden" name="hosted_button_id" value="5YCZ8AV3GT83S">';
-		$this->pb_submit_button_array[ 'comp_reg_pp_button' ] .= '<input type="hidden" name="quantity" value="<?php echo $pb_reg_data->quantity; ?>"/>';
-		$this->pb_submit_button_array[ 'comp_reg_pp_button' ] .= '<input type="hidden" name="custom" value="<?php echo $pb_reg_user_id; ?>"/>';
-		$this->pb_submit_button_array[ 'comp_reg_pp_button' ] .= '<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_paynowCC_LG.gif" name="submit" alt="PayPal - The safer, easier way to pay online!">';
-		$this->pb_submit_button_array[ 'comp_reg_pp_button' ] .= '<img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1"> </form>';
-
-		return $this->pb_submit_button_array;
-	}
-
-	public function get_paypal_button() {
-
-		if ( isset( $this->pb_reg_type ) ) {
-			switch ( $this->pb_reg_type ) {
-				case 'member':
-				case 'complimentary':
-					$pb_paypal_button = $this->pb_submit_button_array[ 'member_only_pp_button' ];
-					break;
-				case 'open':
-					$pb_paypal_button = $this->pb_submit_button_array[ 'member_only_pp_button' ];
-					break;
-				case 'registration':
-					$pb_paypal_button = $this->pb_submit_button_array[ 'member_only_pp_button' ];
-					break;
-			}
-		}
-
-		return $pb_paypal_button;
 	}
 
 	public function pb_load_sizes() {
@@ -236,27 +197,461 @@ class PB_Reg {
 		return $shirtsizes;
 	}
 
-	public function display_pb_form( $pb_reg_form, $pb_user_id = null ) {
+	public function display_pb_form( $reg_form, $reg_type, $pb_user_id = null ) {
 
-		switch ( $pb_reg_form ) {
-			case 'review':
-				$this->pb_submit_button = $this->pb_submit_button_array[ 'update' ];
-				if ( ! empty( $pb_user_id ) ) {
-					$this->render_pb_review_form( $pb_user_id );
-				} else {
-					//some kind of major error has occurred
-				}
-				break;
-			case 'failed':
-				$this->render_pb_failed_form();
-				break;
-			default:
-				$this->pb_submit_button = $this->pb_submit_button_array[ 'review' ];
-				$this->render_pb_blank_form();
+		$this->paypal_button = $this->get_paypal_button( $reg_type );
+		$this->submit_button = $this->get_pb_submit_button( $reg_form );
+
+		if ( $reg_form == "new") {
+			$this->render_pb_blank_form( $this->submit_button );
+		} else {
+			$this->render_pb_review_form( $this->submit_button, $this->paypal_button, $pb_user_id );
 		}
 	}
 
-	public function render_pb_review_form( $pb_reg_user_id ) {  // Display REVIEW form
+	/**
+	 * @param $pb_reg_type
+	 *
+	 * @return string
+	 */
+	public function get_paypal_button( $pb_reg_type ) {
+		switch ( $pb_reg_type ) {
+			case 'member':
+				$pb_paypal_button = "<!-- Pirate's Ball CTXPHC Members Only Registration PayPal Button -->";
+				$pb_paypal_button .= '';
+				$pb_paypal_button .= '<input type="hidden" name="cmd" value="_s-xclick">';
+				$pb_paypal_button .= '<input type="hidden" name="hosted_button_id" value="VDW65WDHYXXYJ">';
+				$pb_paypal_button .= '<INPUT TYPE="hidden" name="charset" value="utf-8">';
+				$pb_paypal_button .= '<input type="hidden" name="item_1" value="$pb_item_name"/>';
+				$pb_paypal_button .= '<input type="hidden" name="amount_1" value="$pb_reg_total"/>';
+				$pb_paypal_button .= '<input type="hidden" name="quantity" value="<?php echo $pb_reg_data->quantity; ?>"/>';
+				$pb_paypal_button .= '<input type="hidden" name="custom" value="<?php echo $pb_reg_user_id; ?>"/>';
+				$pb_paypal_button .= '<input type="hidden" name="notify_url" value="<?php echo $pb_notify_url; ?>"/>';
+				$pb_paypal_button .= '<input class="paypal_input" type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_paynowCC_LG.gif" name="submit" alt="PayPal - The safer, easier way to pay online!">';
+				$pb_paypal_button .= '<img class="paypal_button" alt="PayPal - The safer, easier way to pay online!" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">';
+				$pb_paypal_button .= '</form>';
+				break;
+			case 'complimentary':
+				$pb_paypal_button = "<!-- Pirate's Ball Comp Registration PayPal Button -->";
+				$pb_paypal_button .= '<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">';
+				$pb_paypal_button .= '<input type="hidden" name="cmd" value="_s-xclick">';
+				$pb_paypal_button .= '<input type="hidden" name="hosted_button_id" value="5YCZ8AV3GT83S">';
+				$pb_paypal_button .= '<input type="hidden" name="quantity" value="<?php echo $pb_reg_data->quantity; ?>"/>';
+				$pb_paypal_button .= '<input type="hidden" name="custom" value="<?php echo $pb_reg_user_id; ?>"/>';
+				$pb_paypal_button .= '<input type="hidden" name="notify_url" value="<?php echo $pb_notify_url; ?>"/>';
+				$pb_paypal_button .= '<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_paynowCC_LG.gif" name="submit" alt="PayPal - The safer, easier way to pay online!">';
+				$pb_paypal_button .= '<img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">';
+				$pb_paypal_button .= '</form>';
+				break;
+			case 'open':
+				$pb_paypal_button = "<!--  Pirate's Ball Early Registration PayPal Button -->";
+				$pb_paypal_button .= '<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">';
+				$pb_paypal_button .= '<input type="hidden" name="cmd" value="_s-xclick">';
+				$pb_paypal_button .= '<input type="hidden" name="hosted_button_id" value="XS2AC299UJ63N">';
+				$pb_paypal_button .= '<input type="hidden" name="amount" value="<?php echo $pb_reg_total; ?>">';
+				$pb_paypal_button .= '<input type="hidden" name="quantity" value="<?php echo $pb_reg_data->quantity; ?>"/>';
+				$pb_paypal_button .= '<input type="hidden" name="custom" value="<?php echo $pb_reg_user_id; ?>"/>';
+				$pb_paypal_button .= '<input type="hidden" name="notify_url" value="<?php echo $pb_notify_url; ?>"/>';
+				$pb_paypal_button .= '<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_paynowCC_LG.gif" name="submit" alt="PayPal - The safer, easier way to pay online!">';
+				$pb_paypal_button .= '<img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">';
+				$pb_paypal_button .= '</form>';
+				break;
+			case 'registration':
+				$pb_paypal_button = "<!-- Pirate's Ball Late Registration PayPal Button -->";
+				$pb_paypal_button .= '<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">';
+				$pb_paypal_button .= '<input type="hidden" name="cmd" value="_s-xclick">';
+				$pb_paypal_button .= '<input type="hidden" name="hosted_button_id" value="DU9MPK4H5L3ZQ">';
+				$pb_paypal_button .= '<input type="hidden" name="quantity" value="<?php echo $pb_reg_data->quantity; ?>"/>';
+				$pb_paypal_button .= '<input type="hidden" name="custom" value="<?php echo $pb_reg_user_id; ?>"/>';
+				$pb_paypal_button .= '<input type="hidden" name="notify_url" value="<?php echo $pb_notify_url; ?>"/>';
+				$pb_paypal_button .= '<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_paynowCC_LG.gif" name="submit" alt="PayPal - The safer, easier way to pay online!">';
+				$pb_paypal_button .= '<img class="paypal_button" alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">';
+				$pb_paypal_button .= '</form>';
+				break;
+		}
+
+		return $pb_paypal_button;
+	}
+
+	public function get_pb_submit_button( $pb_form_type ) {
+
+		If ( $pb_form_type == 'new' ) {
+			$pb_submit_button = '<input class="ctxphc_button3 screen" id="update" type="submit" name="submit" value="review" />';
+		} else {
+			$pb_submit_button = '<input class="ctxphc_button3 screen" id="review" type="submit" name="submit" value="update" />';
+		}
+
+		return $pb_submit_button;
+	}
+
+	public function render_pb_blank_form( $submit_button ) {  // Display New form
+		?>
+		<div class="spacer"></div>
+
+		<form id="pbMembOnlyRegForm" name="pbRegForm" method="post" action="">
+			<fieldset class="pb_reg_form" id="members_info">
+				<legend><span class="memb_legend">Your Information</span></legend>
+				<div class="personal_info">
+					<div class="pb_rows" id="personal_info">
+						<label class="pb_lbl_left"
+						       id="pb_lbl_fname"
+						       for="pb_fname">First Name:
+						</label>
+						<input class="validate[required, custom[onlyLetterSp]] pb_input_left"
+						       data-prompt-position="bottomLeft"
+						       id="pb_fname"
+						       type="text"
+						       name="pb_fname"
+						/>
+
+						<label id="pb_lbl_lname"
+						       class="pb_lbl_right"
+						       for="pb_lname">Last Name:
+						</label>
+						<input class="validate[required, custom[onlyLetterSp]] pb_input_right"
+						       data-prompt-position="bottomLeft"
+						       id="pb_lname"
+						       type="text"
+						       name="pb_lname"
+						/>
+					</div>
+
+					<div class="pb_rows" id="div_pb_email">
+						<label class="pb_lbl_left"
+						       id="pb_lbl_email"
+						       for="pb_email">Email:
+						</label>
+						<input class="validate[required, custom[email]] pb_input_left"
+						       data-prompt-position="bottomLeft"
+						       id="pb_email"
+						       name="pb_email"
+						       type="text"/>
+
+						<label class="pb_lbl_right"
+						       id="pb_lbl_email_verify"
+						       for="pb_email_verify">Verify Email:
+						</label>
+						<input class="validate[required, custom[email]] pb_input_right"
+						       data-prompt-position="bottomLeft"
+						       id="pb_email_verify"
+						       name="pb_email_verify"
+						       type="text"
+						/>
+					</div>
+
+					<div class="pb_rows" id="div_pb_phone_affiliation">
+						<label class="pb_lbl_left"
+						       id="pb_lbl_phone"
+						       for="pb_phone">Phone:
+						</label>
+						<input class="validate[required, custom[phone]] pb_input_left"
+						       data-prompt-position="bottomLeft"
+						       id="pb_phone"
+						       name="pb_phone"
+						       type="tel"
+						/>
+
+						<label class="pb_lbl_right"
+						       id="pb_lbl_club"
+						       for="pb_club">Club Affiliation:
+						</label>
+						<input class="validate[required, custom[onlyLetterSp]] pb_input_right"
+						       data-prompt-position="bottomLeft"
+						       id="pb_club"
+						       name="pb_club"
+						       type="text"
+						/>
+					</div>
+
+					<div class="pb_rows">
+						<label class="pb_lbl_cruise pb_cruise_choice"
+						       id="pb_cruise_lbl"
+						       for="memb_pb_cruise_choice">
+							Attending Captain's Castaway Cruise( $<?php echo $this->pb_cruise_cost; ?>)
+						</label>
+						<input class="validate[required] pb_cruise_choice"
+						       id="memb_pb_cruise_choice"
+						       name="pb_cruise"
+						       type="radio"
+						       value="Y"
+						>
+						Yes
+						<input class="validate[required] pb_cruise_choice"
+						       id="memb_pb_cruise_choice"
+						       name="pb_cruise"
+						       type="radio"
+						       value="N"
+						>
+						No
+					</div>
+				</div>
+			</fieldset>
+
+			<div class='spacer'></div>
+
+			<fieldset class="pb_reg_form" id="pb_Attend_Info">
+				<legend><span class="memb_legend">Additional Attendees</span></legend>
+				<div class="pb_attendee_count" id="pb_attendee_count">
+					<input class="pb_attendeeCount"
+					       id="pb_attendee_count_2"
+					       type="radio"
+					       name="attendee_count"
+					       value="2"/>
+					<label class="pb_attendeeCount"
+					       for="pb_attendee_count_2">2 Attendees
+						$<?php echo $this->pb_reg_cost * 2; ?>
+					</label>
+
+					<input class="pb_attendeeCount"
+					       id="pb_attendee_count_3"
+					       type="radio"
+					       name="attendee_count"
+					       value="3"/>
+					<label class="pb_attendeeCount"
+					       for="pb_attendee_count_3">3 Attendees
+						$<?php echo $this->pb_reg_cost * 3; ?>
+					</label>
+
+					<input class="pb_attendeeCount"
+					       id="pb_attendee_count_4"
+					       type="radio"
+					       name="attendee_count"
+					       value="4"/>
+					<label class="pb_attendeeCount"
+					       for="pb_attendee_count_4">4 Attendees:
+						$<?php echo $this->pb_reg_cost * 4; ?>
+					</label>
+				</div>
+
+				<div id="pb_attendee_2">
+					<div class="pb_rows">
+						<label class="pb_lbl_left"
+						       id="pb_lbl_attendee_fname_2"
+						       for="pb_attendee_fname_2">First Name:
+						</label>
+						<input class="validate[required, custom[onlyLetterSp]] pb_input_left"
+						       data-prompt-position="bottomLeft"
+						       id="pb_attendee_fname_2"
+						       name="pb_attendee_fname_2"
+						       type="text"
+						/>
+
+						<label class="pb_lbl_right"
+						       id="pb_lbl_attendee_lname_2"
+						       for="pb_attendee_lname_2">Last Name:
+						</label>
+						<input class="validate[required, custom[onlyLetterSp]] pb_input_right"
+						       data-prompt-position="bottomLeft"
+						       id="pb_attendee_lname_2"
+						       name="pb_attendee_lname_2"
+						       type="text"
+						/>
+					</div>
+
+					<div class="pb_rows">
+						<!--
+						<label class="pb_lbl_left"
+						       id="pb_lbl_attendee_shirt_2"
+						       for="pb_attendee_shirt_2">T-Shirt Size:
+						</label>
+						<select class="validate[required] pb_attendee_shirt pb_input_left"
+						        id="pb_attendee_shirt_2"
+						        name="pb_attendee_shirt_size_2">
+							<?php //$defSel = 'LG';
+						//echo showOptionsDrop( $this->pb_shirt_sizes, $defSel, true ); ?>
+						</select>
+					-->
+						<label class="pb_lbl_cruise pb_cruise_choice"
+						       id="pb_attendee_2_cruise_lbl"
+						       for="pb_attendee_cruise_2">
+							Attending Captain's Castaway Cruise ( $<?php echo $this->pb_cruise_cost; ?>)
+						</label>
+						<input class="validate[required] pb_cruise_choice"
+						       id="pb_attendee_cruise_2"
+						       name="pb_attendee_cruise_2"
+						       type="radio"
+						       value="Y"
+						>
+						Yes
+
+						<input class="validate[required] pb_cruise_choice"
+						       id="pb_attendee_cruise_2"
+						       name="pb_attendee_cruise_2"
+						       type="radio"
+						       value="N"
+						>
+						No
+					</div>
+					<div class="pb_rows">
+						<label class="pb_lbl_left attendee_club_lbl"
+						       id="pb_lbl_attendee_club_2"
+						       for="pb_attendee_club_2">Club Affiliation:
+						</label>
+						<input class="validate[required, custom[onlyLetterSp]] pb_input_right"
+						       data-prompt-position="bottomLeft"
+						       id="pb_attendee_club_2"
+						       name="pb_attendee_club_2"
+						       type="text"
+						/>
+					</div>
+				</div>
+
+				<div id="pb_attendee_3">
+					<div class="pb_rows" id="pb_attendee_3">
+						<label class="pb_lbl_left"
+						       id="pb_lbl_attendee_fname_3"
+						       for="pb_attendee_fname_3">First Name:
+						</label>
+						<input class="validate[required, custom[onlyLetterSp]] pb_input_left"
+						       data-prompt-position="bottomLeft"
+						       id="pb_attendee_fname_3"
+						       name="pb_attendee_fname_3"
+						       type="text"
+						/>
+
+						<label class="pb_lbl_right"
+						       id="pb_lbl_attendee_lname_3"
+						       for="pb_attendee_lname_3">Last Name:
+						</label>
+						<input class="validate[required, custom[onlyLetterSp]] pb_input_right"
+						       data-prompt-position="bottomLeft"
+						       id="pb_attendee_lname_3"
+						       name="pb_attendee_lname_3"
+						       type="text"
+						/>
+					</div>
+
+					<div class="pb_rows">
+						<!--
+						<label class="pb_lbl_left"
+						       id="pb_lbl_attendee_shirt_3"
+						       for="pb_attendee_shirt_3">T-Shirt Size:
+						</label>
+						<select class="validate[required] pb_attendee_shirt pb_input_left"
+						        id="pb_attendee_shirt_3"
+						        name="pb_attendee_shirt_size_3">
+							<?php //$defSel = 'LG';
+						//echo showOptionsDrop( $this->pb_shirt_sizes, $defSel, true ); ?>
+						</select>
+						-->
+						<label class="pb_lbl_cruise pb_cruise_choice"
+						       id="pb_attendee_3_cruise_lbl"
+						       for="pb_attendee_cruise_3">
+							Attending Captain's Castaway Cruise ( $<?php echo $this->pb_cruise_cost; ?>)
+						</label>
+						<input class="validate[required] pb_cruise_choice"
+						       id="pb_attendee_cruise_3"
+						       name="pb_attendee_cruise_3"
+						       type="radio"
+						       value="Y"
+						>
+						Yes
+
+						<input class="validate[required] pb_cruise_choice"
+						       id="pb_attendee_cruise_3"
+						       name="pb_attendee_cruise_3"
+						       type="radio"
+						       value="N"
+						>
+						No
+					</div>
+					<div class="pb_rows">
+						<label class="pb_lbl_left attendee_club_lbl"
+						       id="pb_lbl_attendee_club_3"
+						       for="pb_attendee_club_3">Club Affiliation:
+						</label>
+						<input class="validate[required, custom[onlyLetterSp]] pb_input_right"
+						       data-prompt-position="bottomLeft"
+						       id="pb_attendee_club_3"
+						       name="pb_attendee_club_3"
+						       type="text"
+						/>
+					</div>
+				</div>
+
+				<div id="pb_attendee_4">
+					<div class="pb_rows" id="pb_attendee_4">
+						<label class="pb_lbl_left"
+						       id="pb_lbl_attendee_fname_4"
+						       for="pb_attendee_fname_4">First Name:
+						</label>
+						<input class="validate[required, custom[onlyLetterSp]] pb_input_left"
+						       data-prompt-position="bottomLeft"
+						       id="pb_attendee_fname_4"
+						       name="pb_attendee_fname_4"
+						       type="text"
+						/>
+						<label class="pb_lbl_right"
+						       id="pb_lbl_attendee_lname_4"
+						       for="pb_attendee_lname_4">Last Name:
+						</label>
+						<input class="validate[required, custom[onlyLetterSp]] pb_input_right"
+						       data-prompt-position="bottomLeft"
+						       id="pb_attendee_lname_4"
+						       name="pb_attendee_lname_4"
+						       type="text"
+						/>
+					</div>
+
+					<div class="pb_rows">
+						<!--
+						<label class="pb_lbl_left"
+						       id="pb_lbl_attendee_shirt_4"
+						       for="pb_attendee_shirt_4">T-Shirt Size:
+						</label>
+						<select class="validate[required] pb_input_left"
+						        id="pb_attendee_shirt_4"
+						        name="pb_attendee_shirt_size_4">
+							<?php //$defSel = 'LG';
+						//echo showOptionsDrop( $this->pb_shirt_sizes, $defSel, true ); ?>
+						</select>
+						-->
+						<label class="pb_lbl_cruise pb_cruise_choice"
+						       id="pb_attendee_4_cruise_lbl"
+						       for="pb_attendee_cruise_4">
+							Attending Captain's Castaway Cruise ( $<?php echo $this->pb_cruise_cost; ?>)
+						</label>
+						<input class="validate[required] pb_cruise_choice"
+						       id="pb_attendee_cruise_4"
+						       name="pb_attendee_cruise_4"
+						       type="radio"
+						       value="Y"
+						>
+						Yes
+
+						<input class="validate[required] pb_cruise_choice"
+						       id="pb_attendee_cruise_4"
+						       name="pb_attendee_cruise_4"
+						       type="radio"
+						       value="N"
+						>
+						No
+					</div>
+					<div class="pb_rows">
+						<label class="pb_lbl_left attendee_club_lbl"
+						       id="pb_lbl_attendee_club_4"
+						       for="pb_attendee_club_4">Club Affiliation:
+						</label>
+						<input class="validate[required, custom[onlyLetterSp]] pb_input_right"
+						       data-prompt-position="bottomLeft"
+						       id="pb_attendee_club_4"
+						       name="pb_attendee_club_4"
+						       type="text"
+						/>
+					</div>
+				</div>
+			</fieldset>
+
+			<div class="spacer"></div>
+
+			<div>
+				<?php echo $submit_button; ?>
+			</div>
+		</form>
+		<?php
+	}
+
+	public function render_pb_review_form( $submit_button, $paypal_button, $pb_reg_user_id ) {  // Display REVIEW form
 		global $wpdb;
 
 		$pb_reg_data = $wpdb->get_row( "SELECT * FROM ctxphc_pb_reg WHERE pbRegID = $pb_reg_user_id" );
@@ -312,7 +707,6 @@ class PB_Reg {
 							       type="text"
 							       name="pb_fname"
 							       value="<?php echo $pb_reg_data->first_name; ?>"
-							       required
 							/>
 							<label class="pb_lbl_right"
 							       id="pb_lbl_lname"
@@ -324,7 +718,6 @@ class PB_Reg {
 							       type="text"
 							       name="pb_lname"
 							       value="<?php echo $pb_reg_data->last_name; ?>"
-							       required
 							/>
 						</div>
 
@@ -339,7 +732,6 @@ class PB_Reg {
 							       name="pb_email"
 							       type="text"
 							       value="<?php echo $pb_reg_data->email; ?>"
-							       required
 							/>
 
 							<label class="pb_lbl_right"
@@ -352,7 +744,6 @@ class PB_Reg {
 							       name="pb_email_verify"
 							       type="text"
 							       value="<?php echo $pb_reg_data->email; ?>"
-							       required
 							/>
 						</div>
 
@@ -367,7 +758,6 @@ class PB_Reg {
 							       name="pb_phone"
 							       type="tel"
 							       value="<?php echo formatPhoneNumber( $pb_reg_data->phone ); ?>"
-							       required
 							/>
 
 							<label class="pb_lbl_right"
@@ -380,7 +770,6 @@ class PB_Reg {
 							       name="pb_club"
 							       type="text"
 							       value="<?php echo $pb_reg_data->club_aff; ?>"
-							       required
 							/>
 						</div>
 
@@ -396,7 +785,7 @@ class PB_Reg {
 							       name="pb_cruise"
 							       type="radio"
 							       value="Y"
-							       <?php if ( $pb_reg_data->cruise == "Y" ) { ?>checked<?php }; ?>
+							       <?php if ( $pb_reg_data->cruise == "Y" ) { echo 'checked'; } ?>
 							>
 							Yes
 							<input class="validate[required] pb_cruise_choice"
@@ -404,7 +793,7 @@ class PB_Reg {
 							       name="pb_cruise"
 							       type="radio"
 							       value="N"
-							       <?php if ( $pb_reg_data->cruise == "Y" ) { ?>checked<?php }; ?>
+							       <?php if ( $pb_reg_data->cruise =="N" ) { echo 'checked'; } ?>
 							>
 							No
 						</div>
@@ -508,14 +897,14 @@ class PB_Reg {
 							<label class="pb_lbl_cruise pb_cruise_choice"
 							       id="pb_attendee_2_cruise_lbl"
 							       for="pb_attendee_cruise_2">
-								Attending Captain's Castaway Cruise(<?php echo $this->pb_cruise_cost; ?>)
+								Attending Captain's Castaway Cruise ( $<?php echo $this->pb_cruise_cost; ?>)
 							</label>
 							<input class="validate[required] pb_cruise_choice"
 							       id="pb_attendee_cruise_2"
 							       name="pb_attendee_cruise_2"
 							       type="radio"
 							       value="Y"
-							       <?php if ( $pb_reg_data->cruise == "Y" ) { ?>checked<?php }; ?>
+							       <?php if ( $pb_reg_data->cruise == "Y" ) { echo 'checked'; } ?>
 							>
 							Yes
 							<input class="validate[required] pb_cruise_choice"
@@ -523,11 +912,12 @@ class PB_Reg {
 							       name="pb_attendee_cruise_2"
 							       type="radio"
 							       value="N"
-							       <?php if ( $pb_reg_data->cruise == "N" ) { ?>checked<?php }; ?>
+							       <?php if ( $pb_reg_data->cruise == "N" ) { echo 'checked'; } ?>
 							>
 							No
-
-							<label class="pb_lbl_right attendee_club_lbl"
+						</div>
+						<div class="pb_rows">
+							<label class="pb_lbl_left attendee_club_lbl"
 							       id="pb_lbl_attendee_club_2"
 							       for="pb_attendee_club_2">Club Affiliation:
 							</label>
@@ -572,14 +962,14 @@ class PB_Reg {
 							<label class="pb_lbl_cruise pb_cruise_choice"
 							       id="pb_attendee_3_cruise_lbl"
 							       for="pb_attendee_cruise_3">
-								Attending Captain's Castaway Cruise(<?php echo $this->pb_cruise_cost; ?>)
+								Attending Captain's Castaway Cruise ( $<?php echo $this->pb_cruise_cost; ?>)
 							</label>
 							<input class="validate[required] pb_cruise_choice"
 							       id="pb_attendee_cruise_3"
 							       name="pb_attendee_cruise_3"
 							       type="radio"
 							       value="Y"
-							       <?php if ( $pb_reg_data->cruise == "Y" ) { ?>checked<?php }; ?>
+							       <?php if ( $pb_reg_data->cruise == "Y" ) { echo 'checked'; } ?>
 							>
 							Yes
 							<input class="validate[required] pb_cruise_choice"
@@ -587,11 +977,12 @@ class PB_Reg {
 							       name="pb_attendee_cruise_3"
 							       type="radio"
 							       value="N"
-							       <?php if ( $pb_reg_data->cruise == "N" ) { ?>checked<?php }; ?>
+							       <?php if ( $pb_reg_data->cruise == "N" ) { echo 'checked'; } ?>
 							>
 							No
-
-							<label class="pb_lbl_right attendee_club_lbl"
+						</div>
+						<div class="pb_rows">
+							<label class="pb_lbl_left attendee_club_lbl"
 							       id="pb_lbl_attendee_club_3"
 							       for="pb_attendee_club_3">Club Affiliation:
 							</label>
@@ -639,14 +1030,14 @@ class PB_Reg {
 							<label class="pb_lbl_cruise pb_cruise_choice"
 							       id="pb_attendee_4_cruise_lbl"
 							       for="pb_attendee_cruise_4">
-								Attending Captain's Castaway Cruise(<?php echo $this->pb_cruise_cost; ?>)
+								Attending Captain's Castaway Cruise ( $<?php echo $this->pb_cruise_cost; ?>)
 							</label>
 							<input class="validate[required] pb_cruise_choice"
 							       id="pb_attendee_cruise_4"
 							       name="pb_attendee_cruise_4"
 							       type="radio"
 							       value="Y"
-							       <?php if ( $pb_reg_data->cruise == "Y" ) { ?>checked<?php }; ?>
+							       <?php if ( $pb_reg_data->cruise == "Y" ) { echo 'checked'; } ?>
 							>
 							Yes
 							<input class="validate[required] pb_cruise_choice"
@@ -654,10 +1045,12 @@ class PB_Reg {
 							       name="pb_attendee_cruise_4"
 							       type="radio"
 							       value="N"
-							       <?php if ( $pb_reg_data->cruise == "N" ) { ?>checked<?php }; ?>
+							       <?php if ( $pb_reg_data->cruise == "N" ) { echo 'checked'; } ?>
 							>
 							No
-							<label class="pb_lbl_right attendee_club_lbl"
+						</div>
+						<div class="pb_rows">
+							<label class="pb_lbl_left attendee_club_lbl"
 							       id="pb_lbl_attendee_club_4"
 							       for="pb_attendee_club_4">Club Affiliation:
 							</label>
@@ -674,8 +1067,8 @@ class PB_Reg {
 
 				<div class="spacer"></div>
 
-				<div class="ctxphc_button1">
-					<?php echo $this->pb_submit_button; ?>
+				<div>
+					<?php echo $submit_button; ?>
 				</div>
 
 			</form>
@@ -684,7 +1077,7 @@ class PB_Reg {
 
 			<?php
 			if ( $this->pb_reg_type ) {
-				echo $this->pb_submit_pp_button;
+				echo $paypal_button;
 			}
 			?>
 		</div>
@@ -754,370 +1147,6 @@ class PB_Reg {
 		</div>
 
 		<div class="spacer"></div>
-		<?php
-	}
-
-	public function render_pb_blank_form() {  // Display New form
-		?>
-		<div class="spacer"></div>
-
-		<form id="pbMembOnlyRegForm" name="pbRegForm" method="post" action="">
-			<fieldset class="pb_reg_form" id="members_info">
-				<legend><span class="memb_legend">Your Information</span></legend>
-				<div class="personal_info">
-					<div class="pb_rows" id="personal_info">
-						<label class="pb_lbl_left"
-						       id="pb_lbl_fname"
-						       for="pb_fname">First Name:
-						</label>
-						<input class="validate[required, custom[onlyLetterSp]] pb_input_left"
-						       data-prompt-position="bottomLeft"
-						       id="pb_fname"
-						       type="text"
-						       name="pb_fname"
-						/>
-
-						<label id="pb_lbl_lname"
-						       class="pb_lbl_right"
-						       for="pb_lname">Last Name:
-						</label>
-						<input class="validate[required, custom[onlyLetterSp]] pb_input_right"
-						       data-prompt-position="bottomLeft"
-						       id="pb_lname"
-						       type="text"
-						       name="pb_lname"
-						/>
-					</div>
-
-					<div class="pb_rows" id="div_pb_email">
-						<label class="pb_lbl_left"
-						       id="pb_lbl_email"
-						       for="pb_email">Email:
-						</label>
-						<input class="validate[required, custom[email]] pb_input_left"
-						       data-prompt-position="bottomLeft"
-						       id="pb_email"
-						       name="pb_email"
-						       type="text"/>
-
-						<label class="pb_lbl_right"
-						       id="pb_lbl_email_verify"
-						       for="pb_email_verify">Verify Email:
-						</label>
-						<input class="validate[required, custom[email]] pb_input_right"
-						       data-prompt-position="bottomLeft"
-						       id="pb_email_verify"
-						       name="pb_email_verify"
-						       type="text"
-						/>
-					</div>
-
-					<div class="pb_rows" id="div_pb_phone_affiliation">
-						<label class="pb_lbl_left"
-						       id="pb_lbl_phone"
-						       for="pb_phone">Phone:
-						</label>
-						<input class="validate[required, custom[phone]] pb_input_left"
-						       data-prompt-position="bottomLeft"
-						       id="pb_phone"
-						       name="pb_phone"
-						       type="tel"
-						/>
-
-						<label class="pb_lbl_right"
-						       id="pb_lbl_club"
-						       for="pb_club">Club Affiliation:
-						</label>
-						<input class="validate[required, custom[onlyLetterSp]] pb_input_right"
-						       data-prompt-position="bottomLeft"
-						       id="pb_club"
-						       name="pb_club"
-						       type="text"
-						/>
-					</div>
-
-					<div class="pb_rows">
-						<label class="pb_lbl_cruise pb_cruise_choice"
-						       id="pb_cruise_lbl"
-						       for="memb_pb_cruise_choice">
-							Attending Captain's Castaway Cruise(<?php echo $this->pb_cruise_cost; ?>)
-						</label>
-						<input class="validate[required] pb_cruise_choice"
-						       id="memb_pb_cruise_choice"
-						       name="pb_cruise"
-						       type="radio"
-						       value="Y"
-						>
-						Yes
-						<input class="validate[required] pb_cruise_choice"
-						       id="memb_pb_cruise_choice"
-						       name="pb_cruise"
-						       type="radio"
-						       value="N"
-						>
-						No
-					</div>
-				</div>
-			</fieldset>
-
-			<div class='spacer'></div>
-
-			<fieldset class="pb_reg_form" id="pb_Attend_Info">
-				<legend><span class="memb_legend">Additional Attendees</span></legend>
-				<div class="pb_attendee_count" id="pb_attendee_count">
-					<input class="pb_attendeeCount"
-					       id="pb_attendee_count_2"
-					       type="radio"
-					       name="attendee_count"
-					       value="2"/>
-					<label class="pb_attendeeCount"
-					       for="pb_attendee_count_2">2 Attendees
-						$<?php echo $this->pb_reg_cost * 2; ?>
-					</label>
-
-					<input class="pb_attendeeCount"
-					       id="pb_attendee_count_3"
-					       type="radio"
-					       name="attendee_count"
-					       value="3"/>
-					<label class="pb_attendeeCount"
-					       for="pb_attendee_count_3">3 Attendees
-						$<?php echo $this->pb_reg_cost * 3; ?>
-					</label>
-
-					<input class="pb_attendeeCount"
-					       id="pb_attendee_count_4"
-					       type="radio"
-					       name="attendee_count"
-					       value="4"/>
-					<label class="pb_attendeeCount"
-					       for="pb_attendee_count_4">4 Attendees:
-						$<?php echo $this->pb_reg_cost * 4; ?>
-					</label>
-				</div>
-
-				<div id="pb_attendee_2">
-					<div class="pb_rows">
-						<label class="pb_lbl_left"
-						       id="pb_lbl_attendee_fname_2"
-						       for="pb_attendee_fname_2">First Name:
-						</label>
-						<input class="validate[required, custom[onlyLetterSp]] pb_input_left"
-						       data-prompt-position="bottomLeft"
-						       id="pb_attendee_fname_2"
-						       name="pb_attendee_fname_2"
-						       type="text"
-						/>
-
-						<label class="pb_lbl_right"
-						       id="pb_lbl_attendee_lname_2"
-						       for="pb_attendee_lname_2">Last Name:
-						</label>
-						<input class="validate[required, custom[onlyLetterSp]] pb_input_right"
-						       data-prompt-position="bottomLeft"
-						       id="pb_attendee_lname_2"
-						       name="pb_attendee_lname_2"
-						       type="text"
-						/>
-					</div>
-
-					<div class="pb_rows">
-						<!--
-						<label class="pb_lbl_left"
-						       id="pb_lbl_attendee_shirt_2"
-						       for="pb_attendee_shirt_2">T-Shirt Size:
-						</label>
-						<select class="validate[required] pb_attendee_shirt pb_input_left"
-						        id="pb_attendee_shirt_2"
-						        name="pb_attendee_shirt_size_2">
-							<?php //$defSel = 'LG';
-						//echo showOptionsDrop( $this->pb_shirt_sizes, $defSel, true ); ?>
-						</select>
-					-->
-						<label class="pb_lbl_cruise pb_cruise_choice"
-						       id="pb_attendee_2_cruise_lbl"
-						       for="pb_attendee_cruise_2">
-							Attending Captain's Castaway Cruise(<?php echo $this->pb_cruise_cost; ?>)
-						</label>
-						<input class="validate[required] pb_cruise_choice"
-						       id="pb_attendee_cruise_2"
-						       name="pb_attendee_cruise_2"
-						       type="radio"
-						       value="Y"
-						>
-						Yes
-
-						<input class="validate[required] pb_cruise_choice"
-						       id="pb_attendee_cruise_2"
-						       name="pb_attendee_cruise_2"
-						       type="radio"
-						       value="N"
-						>
-						No
-
-						<label class="pb_lbl_right attendee_club_lbl"
-						       id="pb_lbl_attendee_club_2"
-						       for="pb_attendee_club_2">Club Affiliation:
-						</label>
-						<input class="validate[required, custom[onlyLetterSp]] pb_input_right"
-						       data-prompt-position="bottomLeft"
-						       id="pb_attendee_club_2"
-						       name="pb_attendee_club_2"
-						       type="text"
-						/>
-					</div>
-				</div>
-
-				<div id="pb_attendee_3">
-					<div class="pb_rows" id="pb_attendee_3">
-						<label class="pb_lbl_left"
-						       id="pb_lbl_attendee_fname_3"
-						       for="pb_attendee_fname_3">First Name:
-						</label>
-						<input class="validate[required, custom[onlyLetterSp]] pb_input_left"
-						       data-prompt-position="bottomLeft"
-						       id="pb_attendee_fname_3"
-						       name="pb_attendee_fname_3"
-						       type="text"
-						/>
-
-						<label class="pb_lbl_right"
-						       id="pb_lbl_attendee_lname_3"
-						       for="pb_attendee_lname_3">Last Name:
-						</label>
-						<input class="validate[required, custom[onlyLetterSp]] pb_input_right"
-						       data-prompt-position="bottomLeft"
-						       id="pb_attendee_lname_3"
-						       name="pb_attendee_lname_3"
-						       type="text"
-						/>
-					</div>
-
-					<div class="pb_rows">
-						<!--
-						<label class="pb_lbl_left"
-						       id="pb_lbl_attendee_shirt_3"
-						       for="pb_attendee_shirt_3">T-Shirt Size:
-						</label>
-						<select class="validate[required] pb_attendee_shirt pb_input_left"
-						        id="pb_attendee_shirt_3"
-						        name="pb_attendee_shirt_size_3">
-							<?php //$defSel = 'LG';
-						//echo showOptionsDrop( $this->pb_shirt_sizes, $defSel, true ); ?>
-						</select>
-						-->
-						<label class="pb_lbl_cruise pb_cruise_choice"
-						       id="pb_attendee_3_cruise_lbl"
-						       for="pb_attendee_cruise_3">
-							Attending Captain's Castaway Cruise(<?php echo $this->pb_cruise_cost; ?>)
-						</label>
-						<input class="validate[required] pb_cruise_choice"
-						       id="pb_attendee_cruise_3"
-						       name="pb_attendee_cruise_3"
-						       type="radio"
-						       value="Y"
-						>
-						Yes
-
-						<input class="validate[required] pb_cruise_choice"
-						       id="pb_attendee_cruise_3"
-						       name="pb_attendee_cruise_3"
-						       type="radio"
-						       value="N"
-						>
-						No
-
-						<label class="pb_lbl_right attendee_club_lbl"
-						       id="pb_lbl_attendee_club_3"
-						       for="pb_attendee_club_3">Club Affiliation:
-						</label>
-						<input class="validate[required, custom[onlyLetterSp]] pb_input_right"
-						       data-prompt-position="bottomLeft"
-						       id="pb_attendee_club_3"
-						       name="pb_attendee_club_3"
-						       type="text"
-						/>
-					</div>
-				</div>
-
-				<div id="pb_attendee_4">
-					<div class="pb_rows" id="pb_attendee_4">
-						<label class="pb_lbl_left"
-						       id="pb_lbl_attendee_fname_4"
-						       for="pb_attendee_fname_4">First Name:
-						</label>
-						<input class="validate[required, custom[onlyLetterSp]] pb_input_left"
-						       data-prompt-position="bottomLeft"
-						       id="pb_attendee_fname_4"
-						       name="pb_attendee_fname_4"
-						       type="text"
-						/>
-						<label class="pb_lbl_right"
-						       id="pb_lbl_attendee_lname_4"
-						       for="pb_attendee_lname_4">Last Name:
-						</label>
-						<input class="validate[required, custom[onlyLetterSp]] pb_input_right"
-						       data-prompt-position="bottomLeft"
-						       id="pb_attendee_lname_4"
-						       name="pb_attendee_lname_4"
-						       type="text"
-						/>
-					</div>
-
-					<div class="pb_rows">
-						<!--
-						<label class="pb_lbl_left"
-						       id="pb_lbl_attendee_shirt_4"
-						       for="pb_attendee_shirt_4">T-Shirt Size:
-						</label>
-						<select class="validate[required] pb_input_left"
-						        id="pb_attendee_shirt_4"
-						        name="pb_attendee_shirt_size_4">
-							<?php //$defSel = 'LG';
-						//echo showOptionsDrop( $this->pb_shirt_sizes, $defSel, true ); ?>
-						</select>
-						-->
-						<label class="pb_lbl_cruise pb_cruise_choice"
-						       id="pb_attendee_4_cruise_lbl"
-						       for="pb_attendee_cruise_4">
-							Attending Captain's Castaway Cruise(<?php echo $this->pb_cruise_cost; ?>)
-						</label>
-						<input class="validate[required] pb_cruise_choice"
-						       id="pb_attendee_cruise_4"
-						       name="pb_attendee_cruise_4"
-						       type="radio"
-						       value="Y"
-						>
-						Yes
-
-						<input class="validate[required] pb_cruise_choice"
-						       id="pb_attendee_cruise_4"
-						       name="pb_attendee_cruise_4"
-						       type="radio"
-						       value="N"
-						>
-						No
-
-						<label class="pb_lbl_right attendee_club_lbl"
-						       id="pb_lbl_attendee_club_4"
-						       for="pb_attendee_club_4">Club Affiliation:
-						</label>
-						<input class="validate[required, custom[onlyLetterSp]] pb_input_right"
-						       data-prompt-position="bottomLeft"
-						       id="pb_attendee_club_4"
-						       name="pb_attendee_club_4"
-						       type="text"
-						/>
-					</div>
-				</div>
-			</fieldset>
-
-			<div class="spacer"></div>
-
-			<div id="ctxphc_button1">
-				<?php echo $this->pb_submit_button; ?>
-			</div>
-		</form>
 		<?php
 	}
 
@@ -1193,9 +1222,23 @@ class PB_Reg {
 				}
 				$pb_reg_data[ 'attending_cruise_count' ] = $this->attending_cruise_count;
 			}
+			$pb_reg_data[ 'cruise_total' ] = $this->get_pb_cruise_total();
+			$pb_reg_data[ ' pb_ball_total' ] = $this->get_pb_reg_total();
 		}
 
 		return $pb_reg_data;
+	}
+
+	public function get_pb_cruise_total() {
+		$pb_cruise_total = $this->pb_cruise_count * $this->pb_cruise_cost;
+
+		return $pb_cruise_total;
+	}
+
+	public function get_pb_reg_total() {
+		$pb_reg_total = $this->pb_attend_count * $this->pb_reg_cost;
+
+		return $pb_reg_total;
 	}
 
 	/**
