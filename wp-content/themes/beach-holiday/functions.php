@@ -54,6 +54,8 @@ include( TEMPLATEPATH . '/includes/theme-functions.php' );
 /** @noinspection PhpIncludeInspection */
 include( TEMPLATEPATH . '/includes/ctxphc-functions.php' );
 /** @noinspection PhpIncludeInspection */
+include( TEMPLATEPATH . '/includes/pb_reg_functions.php' );
+/** @noinspection PhpIncludeInspection */
 include( TEMPLATEPATH . '/template.php' );
 
 
@@ -82,12 +84,14 @@ function reg_custom_scripts_and_styles() {
 		wp_enqueue_style( 'validation-style' );
 	}
 
-	wp_register_script( 'ctxphc-pb-script', get_template_directory_uri() . '/includes/js/ctxphc-pb-script.js', array( 'jquery' ), '', true );
-
-	if ( is_page( 'pirates-ball-members-only-early-registration' ) || is_page( 'pirates-ball-early-registration' ) || is_page( 'pirates-ball-registration' ) || is_page( 'pirates-ball-private-registration' ) ) {
-		wp_enqueue_script( 'ctxphc-pb-script' );
-		wp_enqueue_style( 'validation-style' );
-	}
+	/**
+	 * wp_register_script( 'ctxphc-pb-script', get_template_directory_uri() . '/includes/js/ctxphc-pb-script.js', array( 'jquery' ), '', true );
+	 *
+	 * if ( is_page( 'pirates-ball-members-only-early-registration' ) || is_page( 'pirates-ball-early-registration' ) || is_page( 'pirates-ball-registration' ) || is_page( 'pirates-ball-private-registration' ) ) {
+	 * wp_enqueue_script( 'ctxphc-pb-script' );
+	 * wp_enqueue_style( 'validation-style' );
+	 * }
+	 * */
 
 	wp_register_script( 'google-maps', 'https://maps.googleapis.com/maps/api/js' );
 	if ( is_page( 'members-in-central-texas-by-zip-code' ) ) {
@@ -932,7 +936,7 @@ function list_active_members() {
 		'fields'     => array( 'first_name', 'last_name', 'email', 'phone', 'addr1', 'addr2', 'city', 'state', 'zip' ),
 	);
 
-// The User Query
+	// The User Query
 	$user_query = new WP_User_Query( $args );
 
 	return $user_query;
@@ -1153,7 +1157,7 @@ if ( $debug ) {
 	add_action( 'gform_after_submission', 'get_current_entry_data', 10, 2 );
 }
 
-add_filter('ws_plugin__s2member_lock_roles_caps', '__return_true');
+add_filter( 'ws_plugin__s2member_lock_roles_caps', '__return_true' );
 
 function walk_through_form_fields( $form ) {
 
@@ -1184,7 +1188,7 @@ function walk_through_form_fields( $form ) {
 	return $form;
 }
 
-function get_current_entry_data( $form ){
+function get_current_entry_data( $form ) {
 	if ( $submit = 'registration' ) {
 		$form_id = 1;
 	} else {
@@ -1196,7 +1200,7 @@ function get_current_entry_data( $form ){
 	$entries = GFAPI::get_entries( $form_id );
 
 	//TODO: get the most recent entry_id
-	foreach ( $entries as $entry ){
+	foreach ( $entries as $entry ) {
 
 	}
 	//Get the most recent entry
@@ -3020,8 +3024,7 @@ function email_membership_directory( $memb_data ) {
 
 function post_to_paypal( $trans_data ) { //TODO: This needs work and testing!!!!!!
 
-	$pp_button_fields =
-	$post_url = 'http://thirdparty.com';
+	$pp_button_fields = $post_url = 'http://thirdparty.com';
 	$body             = array(
 		'first_name' => rgar( $entry, '1.3' ),
 		'last_name'  => rgar( $entry, '1.6' ),

@@ -12,9 +12,14 @@
  *
  * @return mixed
  */
-function prep_user_data( $user_post_data ) {
-	$attendee_count = intval( $user_post_data[ 'attendee_count' ] );
+function prep_pb_reg_data( $user_post_data ) {
+	$attendee_count = 1;
+	
 	foreach ( $user_post_data as $u_key => $u_value ) {
+		if (  strpos( $u_key, 'pb_attendee_fname') !== false ){
+			$attendee_count++;
+		}
+		
 		if ( ! empty( $u_value ) ) {
 			switch ( $u_key ) {
 				case ( $u_key == 'pb_fname' ):
@@ -51,6 +56,7 @@ function prep_user_data( $user_post_data ) {
 					$pb_reg_data[ 'amount' ]   = intval( $pb_reg_cost * $u_value );
 					break;
 				case ( $u_key == 'attending_cruise_count' ):
+					$attending_cruise_count++;
 					$pb_reg_data[ 'cruise_quantity' ] = intval( $u_value );
 					$pb_reg_data[ 'cruise_amount' ]   = intval( $pb_cruise_cost * $u_value );
 					break;
@@ -61,9 +67,9 @@ function prep_user_data( $user_post_data ) {
 								$attendee_name = $u_value;
 								break;
 							case ( strpos( $u_key, 'pb_attendee_lname' ) ):
-								$pb_attend_count ++;
+
 								$attendee_name .= ' ' . $u_value;
-								$pbkey                 = 'attendee_' . $pb_attend_count . '_name';
+								$pbkey                 = 'attendee_' . $attendee_count . '_name';
 								$pb_reg_data[ $pbkey ] = $attendee_name;
 								break;
 							case ( strpos( $u_key, 'pb_attendee_cruise' ) ):
@@ -71,12 +77,11 @@ function prep_user_data( $user_post_data ) {
 								if ( $u_value == "Y" ) {
 									$attending_cruise_count ++;
 								}
-								$pbkey                 = 'attendee_' . $pb_attendee_cruise_count . '_cruise';
+								$pbkey                 = 'attendee_' . $attendee_count . '_cruise';
 								$pb_reg_data[ $pbkey ] = $u_value;
 								break;
 							case ( strpos( $u_key, 'pb_attendee_club' ) );
-								$pb_attend_club_count ++;
-								$pb_club_key                 = 'attendee_club_' . $pb_attend_club_count;
+								$pb_club_key                 = 'attendee_club_' . $attendee_count;
 								$pb_reg_data[ $pb_club_key ] = $u_value;
 								break;
 						}

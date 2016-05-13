@@ -45,7 +45,7 @@ $expiry2  = new DateTime( $pb_begin_reg_reg_date );
 if ( isset( $_GET[ 'pb_reg_type' ] ) && ( $_GET[ 'pb_reg_type' ] == 'member' || $_GET[ 'pb_reg_type' ] == 'complimentary' ) ) {
 	$pb_reg_type = $_GET[ 'pb_reg_type' ];
 } else {
-	if ( $expiry >= $pb_today && $expiry <= $expiry2 ) {
+	if ( $expiry <= $pb_today && $expiry <= $expiry2 ) {
 		$pb_reg_type = 'open';
 	} else {
 		$pb_reg_type = 'registration';

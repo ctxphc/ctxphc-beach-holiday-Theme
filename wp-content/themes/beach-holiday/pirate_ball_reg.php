@@ -8,19 +8,20 @@
  * Time: 9:25 PM
  */
 
-if ( file_exists( TEMPLATEPATH . "/includes/pb_reg_functions.php" ) ) {
-	/* @noinspection PhpIncludeInspection */
-	require_once TEMPLATEPATH . "/includes/pb_reg_functions.php";
-}
-
 if ( $_POST[ 'submit' ] ) {
 	$form_type       = $_POST[ 'submit' ];
 	$clean_post_data = filter_var_array( $_POST, FILTER_SANITIZE_STRING );
-	$pb_reg_table = 'ctxphc_pb_reg';
+	$pb_display_data = prep_pb_reg_data( $clean_post_data );
 
-	$pb_display_data = $prep_pb_reg_data( $clean_post_data );
+	$pb_reg_table      = 'ctxphc_pb_reg';
+	$pb_insert_results = pb_data_insert( $pb_reg_table, $pb_display_data );
 
-	$pb_data_insert( $pb_reg_table, $pb_display_data );
+	if ( $pb_insert_results ) {
+		wp_redirect( get_permalink( 'http://www.ctxphc.com/pirates-ball-registration-confirmation/', 200 ) );
+		exit;
+	} else {
+		//something bac happened when adding pb reg to database.
+	}
 } else {
 	// Accessed from a link and not from a submit button
 	$form_type = 'new';
@@ -31,29 +32,31 @@ $pb_open_cost   = number_format( 55, 2, '.', '' );
 $pb_memb_cost   = number_format( 45, 2, '.', '' );
 $pb_cruise_cost = number_format( 40, 2, '.', '' );
 
-$pb_reg_begin_time      = "23:59:00";
+//$pb_reg_begin_time      = "23:59:00";
 $pb_curr_reg_year       = date( "Y" );
-$pb_begin_open_reg_date = 'June 1, ' . $pb_curr_reg_year . ' ' . $pb_reg_begin_time;
-$pb_begin_reg_reg_date  = 'August 1, ' . $pb_curr_reg_year . ' ' . $pb_reg_begin_time;
+$pb_begin_open_reg_date = 'June 1, ' . $pb_curr_reg_year;
+$pb_begin_reg_reg_date  = 'August 1, ' . $pb_curr_reg_year;
 $pb_reg_table           = 'ctxphc_pb_reg';
 
 $pb_today = new DateTime();
 $expiry   = new DateTime( $pb_begin_open_reg_date );
 $expiry2  = new DateTime( $pb_begin_reg_reg_date );
 
+$pb_today = $pb_today->date;
+
 $pb_title_text = "CTXPHC " . $pb_curr_reg_year . " Pirate's Ball";
 
-if ( $expiry >= $pb_today && $expiry <= $expiry2 ) {
-	$pb_reg_type           = 'open';
-	$pb_reg_cost           = $pb_open_cost;
-	$pb_reg_head_text      = 'Open Registration';
-	$pb_reg_cost_text      = 'Open Registration cost';
-	$pb_reg_cost_text_A    = 'Registration cost';
-	$pb_late_reg_cost_text = 'Beginning August 1st Registration will cost';
-	$pb_reg_cost_class     = 'pb_display';
-	$pb_reg_cost_a_class   = 'pb_display';
-	$pb_reg_cost_b_class   = 'pb_hidden';
-} else if ( $expiry2 > $expiry ) {
+if ( $pb_today >= $expiry && $expiry <= $expiry2 ) {
+	$pb_reg_type         = 'open';
+	$pb_reg_cost         = $pb_open_cost;
+	$pb_reg_head_text    = 'Open Registration';
+	$pb_reg_cost_text    = 'Open Registration cost';
+	$pb_cost_A           = $pb_cost;
+	$pb_reg_cost_text_A  = 'Beginning August 1st Registration will cost';
+	$pb_reg_cost_class   = 'pb_display';
+	$pb_reg_cost_a_class = 'pb_display';
+	$pb_reg_cost_b_class = 'pb_hidden';
+} else if ( $pb_today >= $expiry2 ) {
 	$pb_reg_type         = 'registration';
 	$pb_reg_cost         = $pb_cost;
 	$pb_reg_head_text    = 'Registration';
@@ -62,16 +65,17 @@ if ( $expiry >= $pb_today && $expiry <= $expiry2 ) {
 	$pb_reg_cost_a_class = 'pb_hidden';
 	$pb_reg_cost_b_class = 'pb_hidden';
 } else {
-	$pb_reg_type           = 'members';
-	$pb_reg_head_text      = 'Members Only Early Registration';
-	$pb_reg_cost_text      = 'CTXPHC Members only early registration cost';
-	$pb_reg_cost_text_A    = 'Open Registration cost';
-	$pb_reg_cost_text_B    = 'Registration cost';
-	$pb_next_reg_cost_text = 'Beginning June 1st Open Registration will cost';
-	$pb_late_reg_cost_text = 'Beginning August 1st Registration will cost';
-	$pb_reg_cost_a_class   = 'pb_display';
-	$pb_reg_cost_b_class   = 'pb_display';
-	$pb_reg_cost_class     = 'pb_display';
+	$pb_reg_type         = 'members';
+	$pb_reg_cost         = $pb_memb_cost;
+	$pb_reg_head_text    = 'Members Only Early Registration';
+	$pb_reg_cost_text    = 'CTXPHC Members only early registration cost';
+	$pb_cost_A           = $pb_open_cost;
+	$pb_reg_cost_text_A  = 'Beginning June 1st Open Registration will cost';
+	$pb_cost_B           = $pb_cost;
+	$pb_reg_cost_text_B  = 'Beginning August 1st Registration will cost';
+	$pb_reg_cost_class   = 'pb_display';
+	$pb_reg_cost_a_class = 'pb_display';
+	$pb_reg_cost_b_class = 'pb_display';
 }
 
 $states[ 'states' ] = load_states_array();
@@ -113,7 +117,7 @@ get_header(); ?>
 					<div class="spacer"></div>
 
 					<div class="pb_header">
-						<h2 class="pieces_of_eight"></h2>
+						<h2 class="pieces_of_eight"><?php echo $pb_title_text; ?></h2>
 						<h2 class="pb_center" id="memb_reg"><?php echo $pb_reg_head_text; ?></h2>
 					</div>
 
@@ -134,12 +138,16 @@ get_header(); ?>
 							<?php echo $pb_reg_cost_text . ': $' . $pb_reg_cost . ' per person.'; ?>
 						</h4>
 						<ul id="next_reg_dates">
-							<li class="pb_details" id="<?php echo $pb_reg_cost_a_class; ?>">
-								<?php echo $pb_reg_cost_text_A . ': $' . $pb_open_cost . ' per person.'; ?>
-							</li>
-							<li class="pb_details" id="<?php echo $pb_reg_cost_b_class; ?>">
-								<?php echo $pb_reg_cost_text_B . ': $' . $pb_cost . ' per person.'; ?>
-							</li>
+							<?php if ( $pb_reg_cost_a_class == 'pb_display' ) { ?>
+								<li class="pb_details" id="<?php echo $pb_reg_cost_a_class; ?>">
+									<?php echo $pb_reg_cost_text_A . ': $' . $pb_cost_A . ' per person.'; ?>
+								</li>
+							<?php } ?>
+							<?php if ( $pb_reg_cost_b_class == 'pb_display' ) { ?>
+								<li class="pb_details" id="<?php echo $pb_reg_cost_b_class; ?>">
+									<?php echo $pb_reg_cost_text_B . ': $' . $pb_cost_B . ' per person.'; ?>
+								</li>
+							<?php } ?>
 						</ul>
 					</div>
 
@@ -205,7 +213,6 @@ get_header(); ?>
 								       type="text"
 								/>
 							</div>
-
 							<!-- Phone -->
 							<div class="pb_rows" id="div_pb_phone_affiliation">
 								<label class="pb_lbl_left"
@@ -231,7 +238,29 @@ get_header(); ?>
 								       type="text"
 								/>
 							</div>
+							<!-- Boat Cruise Choise -->
+							<div class="pb_rows">
+								<label class="pb_lbl_cruise pb_cruise_choice"
+								       id="pb_cruise_lbl"
+								       for="memb_pb_cruise_choice">
+									Attending Captain's Castaway Cruise( $<?php echo $pb_cruise_cost; ?>)
+								</label>
+								<input class="validate[required] pb_cruise_choice"
+								       id="memb_pb_cruise_choice"
+								       name="pb_cruise"
+								       type="radio"
+								       value="Y"
+								>
+								Yes
 
+								<input class="validate[required] pb_cruise_choice"
+								       id="memb_pb_cruise_choice"
+								       name="pb_cruise"
+								       type="radio"
+								       value="N"
+								>
+								No
+							</div>
 						</fieldset>
 
 						<div class='spacer'></div>
@@ -305,8 +334,10 @@ get_header(); ?>
 							</div>
 						</fieldset>
 
+						<div class="spacer"></div>
+
 						<fieldset class="pb_reg_form" id="pb_Attend_3">
-							<legend><span class="memb_legend">3rd Attendees</span></legend>
+							<legend><span class="memb_legend">3rd Attendee</span></legend>
 							<div id="pb_attendee_3">
 								<div class="pb_rows" id="pb_attendee_3">
 
@@ -375,8 +406,10 @@ get_header(); ?>
 							</div>
 						</fieldset>
 
+						<div class="spacer"></div>
+
 						<fieldset class="pb_reg_form" id="pb_Attend_4">
-							<legend><span class="memb_legend">4th Attendees</span></legend>
+							<legend><span class="memb_legend">4th Attendee</span></legend>
 							<div id="pb_attendee_4">
 								<div class="pb_rows" id="pb_attendee_4_name">
 
@@ -448,7 +481,7 @@ get_header(); ?>
 						<div class="spacer"></div>
 
 						<div>
-							<input class="ctxphc_button3 screen" id="submit" type="submit" name="submit" value="submit"/>
+							<input class="ctxphc_button3 screen pb_center" id="submit" type="submit" name="submit" value="submit"/>
 						</div>
 					</form>
 				</div> <!-- entry -->
