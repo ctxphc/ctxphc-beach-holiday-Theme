@@ -8,57 +8,39 @@
  */
 
 /**
- * @param $user_post_data
+ * @param $pb_reg_data
  *
  * @return mixed
  */
-function prep_pb_reg_data( $user_post_data ) {
-	$attendee_count = 1;
-	
-	foreach ( $user_post_data as $u_key => $u_value ) {
-		if (  strpos( $u_key, 'pb_attendee_fname') !== false ){
-			$attendee_count++;
+function prep_pb_reg_data( $pb_user_data ) {
+	$attendee_count         = 1;
+	$attending_cruise_count = 0;
+	$pb_reg_type             = '';
+
+	foreach ( $pb_user_data as $u_key => $u_value ) {
+		if ( strpos( $u_key, 'pb_attendee_fname' ) !== false ) {
+			$attendee_count ++;
 		}
-		
+
 		if ( ! empty( $u_value ) ) {
 			switch ( $u_key ) {
 				case ( $u_key == 'pb_fname' ):
-					$pb_reg_data[ 'first_name' ] = $u_value;
+					$pb_reg_data['first_name'] = $u_value;
 					break;
 				case ( $u_key == 'pb_lname' ):
-					$pb_reg_data[ 'last_name' ] = $u_value;
+					$pb_reg_data['last_name'] = $u_value;
 					break;
 				case ( $u_key == 'pb_email' ):
-					$user = get_user_by( 'email', $u_value );
-					if ( ! $user && $pb_reg_type == 'member' ) {
-						$to      = "support@ctxphc.com";
-						$subject = "PB Member's Only Registration Issue!";
-						$body    = "{$pb_reg_data['first_name']} {$pb_reg_data['last_name']} email address";
-						$body .= "didn't have a match in the wordpress users on in family members tables.  Review is needed!!! \n\n";
-						mail( $to, $subject, $body );
-					}
-					$pb_reg_data[ 'email' ] = $u_value;
+					$pb_reg_data['email'] = $u_value;
 					break;
 				case ( strpos( $u_key, 'pb_phone' ) ):
-					$pb_reg_data[ 'phone' ] = format_save_phone( $u_value );
+					$pb_reg_data['phone'] = format_save_phone( $u_value );
 					break;
 				case ( strpos( $u_key, 'pb_cruise' ) ):
-					$pb_reg_data[ 'cruise' ] = $u_value;
-					if ( $u_value == "Y" ) {
-						$attending_cruise_count ++;
-					}
+					$pb_reg_data['cruise'] = $u_value;
 					break;
 				case ( strpos( $u_key, 'pb_club' ) );
-					$pb_reg_data[ 'club_aff' ] = $u_value;
-					break;
-				case ( $u_key == 'attendee_count' ):
-					$pb_reg_data[ 'quantity' ] = intval( $u_value );
-					$pb_reg_data[ 'amount' ]   = intval( $pb_reg_cost * $u_value );
-					break;
-				case ( $u_key == 'attending_cruise_count' ):
-					$attending_cruise_count++;
-					$pb_reg_data[ 'cruise_quantity' ] = intval( $u_value );
-					$pb_reg_data[ 'cruise_amount' ]   = intval( $pb_cruise_cost * $u_value );
+					$pb_reg_data['club_aff'] = $u_value;
 					break;
 				default:
 					if ( $attendee_count >= 2 ) {
@@ -67,18 +49,11 @@ function prep_pb_reg_data( $user_post_data ) {
 								$attendee_name = $u_value;
 								break;
 							case ( strpos( $u_key, 'pb_attendee_lname' ) ):
-
-								$attendee_name .= ' ' . $u_value;
-								$pbkey                 = 'attendee_' . $attendee_count . '_name';
-								$pb_reg_data[ $pbkey ] = $attendee_name;
+								$attendee_name = $attendee_name .' ' . $u_value;
+								$pb_reg_data[ "attendee_name_{$attendee_count}" ] = $attendee_name;
 								break;
 							case ( strpos( $u_key, 'pb_attendee_cruise' ) ):
-								$pb_attendee_cruise_count ++;
-								if ( $u_value == "Y" ) {
-									$attending_cruise_count ++;
-								}
-								$pbkey                 = 'attendee_' . $attendee_count . '_cruise';
-								$pb_reg_data[ $pbkey ] = $u_value;
+								$pb_reg_data[ "attendee_cruise_{$attendee_count}" ] = $u_value;
 								break;
 							case ( strpos( $u_key, 'pb_attendee_club' ) );
 								$pb_club_key                 = 'attendee_club_' . $attendee_count;
@@ -87,7 +62,6 @@ function prep_pb_reg_data( $user_post_data ) {
 						}
 					}
 			}
-			$pb_reg_data[ 'attending_cruise_count' ] = $attending_cruise_count;
 		}
 	}
 

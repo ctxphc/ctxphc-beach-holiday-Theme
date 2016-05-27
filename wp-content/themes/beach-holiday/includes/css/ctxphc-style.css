@@ -92,30 +92,9 @@ img#zoopic {
 * CTXPHC Home Page Styles
 *****************************************************************/
 
-.ctxphc_purpose {
-    font-family: philosopher !important;
-	font-size: 1.25rem;
-}
 
-img#ctxphc-logo{
-    margin: 20px 0 80px 10px;
-}
 
-ul:before{
-    content:attr(data-header);
-    font-size:120%;
-    margin-left: 15px;
-}
 
-ul:after{
-    content:attr(data-footer);
-    font-size:80%;
-    margin-left: 15px;
-}
-
-.home ul{
-    margin-left: 16px;
-}
 
 /*****************************************************************
 *  CTXPHC Home Page Hockey Night Styles

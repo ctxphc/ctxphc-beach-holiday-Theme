@@ -52,9 +52,9 @@ include( TEMPLATEPATH . '/includes/theme-setup.php' );
 /** @noinspection PhpIncludeInspection */
 include( TEMPLATEPATH . '/includes/theme-functions.php' );
 /** @noinspection PhpIncludeInspection */
-include( TEMPLATEPATH . '/includes/ctxphc-functions.php' );
+//include( TEMPLATEPATH . '/includes/ctxphc-functions.php' );
 /** @noinspection PhpIncludeInspection */
-include( TEMPLATEPATH . '/includes/pb_reg_functions.php' );
+//include( TEMPLATEPATH . '/includes/pb_reg_functions.php' );
 /** @noinspection PhpIncludeInspection */
 include( TEMPLATEPATH . '/template.php' );
 
@@ -84,18 +84,13 @@ function reg_custom_scripts_and_styles() {
 		wp_enqueue_style( 'validation-style' );
 	}
 
-	/**
-	 * wp_register_script( 'ctxphc-pb-script', get_template_directory_uri() . '/includes/js/ctxphc-pb-script.js', array( 'jquery' ), '', true );
-	 *
-	 * if ( is_page( 'pirates-ball-members-only-early-registration' ) || is_page( 'pirates-ball-early-registration' ) || is_page( 'pirates-ball-registration' ) || is_page( 'pirates-ball-private-registration' ) ) {
-	 * wp_enqueue_script( 'ctxphc-pb-script' );
-	 * wp_enqueue_style( 'validation-style' );
-	 * }
-	 * */
+	wp_register_script( 'ctxphc-pb-script', get_template_directory_uri() . '/includes/js/ctxphc-pb-script.js', array( 'jquery' ), '', true );
 
-	wp_register_script( 'google-maps', 'https://maps.googleapis.com/maps/api/js' );
-	if ( is_page( 'members-in-central-texas-by-zip-code' ) ) {
-		wp_enqueue_script( 'google-maps' );
+	if ( is_page( 'pirates-ball-members-only-early-registration' ) || is_page( 'pirates-ball-early-registration' ) || is_page(
+			'pirates-ball-registration' ) || is_page( 'pirates-ball-private-registration' )
+	) {
+		wp_enqueue_script( 'ctxphc-pb-script' );
+		wp_enqueue_style( 'validation-style' );
 	}
 
 	//Register CTXPHC Custom CSS Stylesheet
@@ -116,6 +111,53 @@ function reg_custom_scripts_and_styles() {
 add_action( 'wp_enqueue_scripts', 'reg_custom_scripts_and_styles' );
 
 add_filter( 'wpmem_admin_style_list', 'kaos_styles' );
+
+/**
+ * woocommerce hooks
+ */
+remove_action( 'woocommerce_before_main_content', 'woocommerce_output_content_wrapper', 10);
+remove_action( 'woocommerce_after_main_content', 'woocommerce_output_content_wrapper_end', 10);
+
+add_action('woocommerce_before_main_content', 'my_theme_wrapper_start', 10);
+add_action('woocommerce_after_main_content', 'my_theme_wrapper_end', 10);
+
+add_action( 'after_setup_theme', 'woocommerce_support' );
+function woocommerce_support() {
+	add_theme_support( 'woocommerce' );
+}
+
+function my_theme_wrapper_start() {
+	echo '<div id="content"><div class="spacer"></div>';
+}
+
+function my_theme_wrapper_end() {
+	echo '</div> <!-- content -->';
+}
+
+add_filter( 'woocommerce_enqueue_styles', 'kaos_dequeue_styles' );
+function kaos_dequeue_styles( $enqueue_styles ) {
+	//unset( $enqueue_styles['woocommerce-general'] );	// Remove the gloss
+	unset( $enqueue_styles['woocommerce-layout'] );		// Remove the layout
+	//unset( $enqueue_styles['woocommerce-smallscreen'] );	// Remove the smallscreen optimisation
+	return $enqueue_styles;
+}
+
+function wp_enqueue_woocommerce_style(){
+	wp_register_style( 'beach-holiday-woocommerce', get_template_directory_uri() . '/includes/css/beach-holiday-woocommerce.css' );
+
+	if ( class_exists( 'woocommerce' ) ) {
+		wp_enqueue_style( 'beach-holiday-woocommerce' );
+	}
+}
+add_action( 'wp_enqueue_scripts', 'wp_enqueue_woocommerce_style' );
+
+// Or just remove them all in one line
+//add_filter( 'woocommerce_enqueue_styles', '__return_false' );
+
+//add_action( 'wp_enqueue_scripts', 'reg_custom_scripts_and_styles' );
+
+
+add_theme_support( 'post-thumbnails' );
 
 /**
  * @param $list

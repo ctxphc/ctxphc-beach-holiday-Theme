@@ -3,19 +3,25 @@
  * Changes the wordpress default login image
  * and loads the custom ctxphc-style sheet
  */
-function ctxphc_login_logo() {
-	wp_register_style( 'ctxphc-login-style', get_stylesheet_directory_uri() . '/includes/css/ctxphc-login-style.css' );
-	wp_enqueue_style( 'ctxphc-login-style' );
-}
+/**
+ * function ctxphc_login_logo() {
+ * wp_register_style( 'ctxphc-login-style', get_stylesheet_directory_uri() . '/includes/css/ctxphc-login-style.css' );
+ * wp_enqueue_style( 'ctxphc-login-style' );
+ * }
+ */
+
 
 //add_action( 'login_enqueue_scripts', 'ctxphc_login_logo' );
 
 /**
  * Changes the link value of the login page image to point to the CTXPHC home page.
  */
-function ctxphc_login_logo_url() {
-	return get_site_url();
-}
+/**
+ * function ctxphc_login_logo_url() {
+ * return get_site_url();
+ * }
+ */
+
 
 //add_filter( 'login_headerurl', 'ctxphc_login_logo_url' );
 
@@ -481,9 +487,6 @@ function update_wp_usermeta_data( $userdata, $ctxphc_user_id = false ) {
 }
 
 
-
-
-
 function log_values( $data ) {
 	error_log( "!!!!!!!  $data  !!!!!!!!", 0 );
 }
@@ -505,14 +508,14 @@ function verify_update_results( $member_update_results, $membtype ) {
 }
 
 function send_successful_registration_email( $records ) {
-	$to[ ] = "support@ctxphc.com";
+	$to[] = "support@ctxphc.com";
 
 	$subject = "New Mebership Registration Form Submitted";
 
-	$headers[ ] = "From: Central Texas Parrot Head Club<ctxphc@ctxphc.com>";
-	$headers[ ] = "Reply-To: support@ctxphc.com";
-	$headers[ ] = "MIME-Version: 1.0\r\n";
-	$headers[ ] = "Content-Type: text/html; charset=ISO-8859-1\r\n";
+	$headers[] = "From: Central Texas Parrot Head Club<ctxphc@ctxphc.com>";
+	$headers[] = "Reply-To: support@ctxphc.com";
+	$headers[] = "MIME-Version: 1.0\r\n";
+	$headers[] = "Content-Type: text/html; charset=ISO-8859-1\r\n";
 
 	$body = "<html><body>";
 	$body .= "<h2>This is for TESTING and VERIFICATION ONLY!!!</h2>";
@@ -607,10 +610,10 @@ function send_create_registration_failed_email( $tables, $insert_data_records, $
 
 		$to = "support@ctxphc.com";
 
-		$headers[ ] = "From: Central Texas Parrothead Club<ctxphc@ctxphc.com>";
-		$headers[ ] = "Reply-To: support@ctxphc.com";
-		$headers[ ] = "MIME-Version: 1.0\r\n";
-		$headers[ ] = "Content-Type: text/html; charset=ISO-8859-1\r\n";
+		$headers[] = "From: Central Texas Parrothead Club<ctxphc@ctxphc.com>";
+		$headers[] = "Reply-To: support@ctxphc.com";
+		$headers[] = "MIME-Version: 1.0\r\n";
+		$headers[] = "Content-Type: text/html; charset=ISO-8859-1\r\n";
 
 		$subject = $subjects[ $membtype ];
 
@@ -637,7 +640,6 @@ function send_create_registration_failed_email( $tables, $insert_data_records, $
 // Pirate's Ball Registration Database Insert and Update
 
 
-
 /**
  * @param $pbTable
  * @param $pb_insertData
@@ -658,14 +660,14 @@ function pb_insert_registration_data( $pbTable, $pb_insertData ) {
 
 		if ( $pbRegData ) {
 			//Insert of PB Registration data Succeeded.  Alert support with an email!
-			$to[ ] = "support@ctxphc.com";
+			$to[] = "support@ctxphc.com";
 
 			$subject = "Pirates Ball Registration Data Insert Suceeded!!";
 
-			$headers[ ] = "From: Central Texas Parrothead Club<ctxphc@ctxphc.com>";
-			$headers[ ] = "Reply-To: support@ctxphc.com";
-			$headers[ ] = "MIME-Version: 1.0\r\n";
-			$headers[ ] = "Content-Type: text/html; charset=ISO-8859-1\r\n";
+			$headers[] = "From: Central Texas Parrothead Club<ctxphc@ctxphc.com>";
+			$headers[] = "Reply-To: support@ctxphc.com";
+			$headers[] = "MIME-Version: 1.0\r\n";
+			$headers[] = "Content-Type: text/html; charset=ISO-8859-1\r\n";
 
 			$body = "<html><body>";
 			$body .= "<h2>This is for TESTING only!</h2>";
@@ -740,14 +742,14 @@ function pb_not_used_data_update( $pbTable, $pbRegID, $pb_updateData ) {
 
 		if ( $pbRegData ) {
 			//Update of PB Registration data Succeeded.  Alert support with an email!
-			$to[ ] = "ctxphc_test1@localhost.com";
+			$to[] = "ctxphc_test1@localhost.com";
 
 			$subject = "Pirates Ball Registration Data Update Suceeded!!";
 
-			$headers[ ] = "From: Central Texas Parrothead Club<ctxphc@ctxphc.com>";
-			$headers[ ] = "Reply-To: support@ctxphc.com";
-			$headers[ ] = "MIME-Version: 1.0\r\n";
-			$headers[ ] = "Content-Type: text/html; charset=ISO-8859-1\r\n";
+			$headers[] = "From: Central Texas Parrothead Club<ctxphc@ctxphc.com>";
+			$headers[] = "Reply-To: support@ctxphc.com";
+			$headers[] = "MIME-Version: 1.0\r\n";
+			$headers[] = "Content-Type: text/html; charset=ISO-8859-1\r\n";
 
 			$body = "<html><body>";
 			$body .= "<h2>This is for TESTING only!</h2>";

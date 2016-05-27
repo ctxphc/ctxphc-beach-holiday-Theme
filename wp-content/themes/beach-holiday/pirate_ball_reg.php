@@ -8,24 +8,12 @@
  * Time: 9:25 PM
  */
 
-if ( $_POST[ 'submit' ] ) {
-	$form_type       = $_POST[ 'submit' ];
-	$clean_post_data = filter_var_array( $_POST, FILTER_SANITIZE_STRING );
-	$pb_display_data = prep_pb_reg_data( $clean_post_data );
+$pb_display_data = array();
 
-	$pb_reg_table      = 'ctxphc_pb_reg';
-	$pb_insert_results = pb_data_insert( $pb_reg_table, $pb_display_data );
-
-	if ( $pb_insert_results ) {
-		wp_redirect( get_permalink( 'http://www.ctxphc.com/pirates-ball-registration-confirmation/', 200 ) );
-		exit;
-	} else {
-		//something bac happened when adding pb reg to database.
-	}
-} else {
-	// Accessed from a link and not from a submit button
-	$form_type = 'new';
-}
+$pb_cost_A = 0;
+$pb_cost_B = 0;
+$pb_reg_cost_text_A = '';
+$pb_reg_cost_text_B = '';
 
 $pb_cost        = number_format( 65, 2, '.', '' );
 $pb_open_cost   = number_format( 55, 2, '.', '' );
@@ -42,7 +30,10 @@ $pb_today = new DateTime();
 $expiry   = new DateTime( $pb_begin_open_reg_date );
 $expiry2  = new DateTime( $pb_begin_reg_reg_date );
 
-$pb_today = $pb_today->date;
+$pb_cost_A = 0;
+$pb_cost_B = 0;
+$pb_reg_cost_text_A = '';
+$pb_reg_cost_text_B = '';
 
 $pb_title_text = "CTXPHC " . $pb_curr_reg_year . " Pirate's Ball";
 
@@ -78,9 +69,38 @@ if ( $pb_today >= $expiry && $expiry <= $expiry2 ) {
 	$pb_reg_cost_b_class = 'pb_display';
 }
 
-$states[ 'states' ] = load_states_array();
+get_header();
 
-get_header(); ?>
+if ( ($_SERVER['REQUEST_METHOD'] === 'POST') ) {
+	if ( $_POST['submit'] ) {
+		$pb_display_data = array();
+		$form_type       = $_POST['submit'];
+		$clean_post_data = filter_var_array( $_POST, FILTER_SANITIZE_STRING );
+		$pb_display_data = prep_pb_reg_data( $clean_post_data );
+
+		$pb_display_data[ 'pb_reg_cost'] = $pb_reg_cost;
+
+		$pb_reg_table      = 'ctxphc_pb_reg';
+		$pb_insert_results = pb_data_insert( $pb_reg_table, $pb_display_data );
+
+		echo $pb_insert_results;
+
+		if ( $pb_insert_results ) {
+			wp_redirect( get_permalink( 'https://www.ctxphc.com/pirates-ball-registration-confirmation/', 200 ) );
+			exit;
+		} else {
+			//something bad happened when adding pb reg to database.
+		}
+	} else {
+		// Accessed from a link and not from a submit button
+		$form_type = 'new';
+	}
+}
+
+if (isset( $pb_display_data ) && ! empty( $pb_display_data )){
+	//print_r( $pb_display_data );
+}
+?>
 	<!--suppress ALL -->
 	<script type="text/javascript">
 		<!--
@@ -245,21 +265,10 @@ get_header(); ?>
 								       for="memb_pb_cruise_choice">
 									Attending Captain's Castaway Cruise( $<?php echo $pb_cruise_cost; ?>)
 								</label>
-								<input class="validate[required] pb_cruise_choice"
-								       id="memb_pb_cruise_choice"
-								       name="pb_cruise"
-								       type="radio"
-								       value="Y"
-								>
-								Yes
-
-								<input class="validate[required] pb_cruise_choice"
-								       id="memb_pb_cruise_choice"
-								       name="pb_cruise"
-								       type="radio"
-								       value="N"
-								>
-								No
+								<select class="validate[required] pb_cruise_choice" id="memb_pb_cruise_choice" name="memb_pb_cruise_choice">
+									<option <?php if ( $pb_display_data[ "cruise" ] == "Y" ) { echo 'selected'; } ?> value="Y">Yes</option>
+									<option <?php if ( $pb_display_data[ "cruise" ] == "N" ) { echo 'selected'; } ?> value="N">No</option>
+								</select>
 							</div>
 						</fieldset>
 
@@ -315,21 +324,10 @@ get_header(); ?>
 									       for="pb_attendee_cruise_2">
 										Attending Captain's Castaway Cruise ( $<?php echo $pb_cruise_cost; ?>)
 									</label>
-									<input class="validate[required] pb_cruise_choice"
-									       id="pb_attendee_cruise_2"
-									       name="pb_attendee_cruise_2"
-									       type="radio"
-									       value="Y"
-									>
-									Yes
-
-									<input class="validate[required] pb_cruise_choice"
-									       id="pb_attendee_cruise_2"
-									       name="pb_attendee_cruise_2"
-									       type="radio"
-									       value="N"
-									>
-									No
+									<select class="validate[required] pb_cruise_choice" id="pb_attendee_cruise_2" name="pb_attendee_cruise_2">
+										<option <?php if ( $pb_display_data[ "cruise" ] == "Y" ) { echo 'selected'; } ?> value="Y">Yes</option>
+										<option <?php if ( $pb_display_data[ "cruise" ] == "N" ) { echo 'selected'; } ?> value="N">No</option>
+									</select>
 								</div>
 							</div>
 						</fieldset>
@@ -387,21 +385,10 @@ get_header(); ?>
 									       for="pb_attendee_cruise_3">
 										Attending Captain's Castaway Cruise ( $<?php echo $pb_cruise_cost; ?>)
 									</label>
-									<input class="validate[required] pb_cruise_choice"
-									       id="pb_attendee_cruise_3"
-									       name="pb_attendee_cruise_3"
-									       type="radio"
-									       value="Y"
-									>
-									Yes
-
-									<input class="validate[required] pb_cruise_choice"
-									       id="pb_attendee_cruise_3"
-									       name="pb_attendee_cruise_3"
-									       type="radio"
-									       value="N"
-									>
-									No
+									<select class="validate[required] pb_cruise_choice" id="pb_attendee_cruise_3" name="pb_attendee_cruise_3">
+										<option <?php if ( $pb_display_data[ "cruise" ] == "Y" ) { echo 'selected'; } ?> value="Y">Yes</option>
+										<option <?php if ( $pb_display_data[ "cruise" ] == "N" ) { echo 'selected'; } ?> value="N">No</option>
+									</select>
 								</div>
 							</div>
 						</fieldset>
@@ -459,21 +446,10 @@ get_header(); ?>
 									       for="pb_attendee_cruise_4">
 										Attending Captain's Castaway Cruise ( $<?php echo $pb_cruise_cost; ?>)
 									</label>
-									<input class="validate[required] pb_cruise_choice"
-									       id="pb_attendee_cruise_4"
-									       name="pb_attendee_cruise_4"
-									       type="radio"
-									       value="Y"
-									>
-									Yes
-
-									<input class="validate[required] pb_cruise_choice"
-									       id="pb_attendee_cruise_4"
-									       name="pb_attendee_cruise_4"
-									       type="radio"
-									       value="N"
-									>
-									No
+									<select class="validate[required] pb_cruise_choice" id="pb_attendee_cruise_4" name="pb_attendee_cruise_4">
+										<option <?php if ( $pb_display_data[ "cruise" ] == "Y" ) { echo 'selected'; } ?> value="Y">Yes</option>
+										<option <?php if ( $pb_display_data[ "cruise" ] == "N" ) { echo 'selected'; } ?> value="N">No</option>
+									</select>
 								</div>
 							</div>
 						</fieldset>

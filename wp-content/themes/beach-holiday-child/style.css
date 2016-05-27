@@ -1,0 +1,1320 @@
+/**
+Theme Name:  Beach Holiday Child
+Theme URI:   http://kaptkaos.com/ctxphc-beach-holiday
+Description: Beach Holiday Child Theme
+Author:      Kapt Kaos
+Author URI:  http://kaptkaos.com
+Template:    beach-holiday
+Version:     1.0.0
+*/
+@import url("../beach-holiday/style.css");
+
+/**************************************
+* CTXPHC-styles
+**************************************/
+
+/* CTXPHC General style */
+
+.superscript {
+    font-size: x-small;
+    vertical-align: top;
+}
+
+.cont_wrap {
+    width: 610px;
+}
+
+.cont_lf_col {
+    width: 300px;
+    float: left;
+    /* border: 1px solid gray; */
+}
+
+.cont_rt_col {
+    width: 300px;
+    float: right;
+    /* border: 1px solid red; */
+}
+
+ul.cont_ul li {
+    display: inline;
+    list-style-type: none;
+    line-height: 20rem;
+    padding-right: 1.667rem;
+    float: left;
+}
+
+.spacer {
+    clear: both;
+    height: 1.25rem;
+}
+
+table.ctxphc {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+td.ctxphc {
+    vertical-align: top;
+}
+
+tr.odd {
+    background-color: #b4caf7;
+}
+
+tr.even {
+    background-color: #FFF;
+}
+
+div.ctxphc {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 0;
+}
+
+div.centerTXT {
+    text-align: center;
+    position: relative;
+}
+
+/*
+rem.center {
+    text-align: center;
+}
+*/
+
+img#zoopic {
+    padding: 5%;
+    margin-left: auto;
+    margin-right: auto;
+    width: 90%;
+}
+
+#vertCenter {
+    position: absolute;
+    top: 100%;
+    margin-top: 1rem;
+}
+
+/*****************************************************************
+* CTXPHC Home Page Styles
+*****************************************************************/
+
+.ctxphc_purpose {
+    font-family: philosopher !important;
+    font-size: 1.25rem;
+}
+
+img#ctxphc-logo {
+    margin: 20px 0 80px 10px;
+}
+
+ul:before {
+    content: attr(data-header);
+    font-size: 120%;
+    margin-left: 15px;
+}
+
+ul:after {
+    content: attr(data-footer);
+    font-size: 80%;
+    margin-left: 15px;
+}
+
+.home ul {
+    margin-left: 16px;
+}
+
+/*****************************************************************
+*  CTXPHC Home Page Hockey Night Styles
+*****************************************************************/
+h2.hockey {
+    text-align: center;
+    line-height: 150%;
+}
+
+div.hockey {
+    width: 600px;
+    height: 150px;
+    line-height: 150px;
+    vertical-align: middle;
+    text-align: center;
+}
+
+span#vs {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    vertical-align: middle !important;
+    /* background: transparent; */
+    font-family: 'arial black', 'avant garde', "Arial", sans-serif;
+    font-size: 5.167rem;
+}
+
+p.hockey {
+    margin-bottom: 0;
+    text-align: center;
+    vertical-align: middle;
+}
+
+/****************************************************************
+ * CTXPHC: Registration Pages
+ * --------------------------------------------------------------*/
+
+div#label {
+    margin: 0.5rem 1.5rem 0 4rem;
+}
+
+p.registration {
+    margin: 0.5rem 1.5rem 0 4rem;
+}
+
+input.button {
+    font-size: 1rem;
+    color: black;
+    font-weight: bold;
+    /* font-family: philosopher, Georgia, verdanna, Arial, sans-serif; */
+    background-color: #ccc;
+}
+
+.spacer {
+    clear: both;
+    height: 2.5rem;
+}
+
+fieldset {
+    font-size: 1.01rem;
+    color: #000;
+    padding: 20px 5px;
+    position: relative;
+    box-shadow: 0 0 10px rgba(0, 0, 0, .3);
+    border: 2px groove threedface;
+
+    text-shadow: 0 1px 1px #FFF;
+    text-decoration: none;
+
+    border-radius: 10px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+
+    background: #f5fafd; /* Old browsers */
+    background-image: -moz-linear-gradient(top, #f5fafd 53%, #e0e8ec 71%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(53%, #f5fafd), color-stop(71%, #e0e8ec)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, #f5fafd 53%, #e0e8ec 71%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, #f5fafd 53%, #e0e8ec 71%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, #f5fafd 53%, #e0e8ec 71%); /* IE10+ */
+    background: linear-gradient(to bottom, #f5fafd 53%, #e0e8ec 71%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f5fafd', endColorstr='#e0e8ec', GradientType=0); /* IE6-7 */
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#f5fafd', endColorstr='#e0e8ec', gradientType='0')"; /* IE8-9 */
+
+    cursor: pointer;
+    width: 98%;
+    display: block;
+    margin: 0 auto;
+}
+
+/*******************************************************************
+*
+*    CTXPHC Calendar Styling
+*
+********************************************************************/
+/*
+#ctxphc_cal_content .post_author {
+    position:absolute;
+    left:55px;
+    top: 45px;
+    font-size: .83rem;
+    color:#000000;
+}
+#ctxphc_cal_content .post_author a,#content .post_author a:hover{
+    color: #000000;
+    text-decoration:none;
+}
+
+#ctxphc_cal_content .post_date_d {
+    position:absolute;
+    font-size: 2.33rem;
+    left:582px;
+    top:29px;
+    */
+/* font-family: philosopher, Georgia, verdanna, Arial, sans-serif; */
+/*    font-weight:bold;
+}
+*/
+
+/**
+*  Membership Registration Page Styling
+**/
+.memb_reg_form .memb_proc_form {
+    font-family: Georgia, Verdana, Arial, Helvetica, Sans-Serif;
+    font-size: 1rem;
+}
+
+fieldset.reg_form fieldset.proc_form {
+    padding: 0.2rem 0.5rem;
+    display: block;
+    border: 1px solid black;
+    background: -moz-linear-gradient(top, #8ed2ff 0%, #d0dff2 50%, #d0dff2 51%, #8ed2ff 100%);
+    background: -webkit-gradient(linear, left top, left bottom, from(#8ed2ff), to(#d0dff2), color-stop(0.4, #d0dff2), color-stop(0.5, #fff), color-stop(.5, #fff), color-stop(0.9, #8ed2ff));
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#8ed2ff', endColorstr='#d0dff2', GradientType=0);
+}
+
+div.reg_row {
+    padding: .5rem .1rem;
+}
+
+td.reg_row {
+    padding: 0 .1rem;
+}
+
+div.reg_renewal_row {
+    padding: .5rem .1rem;
+}
+
+span.memb_legend {
+    font-weight: normal;
+}
+
+/* Primary Members styles  */
+.memb_reg ul {
+/ / TODO get sand dollar list-style image
+
+}
+
+.memb_type {
+    vertical-align: middle;
+}
+
+div.memb_type {
+    padding: 1rem;
+    padding-bottom: 0rem;
+}
+
+input.memb_type {
+    margin: 0.5rem 0.2rem;
+}
+
+label.memb_type {
+    margin-right: 1rem;
+}
+
+/*###############################################
+# label and input settings for Primary Member
+###############################################*/
+
+/* first name */
+label.reg_first_name {
+    margin-left: .5rem;
+    width: 10rem;
+}
+
+input.reg_first_name {
+    margin-left: .5rem;
+    width: 10rem;
+}
+
+/* last name */
+label.reg_last_name {
+    margin-left: 1.5rem;
+}
+
+input.reg_last_name {
+    margin-left: .5rem;
+    width: 10rem;
+}
+
+/* Birthday */
+label.cm_birthday {
+    margin-left: .5rem;
+}
+
+input.cm_birthday {
+    margin-left: 1.2rem;
+    width: 10rem;
+}
+
+/* email address */
+label.reg_email {
+    margin-left: 1.6rem;
+}
+
+input.reg_email {
+    margin-left: 2.6rem;
+    width: 14rem;
+}
+
+/* Phone Number */
+label.reg_phone {
+    margin: 0.5rem;
+}
+
+input.reg_phone {
+    margin-left: 2.1rem;
+    width: 10rem;
+}
+
+/* Occupation */
+label#lbl_mb_occupation {
+    margin-left: 1.6rem;
+}
+
+input#mb_occupation {
+    margin-left: 0.1rem;
+    width: 10rem;
+}
+
+/* address */
+label#lbl_mb_addr1 {
+    margin-left: 0.3rem;
+}
+
+input#mb_addr1 {
+    margin-left: 0.5rem;
+    width: 17rem;
+}
+
+label#lbl_mb_addr2 {
+    margin-left: 2rem;
+}
+
+input#mb_addr2 {
+    margin-left: 1rem;
+    width: 6rem;
+}
+
+label#lbl_mb_city {
+    margin-left: .5rem;
+}
+
+input#mb_city {
+    margin-left: 2rem;
+    width: 10rem;
+}
+
+label#lbl_mb_state {
+    margin: 0.5rem 0 0.5rem .5rem;
+}
+
+select#mb_state {
+    width: 8rem;
+}
+
+label#lbl_mb_zip {
+    margin: 0.5rem;
+}
+
+input#mb_zip {
+    margin-left: .2rem;
+    width: 6rem;
+}
+
+/* username and password */
+label#lbl_mb_username {
+    /*  margin: 0.5rem; */
+}
+
+input#mb_username {
+    margin-right: 4.5rem;
+}
+
+label#lbl_mb_password {
+    margin-right: 1.5rem;
+}
+
+input#mb_password {
+    margin: 0.5rem;
+}
+
+td.paypal_text {
+    padding: .5rem .1rem .5rem .1rem;
+    font-size: 1.5rem;
+}
+
+input.paypal_text {
+    color: black;
+}
+
+div#passDef {
+    margin: 0.5rem 0.5rem 0.5rem 170px;
+}
+
+/* Spouse/Partner Info */
+label.sp_relationship {
+    margin-left: 1.6rem;
+}
+
+select.sp_relationship {
+    /*  margin: 0.5rem; */
+    width: 6rem;
+}
+
+/*  Family Members */
+label.child_relationship {
+    margin-left: 1.6rem;
+}
+
+select.child_relationship {
+    width: 6rem;
+}
+
+label.child_email {
+    margin-left: 0.5rem;
+}
+
+input.child_email {
+    margin-left: 2.7rem;
+    width: 25rem;
+}
+
+/*  Buttons  */
+/* input#reg_submit {
+   width: 100px;
+   font-size: 1rem; */
+/*color: #e6b907;
+*    font-weight: bold;
+*       font-family: MinionPro, AmaticSC, Georgia, verdanna, Arial, sans-serif;
+*          background-color: #ccc;*/
+/* color: #143D8F; */
+/* background-image:url('../images/menu_on.png'); */
+/* background: repeat-x left top;
+} */
+
+.ctxphc_button1 {
+
+    /* font-family: philosopher, Georgia, verdanna, Arial, sans-serif; */
+    font-size: 2.5rem;
+    color: #FFF;
+    padding: 0.5rem 10px 0.5rem 10px;
+    border: solid 1px #CCC;
+
+    background: #ba4742;
+    text-shadow: 0 1px 0 #000;
+
+    border-radius: 0.5rem;
+    -moz-border-radius: 0.5rem;
+    -webkit-border-radius: 0.5rem;
+
+    box-shadow: 0 1px 3px #111;
+    -moz-box-shadow: 3px 3px 1px #999;
+    -webkit-box-shadow: 3px 3px 1px #999;
+
+    cursor: pointer;
+    width: 120px;
+    display: block;
+    margin: 0 auto;
+
+}
+
+.ctxphc_button1:hover {
+    background: #a33f3a;
+}
+
+.ctxphc_button2 {
+
+    /* font-family: philosopher, Georgia, verdanna, Arial, sans-serif; */
+    font-size: 2rem;
+    color: #FFF;
+    padding: 0.5rem 10px 0.5rem 10px;
+    border: 1px solid #999;
+
+    text-shadow: 0 1px 1px #000;
+    text-decoration: none;
+
+    border-radius: 2.5rem;
+    -moz-border-radius: 2.5rem;
+    -webkit-border-radius: 2.5rem;
+
+    background: #0060df;
+    background: -moz-linear-gradient(-90deg, #9299d0 5%, #6f78c1 15%, #3944a8 35%, #138aef 75%, #78e2ff 100%, #fff);
+    background: -webkit-gradient(linear, left top, left bottom, from(#9299d0), to(#78e2ff), color-stop(0.2, #6f78c1), color-stop(0.5, #3944a8), color-stop(.7, #138aef), color-stop(0.9, #78e2ff));
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#3944a8', endColorstr='#78e2ff', GradientType=0);
+
+    cursor: pointer;
+    width: 120px;
+    display: block;
+    margin: 0 auto;
+
+}
+
+.ctxphc_button2:hover {
+    background: -moz-linear-gradient(90deg, #9299d0 5%, #6f78c1 15%, #3944a8 35%, #138aef 75%, #78e2ff 100%, #fff);
+    background: -webkit-gradient(linear, left bottom, left top, from(#9299d0), to(#78e2ff), color-stop(0.2, #6f78c1), color-stop(0.5, #3944a8), color-stop(.7, #138aef), color-stop(0.9, #78e2ff));
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#78e2ff', endColorstr='#3944a8', GradientType=0);
+}
+
+.ctxphc_button3 {
+
+    /* font-family: MinionPro, AmaticSC, Georgia, verdanna, Arial, sans-serif; */
+    font-size: 2rem;
+    color: #000;
+    padding: 0.5rem 10px 0.5rem 10px;
+    border: 1px solid #999;
+
+    text-shadow: 0 1px 1px #FFF;
+    text-decoration: none;
+
+    border-radius: 10px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+
+    /*
+    background: #a0c0e9;
+    background: -moz-linear-gradient(top, #a0c0e9 35%, #f2f6f9 50%, #ffbc47 51%, #a0c0e9 100%);
+    background: -webkit-gradient(linear, left top, left bottom, from(#a0c0e9), to(#f2f6f9), color-stop(0.4, #f2f6f9), color-stop(0.5, #fff), color-stop(.5, #ffbc47), color-stop(0.9, #a0c0e9));
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a0c0e9', endColorstr='#f2f6f9', GradientType=0 );
+    */
+
+    background: #f5fafd; /* Old browsers */
+    background: -moz-linear-gradient(top, #f5fafd 53%, #e0e8ec 71%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(53%, #f5fafd), color-stop(71%, #e0e8ec)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, #f5fafd 53%, #e0e8ec 71%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, #f5fafd 53%, #e0e8ec 71%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, #f5fafd 53%, #e0e8ec 71%); /* IE10+ */
+    background: linear-gradient(to bottom, #f5fafd 53%, #e0e8ec 71%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f5fafd', endColorstr='#e0e8ec', GradientType=0); /* IE6-9 */
+
+    cursor: pointer;
+    width: 120px;
+    display: block;
+    margin: 0 auto;
+}
+
+.ctxphc_button3:hover {
+    background: -moz-linear-gradient(top, #a0c0e9 0%, #f2f6f9 50%, #f2f6f9 51%, #a0c0e9 100%);
+    background: -webkit-gradient(linear, left top, left bottom, from(#a0c0e9), to(#f2f6f9), color-stop(0.4, #f2f6f9), color-stop(0.5, #fff), color-stop(.5, #fff), color-stop(0.9, #a0c0e9));
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f2f6f9', endColorstr='#f2f6f9', GradientType=0);
+}
+
+/* CTXPHC: Who Are We Page
+*----------------------------------------------------------------*/
+#waw_wrapper {
+    font-size: 1.01rem;
+}
+
+.waw_table {
+    display: table;
+    height: 730px;
+    width: 100%;
+    text-align: center;
+    padding: .1rem;
+    font-size: 1.01rem;
+}
+
+.waw_tbody {
+    width: 150px;
+}
+
+.waw_tr {
+    display: table-row;
+    text-align: center;
+}
+
+.waw_td {
+    display: table-cell;
+    text-align: center;
+    padding: .1rem;
+}
+
+#waw_bod {
+    text-align: center;
+}
+
+.waw_nbsp {
+    font-size: .5rem;
+}
+
+/*
+* CTPXHC: Member Registration Print Page
+*----------------------------------------------------------------*/
+
+.print {
+    visibility: hidden;
+}
+
+/**********************
+* Brand Buttons
+**********************/
+
+.brand_button p {
+    font-family: 'Inconsolata', sans-serif;
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+.pad50 {
+    padding-top: 50px;
+}
+
+.brand_button {
+
+    display: inline-block;
+    height: 40px;
+    line-height: 40px;
+    padding-right: 30px;
+    padding-left: 70px;
+    position: relative;
+    background-color: rgb(0, 0, 0);
+    color: rgb(255, 255, 255);
+    text-decoration: none;
+    text-transform: lowercase;
+    letter-spacing: 1px;
+    margin-bottom: 15px;
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
+    -ms-filter: "progid:DXImageTransform.Microsoft.dropshadow(OffX=0,OffY=1,Color=#ff123852,Positive=true)";
+    zoom: 1;
+    filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=0, OffY=1, Color=#ff123852, Positive=true);
+
+    -moz-box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
+    -webkit-box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 2px 2px #000000;
+    -ms-filter: "progid:DXImageTransform.Microsoft.dropshadow(OffX=0,OffY=2,Color=#33000000,Positive=true)";
+    filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=0, OffY=2, Color=#33000000, Positive=true);
+}
+
+.brand_button:hover {
+    text-decoration: none;
+    color: #eeeaee;
+}
+
+.brand_button p {
+    font-size: 1.5rem;
+}
+
+.brand_button span {
+    position: absolute;
+    left: 0;
+    width: 50px;
+    font-size: 2.5rem;
+    -webkit-border-top-left-radius: 5px;
+    -webkit-border-bottom-left-radius: 5px;
+    -moz-border-radius-topleft: 5px;
+    -moz-border-radius-bottomleft: 5px;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-right: 1px solid rgba(0, 0, 0, 0.15);
+    text-decoration: none;
+}
+
+.brand_button.twitter {
+    background: #00acee;
+}
+
+.brand_button.facebook {
+    background: #3b5998;
+}
+
+.brand_button.google-plus {
+    background: #db4a39;
+}
+
+.brand_button.linkedin {
+    background: #0e76a8;
+}
+
+.brand_button.youtube {
+    background: #c4302b;
+}
+
+.brand_button.github {
+    background: #171515;
+}
+
+.brand_button.android {
+    background: #a4c639;
+}
+
+.brand_button.skype {
+    background: #00aff0;
+}
+
+.brand_button.dropbox {
+    background: #3d9ae8;
+}
+
+.brand_button.foursquare {
+    background: #25a0ca;
+}
+
+.brand_button.apple {
+    background: #cdcdcd;
+}
+
+.brand_button.dribbble {
+    background: #ea4c89;
+}
+
+.brand_button.instagram {
+    background: #3f729b;
+}
+
+.brand_button.pinterest {
+    background: #c8232c;
+}
+
+.brand_button.stackexchange {
+    background: #ef8236;
+}
+
+.brand_button.flickr {
+    background: #ff0084;
+}
+
+.text-center {
+    text-align: center;
+}
+
+#wpfc-calendar-wrapper *, .ui-selectmenu-menu h2 {
+    /* font-family: philosopher, Georgia, verdanna, Arial, sans-serif; */
+    font-size: 1rem !important;
+}
+
+/**
+* CSS for expanding code box
+*/
+pre {
+    background: #eee;
+    padding: 10px;
+    border: 2px solid #c94a29;
+    overflow: hidden;
+    margin: 0 0 15px 0;
+    width: 563px;
+    font-family: Courier, Monospace;
+}
+
+#home_page form p span {
+    color: #000000;
+    text-shadow: none;
+}
+
+.green_border {
+    border: 2px solid #18826a;
+    padding: 10px 40px;
+    background: #fffefe;
+    border-radius: 15px;
+}
+
+/*  UDASHBOARD STYLES */
+.udashboard {
+    font-size: 1.2rem;
+    color: #030303;
+}
+
+.udashbaord h2:before {
+    content: '\f179';
+    display: inline-block;
+    -webkit-font-smoothing: antialiased;
+    font: normal 29px/1 'dashicons';
+    vertical-align: middle;
+    margin-right: 0.3rem;
+}
+
+.placeholder {
+    opacity: 0;
+    filter: alpha(opacity=40);
+}
+
+img.placeholder {
+    width: 123px;
+    height: 123px;
+}
+
+div.placeholder {
+    width: 124px;
+    height: 124px;
+    display: block;
+    position: relative;
+}
+
+.paypal_button_style {
+    background-color: #00A6CC;
+    border-color: #00A6CC;
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: bold;
+    padding: 15px 30px;
+    border-radius: 3px;
+    line-height: 1.5rem;
+    text-decoration: none;
+}
+
+.tabdivouter {
+    width: 600px;
+    margin: 0 auto;
+}
+
+div.tabinner-image {
+    text-align: center;
+    margin-top: 21px;
+    height: 128px;
+}
+
+div.tabinner-label {
+    text-align: center;
+    margin-top: 21px;
+}
+
+div.tabdivinner-left {
+    float: left;
+    margin: 0 auto;
+    width: 50%;
+}
+
+div.tabdivinner {
+    text-align: center;
+    margin: 0 auto;
+    width: 100%;
+}
+
+a.renew_buttonStyle:hover {
+    background-color: #00748E;
+    text-decoration: underline;
+}
+
+div.paypal {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+fieldset.renew_udashbaord {
+    border: 1px solid;
+    padding: 15px;
+}
+
+form.paypal {
+    font-family: philosopher, Georgia, verdanna, arial, sans-serif;
+    font-weight: normal;
+    font-size: 1rem;
+    color: #130E0E;
+    text-shadow: none;
+    width: 90%;
+}
+
+img.md_image {
+    width: 123px;
+    height: 123px;
+}
+
+img#md_renewal_image {
+    width: 123px;
+    height: 123px;
+}
+
+/** ###############################################
+*  # label and input settings for Primary Member
+*  ###############################################
+*/
+
+div.ud_renewal_row {
+    padding: .5rem .1rem;
+}
+
+label.ud_renewal_label_col1 {
+    margin-left: .5rem;
+    width: 8rem;
+}
+
+input.ud_renewal_input_col1 {
+    margin-left: .5rem;
+    width: 7rem;
+}
+
+label.ud_renewal_label_col2 {
+    margin-left: 1.5rem;
+    width: 8rem;
+}
+
+input.ud_renewal_input_col2 {
+    margin-left: 1rem;
+    width: 8rem;
+}
+
+label.ud_renewal_label_col3 {
+    margin-left: 1.5rem;
+    width: 3rem;
+}
+
+input.ud_renewal_input_col3 {
+    margin-left: .5rem;
+    width: 4rem;
+}
+
+label.renew_last_name {
+    margin-left: 1.5rem;
+}
+
+input.renew_last_name {
+    margin-left: .5rem;
+    width: 10rem;
+}
+
+/* Birthday */
+#ud-mb-birthday-lbl {
+    margin-left: .5rem;
+}
+
+#ud-mb-birthday {
+    margin-right: 1rem;
+}
+
+select.renew_birth_month {
+    margin-left: 1.3rem;
+}
+
+select.renew_birth_day {
+}
+
+/* email address */
+label.renew_email {
+    margin-left: 4.6rem;
+}
+
+input.renew_email {
+    margin-left: 2.7rem;
+    width: 16rem;
+}
+
+/* Phone Number */
+label.renew_phone {
+    margin: 0.5rem;
+}
+
+input.renew_phone {
+    margin-left: 2.2rem;
+    width: 2rem;
+    padding: 0 0.2rem;
+}
+
+/* Occupation */
+label#renew_memb_occu {
+    margin-left: 2.6rem;
+}
+
+input#renew_memb_occu {
+    margin-left: 0.3rem;
+    width: 10rem;
+}
+
+/* address */
+label#renew_memb_addr1 {
+    margin-left: 0.5rem;
+}
+
+input#renew_memb_addr1 {
+    margin-left: 0.5rem;
+    width: 18rem;
+}
+
+label#renew_memb_addr2 {
+    margin-left: 0.5rem;
+}
+
+input#renew_memb_addr2 {
+    margin-left: 0.5rem;
+    width: 6rem;
+}
+
+label#renew_memb_city {
+    margin-left: .5rem;
+}
+
+input#renew_memb_city {
+    margin-left: 2rem;
+    width: 10rem;
+}
+
+label#renew_memb_state {
+    margin: 0.5rem 0 0.5rem .5rem;
+}
+
+select#renew_memb_state {
+    width: 8rem;
+}
+
+label#renew_memb_zip {
+    margin: 0.5rem 0 0.5rem .5rem;
+}
+
+input#renew_memb_zip {
+    width: 6rem;
+    padding: 0;
+}
+
+/* username and password */
+label#renew_memb_username {
+    /*  margin: 0.5rem; */
+}
+
+input#renew_memb_username {
+    margin-right: 4.5rem;
+}
+
+label#renew_memb_password {
+    margin-right: 1.5rem;
+}
+
+input#renew_memb_password {
+    margin: 0.5rem;
+}
+
+div#renew_passDef {
+    margin: 0.5rem 0.5rem 0.5rem 170px;
+}
+
+/* Spouse/Partner Info */
+label.renew_relationship {
+    margin-left: 3rem;
+}
+
+select.renew_relationship {
+    /*  margin: 0.5rem; */
+    width: 6rem;
+    padding: 0;
+}
+
+/*  Family Members */
+label.renew_child_relationship {
+    margin-left: 4.7rem;
+}
+
+select.renew_child_relationship {
+    width: 6rem;
+    padding: 0;
+}
+
+label.renew_child_email {
+    margin-left: 0.5rem;
+}
+
+input.renew_child_email {
+    margin-left: 2.5rem;
+    width: 25rem;
+}
+
+/* Pirates Ball Registration Page */
+
+.pieces_of_eight {
+    font-family: 'Pieces of Eight', philosopher, Georgia, verdanna, Arial, sans-serif;
+    font-size: 3em;
+    text-align: center;
+    line-height: 1;
+}
+
+.pb_header h4 {
+    font-family: philosopher, Georgia, verdanna, Arial, sans-serif;
+    font-size: 1.5em;
+    text-align: center;
+    line-height: 1.4em;
+}
+
+.pb_center {
+    text-align: center;
+}
+
+.pb_display {
+    display: block;
+}
+
+.pb_hidden {
+    display: none;
+}
+
+.pb_text {
+    font-family: philosopher, Georgia, verdanna, arial, sans-serif;
+    font-size: 1.01em;
+}
+
+.pb_reg_form {
+    font-family: Georgia, Verdana, Arial, Helvetica, Sans-Serif;
+}
+
+#pb_reg_includes li {
+    position: relative;
+    line-height: 1.5em;
+    list-style-type: none;
+    font-size: 1.2em;
+    margin: 0;
+    padding: 2px 2px 0 24px;
+    background: url('../../Images/Pirates_Ball/pb_starfish.jpg') no-repeat 0 5px;
+}
+
+dt {
+    font-weight: bold;
+    margin-bottom: .2em;
+}
+
+dd {
+    margin: 0 0 0 1em;
+    padding: 0 0 0.2em 0;
+}
+
+div.pb_rows {
+    padding: .5em;
+}
+
+div#personal_info {
+    margin-top: .5em;
+}
+
+div.pb_dates {
+    text-align: center;
+}
+
+span.pb_bold {
+    font-weight: bold;
+}
+
+/**********
+*  Pirate's Ball form field styles
+*********/
+div.personal_info {
+    margin-top: 1em;
+}
+
+label.pb_field_col_1 {
+    margin: .5em;
+}
+
+div.pb_reg_attendee {
+    padding: .5em;
+}
+
+/*
+label.pb_attendee_col_1 {
+    margin: .5em;
+}
+
+input.pb_attendee_col_1 {
+    margin: .7em;
+}
+
+.pb_attendee_col_2 {
+    margin: .5em;
+}
+*/
+
+.pb_lbl_left {
+    width: 5em;
+    position: relative;
+    vertical-align: bottom;
+    display: inline-block;
+}
+
+.pb_input_left {
+    width: 15em;
+    position: relative;
+    vertical-align: bottom;
+    display: inline-block;
+}
+
+.pb_lbl_right {
+    margin-left: 1em;
+    width: 5em;
+    position: relative;
+    vertical-align: bottom;
+    display: inline-block;
+}
+
+.pb_input_right {
+    width: 15em;
+    position: relative;
+    vertical-align: middle;
+}
+
+div#personal_info {
+    margin-top: 1em;
+}
+
+div#pb_attendee_count {
+    margin-top: 1em;
+}
+
+/**
+**  Pirate's Ball Registration field styles
+**/
+.pb_rgt_lbl {
+    width: 4em;
+    position: relative;
+    vertical-align: middle;
+}
+
+.pb_rgt_input {
+    width: 8em;
+    position: relative;
+    vertical-align: middle;
+}
+
+.attendee_club_lbl {
+    margin-left: 3.4em;
+}
+
+.pb_cruise_checkbox {
+    vertical-align: middle;
+}
+
+/* attendee count styles */
+div#pb_attendee_count {
+    padding: 1em 4em;
+}
+
+label.pb_attendeeCount {
+    font-size: .9em;
+    vertical-align: text-top;
+    margin-right: 2em;
+}
+
+input.pb_attendeeCount {
+    vertical-align: middle;
+    margin-right: .2em;
+}
+
+a.pb_details_link {
+    font-size: 1.3em;
+}
+
+li.pb_details {
+    font-size: 1.3em;
+}
+
+/**
+** Pirate's Ball Button Styles
+**/
+
+div#pb_reg_submit {
+    padding-top: 2em;
+}
+
+input#pb_submit {
+    text-align: center;
+}
+
+input.paypal_input {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+img.paypal_button {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#PB_CTXPHC_logo {
+    padding: 0.5em .9em 0.5em 1.5em;
+    float: right;
+}
+
+#PB_logo {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+img.wp-image-2553 {
+    padding: 5px;
+}
+
+.pb_cruise_choice {
+    font-size: 1.2em;
+}
