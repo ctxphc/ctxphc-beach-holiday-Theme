@@ -59,6 +59,10 @@ include( TEMPLATEPATH . '/includes/theme-functions.php' );
 include( TEMPLATEPATH . '/template.php' );
 
 
+//remove_action( 'woocommerce_before_shop_loop', '', 20);
+
+//remove_action( 'woocommerce_pagination', 'woocommerce_catalog_ordering', 20 );
+
 /**
  *  Load custom scripts:
  */
@@ -92,7 +96,7 @@ function reg_custom_scripts_and_styles() {
 		wp_enqueue_script( 'ctxphc-pb-script' );
 		wp_enqueue_style( 'validation-style' );
 	}
-
+	
 	//Register CTXPHC Custom CSS Stylesheet
 	wp_register_style( 'ctxphc-custom-style', get_template_directory_uri() . '/includes/css/ctxphc-style.css' );
 	wp_enqueue_style( 'ctxphc-custom-style' );
@@ -156,6 +160,13 @@ add_action( 'wp_enqueue_scripts', 'wp_enqueue_woocommerce_style' );
 
 //add_action( 'wp_enqueue_scripts', 'reg_custom_scripts_and_styles' );
 
+// Change number or products per row to 2
+add_filter('loop_shop_columns', 'loop_columns');
+if (!function_exists('loop_columns')) {
+	function loop_columns() {
+		return 2; // 2 products per row
+	}
+}
 
 add_theme_support( 'post-thumbnails' );
 

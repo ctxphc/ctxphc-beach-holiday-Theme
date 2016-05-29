@@ -819,7 +819,7 @@ img.alignright,
 /* Widget Area */
 /* ------------------------------ */
 
-wp-caption {
+.wp-caption {
     text-align: center;
     color: #666666;
 }
@@ -1324,7 +1324,7 @@ ul:after{
     background: url('includes/Images/bg_post_title.jpg') no-repeat top center;
 }
 
-#content .page .post_title {
+#content .page .post_title .page-title {
     position: relative;
     width: 673px;
     height: 72px;
@@ -1925,4 +1925,28 @@ input[type=checkbox] {
 
 .store_row {
     display: inline-block;
+}
+
+ul.products li {
+    margin: 10px;
+}
+
+ul.products li.product {   clear: none;   width: 45%; }
+
+.wp_cart_product_display_box{
+    max-width: 250px;
+    float: left;
+    margin-right: 10px;
+}
+
+/**
+My WooCommerce Styles
+**/
+
+.pb-reg-wc-fields{
+
+}
+
+.attendee_fields{
+
 }
