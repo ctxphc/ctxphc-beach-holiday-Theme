@@ -1447,7 +1447,7 @@ img.post_thumb {
     margin: 0;
     padding: 0 0 4px 20px;
     color: #999999;
-    background: url('includes/Images/icon_comment.jpg') no-repeat top left transparent;
+        background: url('includes/Images/icon_comment.jpg') no-repeat top left transparent;
 }
 
 /*		[ Content ] Archive title, Navigation, Sorry                 */

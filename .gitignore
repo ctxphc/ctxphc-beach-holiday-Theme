@@ -1,7 +1,9 @@
 #Ignore the following files and folders.
 
 *.log
+*.zip
 .vagrant/
+.idea
 behat*
 xdebug/
 vendor/
@@ -16,6 +18,10 @@ wp-content/mu-plugins/
 /opt
 wp-content/ngg/
 wp-content/themes/twenty*
+wp-content/themes/oceanic/
+wp-content/themes/parrot-head/
+wp-content/themes/storefront/
+wp-content/themes/genesis-sample/images/
 wp-includes/
 
 /.htaccess
