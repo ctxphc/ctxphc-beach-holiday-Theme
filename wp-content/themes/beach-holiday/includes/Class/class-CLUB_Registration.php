@@ -11,44 +11,21 @@ namespace CTXPHC\BeachHoliday\Classes;
 
 class CLUB_Registration {
 	public $defaults = array(
-		'states'                => array(),
-
+		'states' => array(),
 	);
 
 	public function __construct( $args ) {
-
 		$args = wp_parse_args( $args, $this->defaults );
 		foreach ( $args as $arg_key => $arg_val ) {
 			$this->$arg_key = $arg_val;
 		}
-
-		$this->pb_shirt_sizes = $this->pb_load_sizes();
-
-		$this->pb_reg_classes = $this->get_pb_reg_classes();
-
-		$this->pb_reg_cost = $this->get_pb_reg_cost();
 	}
 
-	public function pb_load_sizes() {
-		if ( $this->expiry2 < $this->pb_today ) {
-			//@format:off
-			$shirtsizes = array(
-				'XL' => 'X-Large',
-			);
-		} else {
-			$shirtsizes = array(
-				'Size' => ' ',
-				'SM'   => 'Small',
-				'MD'   => 'Medium',
-				'LG'   => 'Large',
-				'XL'   => 'X-Large',
-				'XXL'  => 'XX-Large',
-			);
-			//@format:on
-		}
-
-		return $shirtsizes;
+	private function parc_args( $args ){
+		$args = wp_parse_args( $args, $this->defaults );
+		return $args;
 	}
+
 
 	private function get_pb_reg_classes() {
 
@@ -85,23 +62,7 @@ class CLUB_Registration {
 		return $pb_display_classes;
 	}
 
-	private function get_reg_cost() {
-		if ( isset( $this->pb_priv_reg ) ) {
-			$pb_reg_cost = $this->pb_memb_cost;
-		} else if ( $this->pb_today >= $this->expiry && $this->pb_today <= $this->expiry2 ) {
-			$pb_reg_cost = $this->pb_early_cost;
-		} else if ( $this->pb_today > $this->expiry2 ) {
-			$pb_reg_cost = $this->pb_cost;
-		} else {
-			$pb_reg_cost = $this->pb_memb_cost;
-		}
-
-		return $pb_reg_cost;
-	}
-
-
-	public
-	function display_reg_form(
+	public function display_reg_form(
 		$form_type, $pb_reg_user_id = null
 	) {
 
@@ -117,8 +78,7 @@ class CLUB_Registration {
 		}
 	}
 
-	public
-	function  render_pb_review_form(
+	public function render_pb_review_form(
 		$pb_reg_user_id
 	) {
 		global $wpdb;
@@ -126,7 +86,7 @@ class CLUB_Registration {
 		$pb_reg_data = $wpdb->get_row( "SELECT * FROM ctxphc_pb_reg WHERE pbRegID = $pb_reg_user_id" );
 
 
-		if ( strlen( $pb_reg_data->attendee_2 ) > 1  ) {
+		if ( strlen( $pb_reg_data->attendee_2 ) > 1 ) {
 			$pb_display_attendee_2_class = 'pb_display';
 		} else {
 			$pb_display_attendee_2_class = 'pb_hidden';
@@ -177,7 +137,7 @@ class CLUB_Registration {
 							       name="pb_fname"
 							       value="<?php echo $pb_reg_data->first_name; ?>"
 							       required
-								/>
+							/>
 							<label class="pb_lbl_right"
 							       id="lbl_pb_lname"
 							       for="pb_lname"> Last Name:
@@ -189,7 +149,7 @@ class CLUB_Registration {
 							       name="pb_lname"
 							       value="<?php echo $pb_reg_data->last_name; ?>"
 							       required
-								/>
+							/>
 						</div>
 
 						<div class="pb_rows" id="div_pb_email">
@@ -204,7 +164,7 @@ class CLUB_Registration {
 							       type="text"
 							       value="<?php echo $pb_reg_data->email; ?>"
 							       required
-								/>
+							/>
 
 							<label class="pb_lbl_right"
 							       id="lbl_pb_email_verify"
@@ -217,7 +177,7 @@ class CLUB_Registration {
 							       type="text"
 							       value="<?php echo $pb_reg_data->email; ?>"
 							       required
-								/>
+							/>
 						</div>
 
 						<div class="pb_rows" id="div_pb_phone">
@@ -232,7 +192,7 @@ class CLUB_Registration {
 							       type="tel"
 							       value="<?php echo formatPhoneNumber( $pb_reg_data->phone ); ?>"
 							       required
-								/>
+							/>
 
 							<label class="pb_lbl_right"
 							       id="lbl_pb_club"
@@ -245,7 +205,7 @@ class CLUB_Registration {
 							       type="text"
 							       value="<?php echo $pb_reg_data->club_aff; ?>"
 							       required
-								/>
+							/>
 						</div>
 
 						<div class="pb_rows" id="pb_shirt">
@@ -277,7 +237,7 @@ class CLUB_Registration {
 							echo 'checked';
 						} ?>
 						       required
-							/>
+						/>
 						<label class="pb_attendeeCount"
 						       for="pb_attendee_count_2">2 Attendees
 							$<?php echo $this->pb_reg_cost * 2; ?>
@@ -292,7 +252,7 @@ class CLUB_Registration {
 							echo 'checked';
 						} ?>
 						       required
-							/>
+						/>
 						<label class="pb_attendeeCount"
 						       for="pb_attendee_count_3">3 Attendees
 							$<?php echo $this->pb_reg_cost * 3; ?>
@@ -306,7 +266,7 @@ class CLUB_Registration {
 						       value="4" <?php if ( $pb_reg_data->quantity == 4 ) {
 							echo 'checked';
 						} ?>
-							/>
+						/>
 						<label class="pb_attendeeCount"
 						       for="pb_attendee_count_4">4 Attendees:
 							$<?php echo $this->pb_reg_cost * 4; ?>
@@ -328,7 +288,7 @@ class CLUB_Registration {
 							       name="pb_attendee_fname_2"
 							       type="text"
 							       value="<?php echo $names[ 0 ]; ?>"
-								/>
+							/>
 
 							<label class="pb_lbl_right"
 							       id="pb_lbl_attendee_lname_2"
@@ -340,7 +300,7 @@ class CLUB_Registration {
 							       name="pb_attendee_lname_2"
 							       type="text"
 							       value="<?php echo $names[ 1 ]; ?>"
-								/>
+							/>
 						</div>
 						<div class="pb_rows">
 							<label class="pb_lbl_left"
@@ -416,7 +376,7 @@ class CLUB_Registration {
 							       name="pb_attendee_club_3"
 							       type="text"
 							       value="<?php echo $pb_reg_data->attendee_club_3; ?>"
-								/>
+							/>
 						</div>
 					</div>
 
@@ -435,7 +395,7 @@ class CLUB_Registration {
 							       id="pb_attendee_fname_4"
 							       name="pb_attendee_fname_4"
 							       type="text"
-								/>
+							/>
 
 							<label class="pb_lbl_right"
 							       id="pb_attendee_lname_4"
@@ -447,7 +407,7 @@ class CLUB_Registration {
 							       id="pb_attendee_lname_4"
 							       name="pb_attendee_lname_4"
 							       type="text"
-								/>
+							/>
 						</div>
 						<div class="pb_rows">
 							<label class="pb_lbl_left"
@@ -471,7 +431,7 @@ class CLUB_Registration {
 							       name="pb_attendee_club_4"
 							       type="text"
 							       value="<?php echo $pb_reg_data->attendee_club_4; ?>"
-								/>
+							/>
 						</div>
 					</div>
 				</fieldset>
@@ -485,7 +445,7 @@ class CLUB_Registration {
 			</form>
 
 			<!-- Pirate's Ball CTXPHC Members Only Registration PayPal Button -->
-			<form class="<?php echo $this->pb_reg_classes['pb_memb_class']; ?>" action="https://www.paypal.com/cgi-bin/webscr" method="post"
+			<form class="<?php echo $this->pb_reg_classes[ 'pb_memb_class' ]; ?>" action="https://www.paypal.com/cgi-bin/webscr" method="post"
 			      target="_top">
 				<input type="hidden" name="cmd" value="_s-xclick">
 				<input type="hidden" name="hosted_button_id" value="VDW65WDHYXXYJ">
@@ -500,7 +460,7 @@ class CLUB_Registration {
 
 
 			<!--  Pirate's Ball Early Registration PayPal Button -->
-			<form class="<?php echo $this->pb_reg_classes['pb_early_class']; ?>" action="https://www.paypal.com/cgi-bin/webscr" method="post"
+			<form class="<?php echo $this->pb_reg_classes[ 'pb_early_class' ]; ?>" action="https://www.paypal.com/cgi-bin/webscr" method="post"
 			      target="_top">
 				<input type="hidden" name="cmd" value="_s-xclick">
 				<input type="hidden" name="hosted_button_id" value="4PH2DEAAH4LD8">
@@ -515,7 +475,7 @@ class CLUB_Registration {
 
 			<!-- Pirate's Ball Late Registration PayPal Button -->
 
-			<form class="<?php echo $this->pb_reg_classes['pb_late_class']; ?>" action="https://www.paypal.com/cgi-bin/webscr" method="post"
+			<form class="<?php echo $this->pb_reg_classes[ 'pb_late_class' ]; ?>" action="https://www.paypal.com/cgi-bin/webscr" method="post"
 			      target="_top">
 				<input type="hidden" name="cmd" value="_s-xclick">
 				<input type="hidden" name="hosted_button_id" value="DU9MPK4H5L3ZQ">
@@ -529,7 +489,7 @@ class CLUB_Registration {
 
 			<!-- Pirate's Ball Private Registration PayPal Button -->
 
-			<form class="<?php echo $this->pb_reg_classes['pb_priv_class']; ?>" action="https://www.paypal.com/cgi-bin/webscr" method="post"
+			<form class="<?php echo $this->pb_reg_classes[ 'pb_priv_class' ]; ?>" action="https://www.paypal.com/cgi-bin/webscr" method="post"
 			      target="_top">
 				<input type="hidden" name="cmd" value="_s-xclick">
 				<input type="hidden" name="hosted_button_id" value="5YCZ8AV3GT83S">
@@ -546,8 +506,7 @@ class CLUB_Registration {
 		<?php
 	}
 
-	public
-	function render_pb_failed_form() {
+	public function render_pb_failed_form() {
 		?>
 		<div>
 			<h3>There was a problem with Pirate's Ball Registration!!!!!</h3>
@@ -571,7 +530,7 @@ class CLUB_Registration {
 			<p>We look forward to seeing you and celebrating another wonderful CTXPHC Pirate's Ball!
 		</div>
 
-		<div class="<?php echo $this->pb_reg_classes['pb_memb_class']; ?>" id="memb_reg_cost">
+		<div class="<?php echo $this->pb_reg_classes[ 'pb_memb_class' ]; ?>" id="memb_reg_cost">
 			<h4>CTXPHC Members only early registration cost: $<?php echo $this->pb_memb_cost; ?> per person</h4>
 			After June 30th Early Registration cost: $<?php echo $this->pb_early_cost; ?> per person.
 			After July 31st Registration cost: $<?php echo $this->pb_cost; ?> pre person.
@@ -582,7 +541,7 @@ class CLUB_Registration {
 				</a>
 			</p>
 		</div>
-		<div class="<?php echo $this->pb_reg_classes['pb_early_class']; ?>" id="early_reg_cost">
+		<div class="<?php echo $this->pb_reg_classes[ 'pb_early_class' ]; ?>" id="early_reg_cost">
 			<h4>CTXPHC Early registration cost: $<?php echo $this->pb_early_cost; ?> per person</h4>
 			Registration is $<?php echo $this->pb_cost; ?> after July 31 and at the door.
 
@@ -592,7 +551,7 @@ class CLUB_Registration {
 				</a>
 			</p>
 		</div>
-		<div class="<?php echo $this->pb_reg_classes['pb_late_class']; ?>" id="late_reg_cost">
+		<div class="<?php echo $this->pb_reg_classes[ 'pb_late_class' ]; ?>" id="late_reg_cost">
 			<h4>CTXPHC Registration cost: $<?php echo $this->pb_cost; ?> per person</h4>
 
 			<p class="pb_center">
@@ -606,14 +565,13 @@ class CLUB_Registration {
 		<?php
 	}
 
-	public
-	function render_pb_blank_form() {
+	public function render_pb_blank_form() {
 		?>
 		<div class="spacer"></div>
 
 		<form class="memb_reg_form" id="regForm" name="regForm" method="post"
 		      action="<?php bloginfo( 'url' ); ?>/registration-review/">
-			<input type="hidden" name="mb_relationship" value=1 />
+			<input type="hidden" name="mb_relationship" value=1/>
 			<fieldset class="reg_form" id="memb_type">
 				<legend><span class="memb_legend">Membership Options</span></legend>
 				<div class="memb_type" id="memb_type_div">
@@ -890,8 +848,7 @@ class CLUB_Registration {
 		<?php
 	}
 
-	public
-	function load_user_data(
+	public function load_user_data(
 		$user_post_data
 	) {
 		$attendee_count = intval( $user_post_data[ 'attendee_count' ] );
@@ -962,8 +919,7 @@ class CLUB_Registration {
 	 *
 	 * @return bool|int
 	 */
-	public
-	function pb_data_insert(
+	public function pb_data_insert(
 		$table, $pb_reg_data
 	) {
 		global $wpdb;
@@ -1005,5 +961,19 @@ class CLUB_Registration {
 		}
 
 		return $pbRegData;
+	}
+
+	private function get_reg_cost() {
+		if ( isset( $this->pb_priv_reg ) ) {
+			$pb_reg_cost = $this->pb_memb_cost;
+		} else if ( $this->pb_today >= $this->expiry && $this->pb_today <= $this->expiry2 ) {
+			$pb_reg_cost = $this->pb_early_cost;
+		} else if ( $this->pb_today > $this->expiry2 ) {
+			$pb_reg_cost = $this->pb_cost;
+		} else {
+			$pb_reg_cost = $this->pb_memb_cost;
+		}
+
+		return $pb_reg_cost;
 	}
 }

@@ -14,23 +14,7 @@ if ( ! class_exists( 'PB_Reg' ) ) {
 	require_once( CLUB_CLASSES . 'class-CLUB_Registration' );
 }
 
-//Change to false for production use
-$debug = true;
 
-if ( $debug ) {
-	$wpdb->show_errors();
-}
-
-date_default_timezone_set( 'America/Chicago' );
-
-/** @var STRING $relationship_table */
-$relationship_table = 'ctxphc_member_relationships';
-
-/** @var STRING $membership_type_table */
-$membership_type_table = 'ctxphc_membership_types';
-
-/** @var STRING $ctxphc_status */
-$status_table = 'ctxphc_member_status';
 
 
 $args             = array();
